@@ -1,32 +1,61 @@
+import argparse
 import datetime
 
 import requests
 
 
-def read(id):
-    """
-        Read a document from Solr with a given ID.
-    """
+# Perform a search in Solr
+def search(solr, index, query):
+    return requests.get("%s/solr/%s/select?q=%s" % (solr, index, query)).json()
 
-    response = requests.get('http://localhost:8983/solr/core17/select?q=id:%s' % id)
 
-    data = response.json()
+# Update a document in Solr
+def update(solr, index, data):
+    return requests.post('%s/solr/%s/update?commit=true' % (solr, index), json=data)
 
-    for doc in data['response']['docs']:
+
+# Print the docs
+def print_docs(response):
+    for doc in response['response']['docs']:
         print(doc)
 
 
-def write(data):
-    """
-    Update a document in Solr.
-    """
-    response = requests.post('http://localhost:8983/solr/core17/update?commit=true', json=data)
-    print(response.json())
-
-
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--solr", default="http://localhost:8983", type=str, help="The URL of the Solr instance")
+    parser.add_argument("--index", required=True, type=str, help="The Solr index to use")
+    parser.add_argument("--query", required=True, type=str, help="The search query to run")
+
+    # Parse the command line args
+    args = parser.parse_args()
+
+    """ Do a search """
+
+    print("Searching...")
+
+    # Do a search
+    search_resp = search(args.solr, args.index, args.query)
+    print_docs(search_resp)
+
+    """ Do an update """
+
+    print("\nUpdating...")
+
+    # Document to update
     id = 1425397
     data = [{'id': id, 'contents': "We updated the doc. from Python @ %s" % str(datetime.datetime.now())}]
 
-    write(data)
-    read(id)
+    print("Before update:")
+
+    # Print the doc to show it was updated
+    search_resp = search(args.solr, args.index, "id:" + str(id))
+    print_docs(search_resp)
+
+    # Run the update
+    update(args.solr, args.index, data)
+
+    print("After update:")
+
+    # Print the doc to show it was updated
+    search_resp = search(args.solr, args.index, "id:" + str(id))
+    print_docs(search_resp)
