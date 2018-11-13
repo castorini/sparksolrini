@@ -10,12 +10,13 @@ https://itnext.io/running-spark-job-on-kubernetes-minikube-958cadaddd55
 
 ## OpenNLP
 
-Run with 
+Build: 
 
 ```
 mvn clean package
-spark-submit --class cs848.nlp.NLPDriver target/cs848-project-1.0-SNAPSHOT.jar --input sample_text.txt
 ```
+
+Run:
 
 1) Sentence Detection on Solr Docs
 

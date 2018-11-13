@@ -14,20 +14,25 @@ import opennlp.tools.sentdetect.{SentenceDetectorME, SentenceModel}
 import com.github.takezoe.solr.scala._
 
 class Conf(args: Seq[String]) extends ScallopConf(args) {
-  mainOptions = Seq(solr, search, input, multiPath, train)
+  mainOptions = Seq(solr, search, input)
   val solr = opt[Boolean](descr = "do solr query", required = false)
 
-  val search = opt[String](descr = "search term", required = false) // solr query
-  val input = opt[String](descr = "input path", required = false) // read file
+  val search = opt[String](descr = "search term", required = false) // search term
+  val input = opt[String](descr = "input path", required = false) // input file path
 
-  val multiPath = opt[Boolean](descr = "multi path", required = false)
-  val train = opt[Boolean](descr = "train", required = false)
   verify()
 }
 
 object NLPDriver {
 
   val log = Logger.getLogger(getClass().getName())
+
+  // load NLP model
+  val modelIn = new FileInputStream("models/en-sent-detector.bin")
+
+  // set up NLP model
+  val model = new SentenceModel(modelIn)
+  val sentDetector = new SentenceDetectorME(model)
 
   def main(argv: Array[String]) = {
 
@@ -37,12 +42,8 @@ object NLPDriver {
     val args = new Conf(argv)
 
     val solr = args.solr()
-    val multiPath = args.multiPath()
-    val train = args.train()
 
     log.info("Solr: " + solr)
-    log.info("Multi-path: " + multiPath) // TODO
-    log.info("Train: " + train) // TODO
 
     if (solr) {
       // do solr query
@@ -59,23 +60,21 @@ object NLPDriver {
 
       val docs = queryResult.documents
 
+      println("Original:")
       docs
         .foreach { doc: Map[String, Any] =>
           println("id: " + doc("id"))
           println("contents: " + doc("contents"))
         }
 
-      if (train) {
-        // TODO: train?
-      }
-      else {
-        // inference only
-        docs
-          .foreach { doc: Map[String, Any] =>
-            inference(doc("contents").toString)
-            println()
-          }
-      }
+      println("########")
+      println("Filtered and split:")
+      docs
+        .foreach { doc: Map[String, Any] =>
+          println("id: " + doc("id"))
+          inference(doc("contents").toString)
+            .foreach(println)
+        }
     }
     else {
       val inputPath = args.input()
@@ -85,30 +84,17 @@ object NLPDriver {
       val bufferedSource = Source.fromFile(inputPath)
       val docs = bufferedSource.getLines().mkString
 
+      println("Original:")
       println(docs)
 
-      if (train) {
-        // TODO: train?
-      }
-      else {
-        // inference only
-        inference(docs)
-      }
+      println("########")
+      println("Filtered and split:")
+      inference(docs)
+        .foreach(println)
 
       bufferedSource.close
     }
   }
 
-  def inference(inputText : String) = {
-    // load model
-    val modelIn = new FileInputStream("models/en-sent-detector.bin")
-
-    // set up model
-    val model = new SentenceModel(modelIn)
-    val sentDetector = new SentenceDetectorME(model)
-
-    // run model
-    val result = sentDetector.sentDetect(inputText)
-      .foreach(println)
-  }
+  def inference(inputText : String) = { sentDetector.sentDetect(inputText) }
 }
