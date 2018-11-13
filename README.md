@@ -16,3 +16,15 @@ Run with
 mvn clean package
 spark-submit --class cs848.nlp.NLPDriver target/cs848-project-1.0-SNAPSHOT.jar --input sample_text.txt
 ```
+
+1) Sentence Detection on Solr Docs
+
+```
+spark-submit --class cs848.nlp.NLPDriver target/cs848-project-1.0-SNAPSHOT.jar --solr --search "search-term"
+```
+
+2) Sentence Detection on Text Files
+
+```
+spark-submit --class cs848.nlp.NLPDriver target/cs848-project-1.0-SNAPSHOT.jar --input "file-path"
+```

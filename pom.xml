@@ -66,6 +66,11 @@
       <version>3.1.1</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.github.takezoe</groupId>
+      <artifactId>solr-scala-client_2.11</artifactId>
+      <version>0.0.19</version>
+    </dependency>
 
   </dependencies>
 
