@@ -7,13 +7,19 @@ import java.io.FileInputStream
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.log4j.Logger
 
-import opennlp.tools.sentdetect.{SentenceDetectorME, SentenceModel}
-
 import org.rogach.scallop.ScallopConf
 
+import opennlp.tools.sentdetect.{SentenceDetectorME, SentenceModel}
+
+import com.github.takezoe.solr.scala._
+
 class Conf(args: Seq[String]) extends ScallopConf(args) {
-  mainOptions = Seq(input, multiPath, train)
-  val input = opt[String](descr = "input path", required = true)
+  mainOptions = Seq(solr, search, input, multiPath, train)
+  val solr = opt[Boolean](descr = "do solr query", required = false)
+
+  val search = opt[String](descr = "search term", required = false) // solr query
+  val input = opt[String](descr = "input path", required = false) // read file
+
   val multiPath = opt[Boolean](descr = "multi path", required = false)
   val train = opt[Boolean](descr = "train", required = false)
   verify()
@@ -30,27 +36,67 @@ object NLPDriver {
 
     val args = new Conf(argv)
 
-    val inputPath = args.input()
+    val solr = args.solr()
     val multiPath = args.multiPath()
     val train = args.train()
 
-    log.info("Input Path: " + inputPath)
-    log.info("Multi-path: " + multiPath)
-    log.info("Train: " + train)
+    log.info("Solr: " + solr)
+    log.info("Multi-path: " + multiPath) // TODO
+    log.info("Train: " + train) // TODO
 
-    val bufferedSource = Source.fromFile(inputPath)
-    val inputText = bufferedSource.getLines().mkString
-//      .foreach(println)
+    if (solr) {
+      // do solr query
+      val client = new SolrClient("http://tuna.cs.uwaterloo.ca:8983/solr/core17")
 
-    if (train) {
-      // TODO: train?
+      // query Solr
+      val searchTerm = args.search()
+      log.info("Search Term: " + searchTerm)
+
+      val queryResult = client.query("contents: %contents%")
+        .fields("id", "contents")
+        .sortBy("id", Order.asc)
+        .getResultAsMap(Map("contents" -> searchTerm.toString))
+
+      val docs = queryResult.documents
+
+      docs
+        .foreach { doc: Map[String, Any] =>
+          println("id: " + doc("id"))
+          println("contents: " + doc("contents"))
+        }
+
+      if (train) {
+        // TODO: train?
+      }
+      else {
+        // inference only
+        docs
+          .foreach { doc: Map[String, Any] =>
+            inference(doc("contents").toString)
+            println()
+          }
+      }
     }
     else {
-      // inference only
-      inference(inputText)
-    }
+      val inputPath = args.input()
+      log.info("Input Path: " + inputPath)
 
-    bufferedSource.close
+      // read from file
+      val bufferedSource = Source.fromFile(inputPath)
+      val docs = bufferedSource.getLines().mkString
+
+      println(docs)
+
+      if (train) {
+        // TODO: train?
+      }
+      else {
+        // inference only
+        inference(docs)
+      }
+
+      bufferedSource.close
+    }
   }
 
   def inference(inputText : String) = {
