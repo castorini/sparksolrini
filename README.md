@@ -29,6 +29,7 @@ bin/spark-submit \
 
 &nbsp;&nbsp;&nbsp;&nbsp; note that `/opt/spark/examples/jars/spark-examples_2.11-2.4.0.jar` is location of target jar in the docker image
 
+5) Once driver status has changed to Completed, `kubectl logs <spark_driver_pod_id>` to see logs
 
 
 Refer following links for detail
