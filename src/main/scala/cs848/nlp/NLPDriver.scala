@@ -47,8 +47,8 @@ object NLPDriver {
 
     if (solr) {
       // do solr query
-//      val client = new SolrClient("http://tuna.cs.uwaterloo.ca:8983/solr/core17")
-      val client = new SolrClient("http://192.168.152.201:30852/solr/#/cw09b/collection-overview")
+      val client = new SolrClient("http://tuna.cs.uwaterloo.ca:8983/solr/core17")
+//      val client = new SolrClient("http://192.168.152.201:30852/solr/cw09b")
 
       // query Solr
       val searchTerm = args.search()
