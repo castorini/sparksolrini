@@ -6,30 +6,48 @@
 
 1) download spark from http://apache.forsale.plus/spark/spark-2.4.0/spark-2.4.0-bin-hadoop2.7.tgz and unzip
 
-2) add your jar to `spark-2.4.0-bin-hadoop2.7/examples/jars`
+2) build jar by running `mvn clean package` under `CS848-project`
 
-3) build docker image using `docker image build spark-2.4.0-bin-hadoop2.7/kubernetes/dockerfiles/spark/Dockerfile`
+3) add your jar to `spark-2.4.0-bin-hadoop2.7/examples/jars`
 
-&nbsp;&nbsp;&nbsp;&nbsp; for test run you can pull my jar - `docker pull ljj7975/spark`
+4) build docker image of spark using `./bin/docker-image-tool.sh -r <docker_hub_id> -t <tag_name> build`
 
-4) move to spark-2.4.0-bin-hadoop2.7 and exec following command to run sample code
+5) push docker image of spark using `./bin/docker-image-tool.sh -r <docker_hub_id> -t <tag_name> push`
+
+6) ssh into tem101 (or tem102)
+
+7) download spark from http://apache.forsale.plus/spark/spark-2.4.0/spark-2.4.0-bin-hadoop2.7.tgz and unzip on tembo
+
+8) run job with following command format
 ```
 bin/spark-submit \
     --master k8s://https://192.168.152.201:6443 \
     --deploy-mode cluster \
-    --name spark-pi \
+    --name <job_name> \
     --class <class_name> \
     --conf spark.executor.instances=5 \
-    --conf spark.kubernetes.container.image=<image_name> \
+    --conf spark.kubernetes.container.image=<image_name>:<image_tag> \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
-    local:///opt/spark/examples/jars/<jar_name>.jar 10000
+    local:///opt/spark/examples/jars/<jar_name>.jar <input>
+```
+&nbsp;&nbsp;&nbsp;&nbsp; note that class_name, image_name, image_tag, jar_name must be correctly provided. `/opt/spark/examples/jars/<jar_name>.jar` is location of target jar in the docker image
+
+&nbsp;&nbsp;&nbsp;&nbsp; to run WordCount example,
+```
+bin/spark-submit \
+    --master k8s://https://192.168.152.201:6443 \
+    --deploy-mode cluster \
+    --name word-count \
+    --class cs848.wordcount.WordCount \
+    --conf spark.executor.instances=5 \
+    --conf spark.kubernetes.container.image=ljj7975/spark:ip \
+    --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
+    local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
 ```
 
 &nbsp;&nbsp;&nbsp;&nbsp; `192.168.152.202` can also be used
 
-&nbsp;&nbsp;&nbsp;&nbsp; note that `/opt/spark/examples/jars/spark-examples_2.11-2.4.0.jar` is location of target jar in the docker image
-
-5) Once driver status has changed to Completed, `kubectl logs <spark_driver_pod_id>` to see logs
+8) Once driver status has changed to Completed, `kubectl logs <spark_driver_pod_id>` to see logs
 
 
 Refer following links for detail
@@ -38,9 +56,17 @@ Refer following links for detail
 
 ---
 
+## Accessing files in HDFS through Spark
+
+Must contact namenode which runs on tem103 (192.168.152.203).
+Therefore, url is `hdfs://192.168.152.203/<path_to_file>` as in `sc.textFile("hdfs://192.168.152.203/test/20/0005447.xml")`
+
+Noe that providing machine name like `node3` does not work.
+
+
 ## OpenNLP
 
-Run with 
+Run with
 
 ```
 mvn clean package
