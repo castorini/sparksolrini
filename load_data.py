@@ -70,6 +70,4 @@ for (dirpath, dirnames, filenames) in os.walk(DATA_PATH):
 
         print("current progress ", count, "/", total, "( ", count/total * 100 ," )")
 
-        sys.exit();
-
 print("data load was successful")
