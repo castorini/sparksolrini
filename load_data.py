@@ -2,6 +2,9 @@ import sys
 import os
 import subprocess
 
+#  nohup python3 load_data.py my-hdfs-client-7b486bf744-lrlhh &
+#  status will be logged to nohup.out
+
 if len(sys.argv) < 2:
     print("usage: python3 load_data.py <hadoop client pod name>")
     sys.exit()
@@ -44,27 +47,28 @@ for (dirpath, dirnames, filenames) in os.walk(DATA_PATH):
         print('\tinnermost dir : ' + hdfs_dirpath)
         filenames.sort()
         for filename in filenames:
-            path = hdfs_dirpath + '/' + filename[:-3]
+            if filename.endswith(".gz"):
+                path = hdfs_dirpath + '/' + filename[:-3]
 
-            # generate temp gz
-            command = "cp " + CLIENT_DATA_PATH + path + ".gz " + CLIENT_DATA_PATH + path + "_temp.gz"
-            exec_cmd(wrap_kubectl_exec(command))
+                # generate temp gz
+                command = "cp " + CLIENT_DATA_PATH + path + ".gz " + CLIENT_DATA_PATH + path + "_temp.gz"
+                exec_cmd(wrap_kubectl_exec(command))
 
-            # decompress
-            command = "gunzip " + CLIENT_DATA_PATH + path + ".gz"
-            exec_cmd(wrap_kubectl_exec(command))
+                # decompress
+                command = "gunzip " + CLIENT_DATA_PATH + path + ".gz"
+                exec_cmd(wrap_kubectl_exec(command))
 
-            # upload to hdfs
-            command = "hdfs dfs -Ddfs.replication=3 -put " + CLIENT_DATA_PATH + path + " /" + hdfs_dirpath
-            exec_cmd(wrap_kubectl_exec(command))
+                # upload to hdfs
+                command = "hdfs dfs -Ddfs.replication=3 -put " + CLIENT_DATA_PATH + path + " /" + hdfs_dirpath
+                exec_cmd(wrap_kubectl_exec(command))
 
-            # delete decompressed one
-            command = "rm -rf " + CLIENT_DATA_PATH + path
-            exec_cmd(wrap_kubectl_exec(command))
+                # delete decompressed one
+                command = "rm -rf " + CLIENT_DATA_PATH + path
+                exec_cmd(wrap_kubectl_exec(command))
 
-            # generate original gz from temp gz
-            command = "mv " + CLIENT_DATA_PATH + path + "_temp.gz " + CLIENT_DATA_PATH + path + ".gz"
-            exec_cmd(wrap_kubectl_exec(command))
+                # generate original gz from temp gz
+                command = "mv " + CLIENT_DATA_PATH + path + "_temp.gz " + CLIENT_DATA_PATH + path + ".gz"
+                exec_cmd(wrap_kubectl_exec(command))
 
             count += 1;
 
