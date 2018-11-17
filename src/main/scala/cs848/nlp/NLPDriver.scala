@@ -2,8 +2,6 @@ package cs848.nlp
 
 import scala.io.Source
 
-import java.io.FileInputStream
-
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.log4j.Logger
 
@@ -14,21 +12,27 @@ import opennlp.tools.sentdetect.{SentenceDetectorME, SentenceModel}
 import com.github.takezoe.solr.scala._
 
 class Conf(args: Seq[String]) extends ScallopConf(args) {
-  mainOptions = Seq(solr, search, input)
-  val solr = opt[Boolean](descr = "do solr query", required = false)
+  mainOptions = Seq(solr, search, field, collection, input)
+  val solr = opt[Boolean](descr = "do solr query")
 
-  val search = opt[String](descr = "search term", required = false) // search term
-  val input = opt[String](descr = "input path", required = false) // input file path
+  val search = opt[String](descr = "search term")
+  val field = opt[String](descr = "search field")
+  val collection = opt[String](descr = "collection url")
+
+  val input = opt[String](descr = "input file path")
+
+  conflicts(solr, List(input))
+  codependent(solr, search, field, collection)
 
   verify()
 }
 
 object NLPDriver {
 
-  val log = Logger.getLogger(getClass().getName())
+  val log = Logger.getLogger(getClass.getName)
 
   // load NLP model
-  val modelIn = new FileInputStream("models/en-sent-detector.bin")
+  val modelIn = getClass.getClassLoader.getResourceAsStream("en-sent-detector.bin")
 
   // set up NLP model
   val model = new SentenceModel(modelIn)
@@ -47,17 +51,26 @@ object NLPDriver {
 
     if (solr) {
       // do solr query
-      val client = new SolrClient("http://tuna.cs.uwaterloo.ca:8983/solr/core17")
-//      val client = new SolrClient("http://192.168.152.201:30852/solr/cw09b")
 
-      // query Solr
       val searchTerm = args.search()
       log.info("Search Term: " + searchTerm)
 
-      val queryResult = client.query("contents: %contents%")
-        .fields("id", "contents")
+      val searchField = args.field()
+      log.info("Search Field: " + searchField)
+
+      val collectionUrl = args.collection()
+      log.info("Collection URL: " + collectionUrl)
+
+      val client = new SolrClient(collectionUrl)
+
+//      val client = new SolrClient("http://tuna.cs.uwaterloo.ca:8983/solr/core17")
+//      val client = new SolrClient("http://192.168.152.201:30852/solr/cw09b")
+
+      // query Solr
+      val queryResult = client.query(searchField + ": %" + searchField + "%")
+        .fields("id", searchField)
         .sortBy("id", Order.asc)
-        .getResultAsMap(Map("contents" -> searchTerm.toString))
+        .getResultAsMap(Map(searchField -> searchTerm.toString))
 
       val docs = queryResult.documents
 
@@ -65,7 +78,7 @@ object NLPDriver {
       docs
         .foreach { doc: Map[String, Any] =>
           println("id: " + doc("id"))
-          println("contents: " + doc("contents"))
+          println(searchField + ": " + doc(searchField))
         }
 
       println("########")
@@ -73,7 +86,7 @@ object NLPDriver {
       docs
         .foreach { doc: Map[String, Any] =>
           println("id: " + doc("id"))
-          inference(doc("contents").toString)
+          inference(doc(searchField).toString)
             .foreach(println)
         }
     }
