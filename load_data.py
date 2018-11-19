@@ -1,6 +1,7 @@
 import sys
 import os
 import subprocess
+import datetime
 
 #  nohup python3 load_data.py my-hdfs-client-7b486bf744-lrlhh &
 #  status will be logged to nohup.out
@@ -35,6 +36,7 @@ for (_, _, filenames) in os.walk(DATA_PATH):
         total += len(filenames)
 
 print("total # of files = ", total)
+print("start loading ", datetime.datetime.now())
 
 count = 0
 
@@ -70,8 +72,23 @@ for (dirpath, dirnames, filenames) in os.walk(DATA_PATH):
                 command = "mv " + CLIENT_DATA_PATH + path + "_temp.gz " + CLIENT_DATA_PATH + path + ".gz"
                 exec_cmd(wrap_kubectl_exec(command))
 
+            elif filename.endswith(".tgz"):
+                path = hdfs_dirpath + '/' + filename[:-4]
+
+                # decompress
+                command = "tar -xzf " + CLIENT_DATA_PATH + path + ".tgz"
+                exec_cmd(wrap_kubectl_exec(command))
+
+                # upload to hdfs
+                command = "hdfs dfs -Ddfs.replication=3 -put " + CLIENT_DATA_PATH + path + " /" + hdfs_dirpath
+                exec_cmd(wrap_kubectl_exec(command))
+
+                # delete decompressed one
+                command = "rm -rf " + CLIENT_DATA_PATH + path
+                exec_cmd(wrap_kubectl_exec(command))
+
             count += 1;
 
-        print("current progress ", count, "/", total, "( ", count/total * 100 ," )")
+        print("current progress ", count, "/", total, "( ", count/total * 100 ," )", datetime.datetime.now())
 
-print("data load was successful")
+print("data load was successful", datetime.datetime.now())
