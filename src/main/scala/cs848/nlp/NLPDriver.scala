@@ -7,6 +7,8 @@ import org.apache.log4j.Logger
 
 import org.rogach.scallop.ScallopConf
 
+import org.jsoup.Jsoup
+
 import opennlp.tools.sentdetect.{SentenceDetectorME, SentenceModel}
 
 import com.github.takezoe.solr.scala._
@@ -63,20 +65,33 @@ object NLPDriver {
 
       val client = new SolrClient(collectionUrl)
 
-//      val client = new SolrClient("http://tuna.cs.uwaterloo.ca:8983/solr/core17")
-//      val client = new SolrClient("http://192.168.152.201:30852/solr/cw09b")
-
       // query Solr
       val queryResult = client.query(searchField + ": %" + searchField + "%")
         .fields("id", searchField)
         .sortBy("id", Order.asc)
         .getResultAsMap(Map(searchField -> searchTerm.toString))
 
-      val docs = queryResult.documents
+      val docs = queryResult.documents.map(doc => {
+        val docMap = scala.collection.mutable.Map[String, String]()
+
+        docMap("id") = doc("id").toString
+
+        if (searchField.equals("raw")) {
+          // parse HTML document
+          val htmlDoc = Jsoup.parse(doc(searchField).toString)
+          docMap(searchField) = htmlDoc.body().text()
+        }
+        else {
+          docMap(searchField) = doc(searchField).toString
+        }
+
+        docMap
+
+      })
 
       println("Original:")
       docs
-        .foreach { doc: Map[String, Any] =>
+        .foreach { doc =>
           println("id: " + doc("id"))
           println(searchField + ": " + doc(searchField))
         }
@@ -84,9 +99,9 @@ object NLPDriver {
       println("########")
       println("Filtered and split:")
       docs
-        .foreach { doc: Map[String, Any] =>
+        .foreach { doc =>
           println("id: " + doc("id"))
-          inference(doc(searchField).toString)
+          inference(doc(searchField))
             .foreach(println)
         }
     }
