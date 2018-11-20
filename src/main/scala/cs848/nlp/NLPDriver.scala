@@ -2,32 +2,43 @@ package cs848.nlp
 
 import scala.io.Source
 
-import java.io.FileInputStream
-
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.log4j.Logger
 
 import org.rogach.scallop.ScallopConf
+
+import org.jsoup.Jsoup
 
 import opennlp.tools.sentdetect.{SentenceDetectorME, SentenceModel}
 
 import com.github.takezoe.solr.scala._
 
 class Conf(args: Seq[String]) extends ScallopConf(args) {
-  mainOptions = Seq(solr, search, input, multiPath, train)
-  val solr = opt[Boolean](descr = "do solr query", required = false)
+  mainOptions = Seq(solr, search, field, collection, input)
+  val solr = opt[Boolean](descr = "do solr query")
 
-  val search = opt[String](descr = "search term", required = false) // solr query
-  val input = opt[String](descr = "input path", required = false) // read file
+  val search = opt[String](descr = "search term")
+  val field = opt[String](descr = "search field")
+  val collection = opt[String](descr = "collection url")
 
-  val multiPath = opt[Boolean](descr = "multi path", required = false)
-  val train = opt[Boolean](descr = "train", required = false)
+  val input = opt[String](descr = "input file path")
+
+  conflicts(solr, List(input))
+  codependent(solr, search, field, collection)
+
   verify()
 }
 
 object NLPDriver {
 
-  val log = Logger.getLogger(getClass().getName())
+  val log = Logger.getLogger(getClass.getName)
+
+  // load NLP model
+  val modelIn = getClass.getClassLoader.getResourceAsStream("en-sent-detector.bin")
+
+  // set up NLP model
+  val model = new SentenceModel(modelIn)
+  val sentDetector = new SentenceDetectorME(model)
 
   def main(argv: Array[String]) = {
 
@@ -37,45 +48,62 @@ object NLPDriver {
     val args = new Conf(argv)
 
     val solr = args.solr()
-    val multiPath = args.multiPath()
-    val train = args.train()
 
     log.info("Solr: " + solr)
-    log.info("Multi-path: " + multiPath) // TODO
-    log.info("Train: " + train) // TODO
 
     if (solr) {
       // do solr query
-      val client = new SolrClient("http://tuna.cs.uwaterloo.ca:8983/solr/core17")
 
-      // query Solr
       val searchTerm = args.search()
       log.info("Search Term: " + searchTerm)
 
-      val queryResult = client.query("contents: %contents%")
-        .fields("id", "contents")
+      val searchField = args.field()
+      log.info("Search Field: " + searchField)
+
+      val collectionUrl = args.collection()
+      log.info("Collection URL: " + collectionUrl)
+
+      val client = new SolrClient(collectionUrl)
+
+      // query Solr
+      val queryResult = client.query(searchField + ": %" + searchField + "%")
+        .fields("id", searchField)
         .sortBy("id", Order.asc)
-        .getResultAsMap(Map("contents" -> searchTerm.toString))
+        .getResultAsMap(Map(searchField -> searchTerm.toString))
 
-      val docs = queryResult.documents
+      val docs = queryResult.documents.map(doc => {
+        val docMap = scala.collection.mutable.Map[String, String]()
 
-      docs
-        .foreach { doc: Map[String, Any] =>
-          println("id: " + doc("id"))
-          println("contents: " + doc("contents"))
+        docMap("id") = doc("id").toString
+
+        if (searchField.equals("raw")) {
+          // parse HTML document
+          val htmlDoc = Jsoup.parse(doc(searchField).toString)
+          docMap(searchField) = htmlDoc.body().text()
+        }
+        else {
+          docMap(searchField) = doc(searchField).toString
         }
 
-      if (train) {
-        // TODO: train?
-      }
-      else {
-        // inference only
-        docs
-          .foreach { doc: Map[String, Any] =>
-            inference(doc("contents").toString)
-            println()
-          }
-      }
+        docMap
+
+      })
+
+      println("Original:")
+      docs
+        .foreach { doc =>
+          println("id: " + doc("id"))
+          println(searchField + ": " + doc(searchField))
+        }
+
+      println("########")
+      println("Filtered and split:")
+      docs
+        .foreach { doc =>
+          println("id: " + doc("id"))
+          inference(doc(searchField))
+            .foreach(println)
+        }
     }
     else {
       val inputPath = args.input()
@@ -85,30 +113,17 @@ object NLPDriver {
       val bufferedSource = Source.fromFile(inputPath)
       val docs = bufferedSource.getLines().mkString
 
+      println("Original:")
       println(docs)
 
-      if (train) {
-        // TODO: train?
-      }
-      else {
-        // inference only
-        inference(docs)
-      }
+      println("########")
+      println("Filtered and split:")
+      inference(docs)
+        .foreach(println)
 
       bufferedSource.close
     }
   }
 
-  def inference(inputText : String) = {
-    // load model
-    val modelIn = new FileInputStream("models/en-sent-detector.bin")
-
-    // set up model
-    val model = new SentenceModel(modelIn)
-    val sentDetector = new SentenceDetectorME(model)
-
-    // run model
-    val result = sentDetector.sentDetect(inputText)
-      .foreach(println)
-  }
+  def inference(inputText : String) = { sentDetector.sentDetect(inputText) }
 }
