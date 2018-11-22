@@ -31,6 +31,8 @@ spec:
           value: 192.168.152.201:32181
         - name: SOLR_DATA_HOME
           value: /data
+        - name: SOLR_HEAP
+          value: 16G
         volumeMounts:
         - mountPath: /data
           name: data
