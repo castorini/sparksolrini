@@ -168,5 +168,7 @@
     <orderEntry type="library" name="Maven: com.martiansoftware:jsap:2.1" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:1.6" level="project" />
     <orderEntry type="library" name="Maven: com.github.helgeho:hadoop-concat-gz:1.2.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:7.5.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers-common:7.5.0" level="project" />
   </component>
 </module>

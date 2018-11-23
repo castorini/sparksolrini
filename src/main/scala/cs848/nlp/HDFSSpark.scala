@@ -5,9 +5,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.log4j.Logger
 import org.rogach.scallop.ScallopConf
 import org.jsoup.Jsoup
-
 import opennlp.tools.sentdetect.{SentenceDetectorME, SentenceModel}
-
 import de.l3s.archivespark._
 import de.l3s.archivespark.implicits._
 import de.l3s.archivespark.enrich.functions._
