@@ -11,6 +11,7 @@ import de.l3s.archivespark.implicits._
 import de.l3s.archivespark.enrich.functions._
 import de.l3s.archivespark.specific.warc._
 import de.l3s.archivespark.specific.warc.specs._
+import util.Stemmer
 
 class HDFSSparkConf(args: Seq[String]) extends ScallopConf(args) {
   mainOptions = Seq(search, field)
@@ -46,7 +47,7 @@ object HDFSSpark {
     val searchTerm = args.search()
     log.info("Search Term: " + searchTerm)
 
-    val searchField = args.field()
+    val searchField = Stemmer.stem(args.field())
     log.info("Search Field: " + searchField)
 
     val warc = ArchiveSpark.load(WarcHdfsSpec("hdfs://192.168.152.203/ClueWeb09b/ClueWeb09_English_1/*/*.warc"))
@@ -54,7 +55,7 @@ object HDFSSpark {
     val docs = warc
       .enrich(HtmlText)
 //      .peekJson
-      .filterValue(HtmlText) (v => v.get.contains(searchTerm))
+      .filterValue(HtmlText) (v => Stemmer.stem(v.get).contains(searchTerm))
 
     println("Original:")
     println(docs)

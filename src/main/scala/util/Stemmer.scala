@@ -11,17 +11,17 @@ object Stemmer {
   def stem(text: String): String = {
 
     val tokenStream = analyzer.tokenStream(null, text)
-    val builder = new StringBuilder()
+    val builder = new StringBuilder
 
-    tokenStream.reset()
+    tokenStream.reset
 
-    while (tokenStream.incrementToken()) {
-      builder.append(tokenStream.getAttribute(classOf[CharTermAttribute]).toString()).append(" ")
+    while (tokenStream.incrementToken) {
+      builder.append(tokenStream.getAttribute(classOf[CharTermAttribute]).toString).append(" ")
     }
 
-    tokenStream.close()
+    tokenStream.close
 
-    builder.toString().trim()
+    builder.toString.trim
 
   }
 
