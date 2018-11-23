@@ -20,7 +20,7 @@ import (
 	"fmt"
 
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/apimachinery/pkg/util/sets"
+	"k8s.io/apimachinery/pkg/cs848.util/sets"
 )
 
 // AmbiguousResourceError is returned if the RESTMapper finds multiple matches for a resource

@@ -39,11 +39,11 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/runtime/serializer/streaming"
-	"k8s.io/apimachinery/pkg/util/net"
+	"k8s.io/apimachinery/pkg/cs848.util/net"
 	"k8s.io/apimachinery/pkg/watch"
 	restclientwatch "k8s.io/client-go/rest/watch"
 	"k8s.io/client-go/tools/metrics"
-	"k8s.io/client-go/util/flowcontrol"
+	"k8s.io/client-go/cs848.util/flowcontrol"
 )
 
 var (

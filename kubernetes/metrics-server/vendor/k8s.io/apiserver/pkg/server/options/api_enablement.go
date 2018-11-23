@@ -25,7 +25,7 @@ import (
 	"k8s.io/apiserver/pkg/server"
 	"k8s.io/apiserver/pkg/server/resourceconfig"
 	serverstore "k8s.io/apiserver/pkg/server/storage"
-	utilflag "k8s.io/apiserver/pkg/util/flag"
+	utilflag "k8s.io/apiserver/pkg/cs848.util/flag"
 )
 
 // APIEnablementOptions contains the options for which resources to turn on and off.

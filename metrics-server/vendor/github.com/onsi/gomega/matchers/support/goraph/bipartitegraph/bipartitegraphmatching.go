@@ -2,7 +2,7 @@ package bipartitegraph
 
 import . "github.com/onsi/gomega/matchers/support/goraph/node"
 import . "github.com/onsi/gomega/matchers/support/goraph/edge"
-import "github.com/onsi/gomega/matchers/support/goraph/util"
+import "github.com/onsi/gomega/matchers/support/goraph/cs848.util"
 
 func (bg *BipartiteGraph) LargestMatching() (matching EdgeSet) {
 	paths := bg.maximalDisjointSLAPCollection(matching)
@@ -72,7 +72,7 @@ func (bg *BipartiteGraph) findDisjointSLAPHelper(
 			continue
 		}
 
-		if matching.Contains(edge) == util.Odd(currentLevel) {
+		if matching.Contains(edge) == cs848.util.Odd(currentLevel) {
 			continue
 		}
 
@@ -110,7 +110,7 @@ func (bg *BipartiteGraph) createSLAPGuideLayers(matching EdgeSet) (guideLayers [
 		lastLayer := currentLayer
 		currentLayer = NodeOrderedSet{}
 
-		if util.Odd(len(guideLayers)) {
+		if cs848.util.Odd(len(guideLayers)) {
 			for _, leftNode := range lastLayer {
 				for _, rightNode := range bg.Right {
 					if used[rightNode] {

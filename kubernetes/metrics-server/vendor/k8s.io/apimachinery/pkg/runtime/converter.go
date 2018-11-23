@@ -30,8 +30,8 @@ import (
 	"time"
 
 	"k8s.io/apimachinery/pkg/conversion"
-	"k8s.io/apimachinery/pkg/util/json"
-	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
+	"k8s.io/apimachinery/pkg/cs848.util/json"
+	utilruntime "k8s.io/apimachinery/pkg/cs848.util/runtime"
 
 	"github.com/golang/glog"
 )

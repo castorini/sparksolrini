@@ -17,7 +17,7 @@ limitations under the License.
 package features
 
 import (
-	utilfeature "k8s.io/apiserver/pkg/util/feature"
+	utilfeature "k8s.io/apiserver/pkg/cs848.util/feature"
 )
 
 const (

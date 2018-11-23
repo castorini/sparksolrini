@@ -1,4 +1,4 @@
-package util
+package cs848.util
 
 import "math"
 

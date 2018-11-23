@@ -33,12 +33,12 @@ import (
 	"k8s.io/apimachinery/pkg/fields"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime"
-	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
-	"k8s.io/apimachinery/pkg/util/wait"
+	utilruntime "k8s.io/apimachinery/pkg/cs848.util/runtime"
+	"k8s.io/apimachinery/pkg/cs848.util/wait"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/apiserver/pkg/features"
-	utilfeature "k8s.io/apiserver/pkg/util/feature"
-	utiltrace "k8s.io/apiserver/pkg/util/trace"
+	utilfeature "k8s.io/apiserver/pkg/cs848.util/feature"
+	utiltrace "k8s.io/apiserver/pkg/cs848.util/trace"
 	"k8s.io/client-go/tools/cache"
 )
 

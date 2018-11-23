@@ -35,8 +35,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/pkg/version"
 	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
-	certutil "k8s.io/client-go/util/cert"
-	"k8s.io/client-go/util/flowcontrol"
+	certutil "k8s.io/client-go/cs848.util/cert"
+	"k8s.io/client-go/cs848.util/flowcontrol"
 )
 
 const (

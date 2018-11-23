@@ -27,8 +27,8 @@ import (
 
 	"github.com/golang/glog"
 
-	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
-	"k8s.io/apimachinery/pkg/util/sets"
+	utilruntime "k8s.io/apimachinery/pkg/cs848.util/runtime"
+	"k8s.io/apimachinery/pkg/cs848.util/sets"
 )
 
 // PathRecorderMux wraps a mux object and records the registered exposedPaths.

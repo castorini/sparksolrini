@@ -24,7 +24,7 @@ import (
 	etcd2client "github.com/coreos/etcd/client"
 	"github.com/coreos/etcd/pkg/transport"
 
-	utilnet "k8s.io/apimachinery/pkg/util/net"
+	utilnet "k8s.io/apimachinery/pkg/cs848.util/net"
 	"k8s.io/apiserver/pkg/storage"
 	"k8s.io/apiserver/pkg/storage/etcd"
 	"k8s.io/apiserver/pkg/storage/storagebackend"

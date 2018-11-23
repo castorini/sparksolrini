@@ -1,4 +1,4 @@
-package util
+package cs848.util
 
 import org.apache.lucene.analysis.CharArraySet
 import org.apache.lucene.analysis.en.EnglishAnalyzer

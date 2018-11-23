@@ -27,7 +27,7 @@ import (
 	"github.com/golang/glog"
 
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/util/diff"
+	"k8s.io/apimachinery/pkg/cs848.util/diff"
 )
 
 var mutationDetectionEnabled = false

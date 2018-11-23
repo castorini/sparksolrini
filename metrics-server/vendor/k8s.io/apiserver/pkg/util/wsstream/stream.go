@@ -25,7 +25,7 @@ import (
 
 	"golang.org/x/net/websocket"
 
-	"k8s.io/apimachinery/pkg/util/runtime"
+	"k8s.io/apimachinery/pkg/cs848.util/runtime"
 )
 
 // The WebSocket subprotocol "binary.k8s.io" will only send messages to the

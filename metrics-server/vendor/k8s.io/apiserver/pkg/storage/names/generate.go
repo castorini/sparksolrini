@@ -19,7 +19,7 @@ package names
 import (
 	"fmt"
 
-	utilrand "k8s.io/apimachinery/pkg/util/rand"
+	utilrand "k8s.io/apimachinery/pkg/cs848.util/rand"
 )
 
 // NameGenerator generates names for objects. Some backends may have more information

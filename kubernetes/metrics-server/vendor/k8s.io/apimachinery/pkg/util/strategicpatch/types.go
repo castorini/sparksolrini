@@ -20,8 +20,8 @@ import (
 	"errors"
 	"strings"
 
-	"k8s.io/apimachinery/pkg/util/mergepatch"
-	openapi "k8s.io/kube-openapi/pkg/util/proto"
+	"k8s.io/apimachinery/pkg/cs848.util/mergepatch"
+	openapi "k8s.io/kube-openapi/pkg/cs848.util/proto"
 )
 
 const (

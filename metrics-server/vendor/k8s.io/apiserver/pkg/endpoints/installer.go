@@ -39,7 +39,7 @@ import (
 	"k8s.io/apiserver/pkg/endpoints/metrics"
 	"k8s.io/apiserver/pkg/registry/rest"
 	genericfilters "k8s.io/apiserver/pkg/server/filters"
-	utilopenapi "k8s.io/apiserver/pkg/util/openapi"
+	utilopenapi "k8s.io/apiserver/pkg/cs848.util/openapi"
 	openapibuilder "k8s.io/kube-openapi/pkg/builder"
 )
 

@@ -20,7 +20,7 @@ import (
 	"fmt"
 
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	utilerrors "k8s.io/apimachinery/pkg/util/errors"
+	utilerrors "k8s.io/apimachinery/pkg/cs848.util/errors"
 )
 
 // FirstHitRESTMapper is a wrapper for multiple RESTMappers which returns the

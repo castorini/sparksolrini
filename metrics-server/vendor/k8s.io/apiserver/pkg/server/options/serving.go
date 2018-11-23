@@ -27,10 +27,10 @@ import (
 	"github.com/golang/glog"
 	"github.com/spf13/pflag"
 
-	utilnet "k8s.io/apimachinery/pkg/util/net"
+	utilnet "k8s.io/apimachinery/pkg/cs848.util/net"
 	"k8s.io/apiserver/pkg/server"
-	utilflag "k8s.io/apiserver/pkg/util/flag"
-	certutil "k8s.io/client-go/util/cert"
+	utilflag "k8s.io/apiserver/pkg/cs848.util/flag"
+	certutil "k8s.io/client-go/cs848.util/cert"
 )
 
 type SecureServingOptions struct {

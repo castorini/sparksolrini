@@ -26,7 +26,7 @@ import (
 	"sync"
 	"time"
 
-	utilnet "k8s.io/apimachinery/pkg/util/net"
+	utilnet "k8s.io/apimachinery/pkg/cs848.util/net"
 	"k8s.io/apiserver/pkg/endpoints/request"
 
 	"github.com/emicklei/go-restful"
