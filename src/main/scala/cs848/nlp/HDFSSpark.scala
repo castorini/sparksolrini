@@ -18,6 +18,8 @@ class HDFSSparkConf(args: Seq[String]) extends ScallopConf(args) {
   val search = opt[String](descr = "search term")
   val field = opt[String](descr = "search field")
 
+//  val path = opt[String](descr = "hdfs path")
+
   codependent(search, field)
 
   verify()
@@ -41,15 +43,18 @@ object HDFSSpark {
 
     val args = new HDFSSparkConf(argv)
 
-    val warc = ArchiveSpark.load(WarcHdfsSpec("/ClueWeb09b/ClueWeb09_English_1/en*/*.warc"))
+    val searchTerm = args.search()
+    log.info("Search Term: " + searchTerm)
 
-    println("Count :")
-    println(warc.count)
+    val searchField = args.field()
+    log.info("Search Field: " + searchField)
 
-    val enrichedWarc = warc.enrich(HtmlText)
-    println(enrichedWarc.peekJson)
+    val warc = ArchiveSpark.load(WarcHdfsSpec("hdfs://192.168.152.203/ClueWeb09b/ClueWeb09_English_1/*/*.warc"))
 
-    val docs = warc.enrich(StringContent)
+    val docs = warc
+      .enrich(HtmlText)
+//      .peekJson
+      .filterValue(HtmlText) (v => v.get.contains(searchTerm))
 
     println("Original:")
     println(docs)
