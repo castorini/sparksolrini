@@ -58,6 +58,7 @@ object SolrSpark {
     val queryResult = client.query(searchField + ": %" + searchField + "%")
       .fields("id", searchField)
       .sortBy("id", Order.asc)
+      .rows(10000)
       .getResultAsMap(Map(searchField -> searchTerm.toString))
 
     val docs = queryResult.documents.map(doc => {
