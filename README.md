@@ -19,17 +19,40 @@
 7) download spark from http://apache.forsale.plus/spark/spark-2.4.0/spark-2.4.0-bin-hadoop2.7.tgz and unzip on tembo
 
 8) run job with following command format
+&nbsp;&nbsp;&nbsp;&nbsp; from tem101 (cluster mode)
 ```
 bin/spark-submit \
     --master k8s://https://192.168.152.201:6443 \
     --deploy-mode cluster \
     --name <job_name> \
     --class <class_name> \
+    --conf spark.driver.memory=5g \
     --conf spark.executor.instances=5 \
     --conf spark.kubernetes.container.image=<image_name>:<image_tag> \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
     local:///opt/spark/examples/jars/<jar_name>.jar <input>
 ```
+
+&nbsp;&nbsp;&nbsp;&nbsp; from outside of cluster through api server (client mode)
+```
+bin/spark-submit \
+    --master k8s://http://192.168.152.201:8080 \
+    --deploy-mode client \
+    --name <job_name> \
+    --class <class_name> \
+    --conf spark.driver.memory=5g \
+    --conf spark.executor.instances=5 \
+    --conf spark.kubernetes.container.image=<image_name>:<image_tag> \
+    --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
+    local:///opt/spark/examples/jars/<jar_name>.jar <input>
+```
+&nbsp;&nbsp;&nbsp;&nbsp; to run the code with client node, jar must be distributed by driver using `setJars` with location of jars inside docker image as following
+```
+val conf = new SparkConf()
+  .setAppName("WordCount")
+  .setJars(Array("/opt/spark/examples/jars/<jar_name>.jar"))
+```
+
 &nbsp;&nbsp;&nbsp;&nbsp; note that class_name, image_name, image_tag, jar_name must be correctly provided. `/opt/spark/examples/jars/<jar_name>.jar` is location of target jar in the docker image
 
 &nbsp;&nbsp;&nbsp;&nbsp; to run WordCount example,
@@ -62,6 +85,13 @@ Must contact namenode which runs on tem103 (192.168.152.203).
 Therefore, url is `hdfs://192.168.152.203/<path_to_file>` as in `sc.textFile("hdfs://192.168.152.203/test/20/0005447.xml")`
 
 Noe that providing machine name like `node3` does not work.
+
+
+## Running metric collector
+
+To run metric collector, `python3 collect_metrics.py <sleep time in sec>`
+the script will create two .txt files under `metrics` directory, one for nodes, one for pods.
+each file will have start timestamp as part of its name.
 
 
 ## OpenNLP

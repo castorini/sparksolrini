@@ -38,7 +38,7 @@ object WordCount extends Tokenizer {
   }
 
   def main(argv: Array[String]) {
-    val conf = new SparkConf().setAppName("Word Count")
+    val conf = new SparkConf().setAppName("Word Count").setJars(Array("/opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar"))
     val sc = new SparkContext(conf)
 
     val textFile = sc.textFile("hdfs://192.168.152.203/test/20/0005447.xml")
