@@ -16,10 +16,7 @@
 
 package cs848.wordcount
 
-import cs848.util.Tokenizer
-
 import collection.mutable.HashMap
-
 import org.apache.log4j._
 import org.apache.hadoop.fs._
 import org.apache.spark.SparkContext
