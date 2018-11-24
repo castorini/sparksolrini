@@ -88,7 +88,9 @@ kube_network_node_prefix: 24
 
 # The port the API Server will be listening on.
 kube_apiserver_ip: "{{ kube_service_addresses|ipaddr('net')|ipaddr(1)|ipaddr('address') }}"
+kube_apiserver_bind_address: 0.0.0.0
 kube_apiserver_port: 6443 # (https)
+kube_apiserver_insecure_bind_address: 0.0.0.0
 kube_apiserver_insecure_port: 8080 # (http)
 # Set to 0 to disable insecure port - Requires RBAC in authorization_modes and kube_api_anonymous_auth: true
 #kube_apiserver_insecure_port: 0 # (disabled)
@@ -153,7 +155,7 @@ dynamic_kubelet_configuration_dir: "{{ kubelet_config_dir | default(default_kube
 podsecuritypolicy_enabled: false
 
 # Make a copy of kubeconfig on the host that runs Ansible in {{ inventory_dir }}/artifacts
-# kubeconfig_localhost: false
+kubeconfig_localhost: false
 # Download kubectl onto the host that runs Ansible in {{ bin_dir }}
 # kubectl_localhost: false
 
