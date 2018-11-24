@@ -33,7 +33,7 @@ import (
 	"k8s.io/apiserver/pkg/authentication/request/x509"
 	webhooktoken "k8s.io/apiserver/plugin/pkg/authenticator/token/webhook"
 	authenticationclient "k8s.io/client-go/kubernetes/typed/authentication/v1beta1"
-	"k8s.io/client-go/util/cert"
+	"k8s.io/client-go/cs848.util/cert"
 )
 
 // DelegatingAuthenticatorConfig is the minimal configuration needed to create an authenticator

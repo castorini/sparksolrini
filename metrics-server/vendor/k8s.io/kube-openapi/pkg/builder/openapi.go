@@ -27,7 +27,7 @@ import (
 	"github.com/go-openapi/spec"
 
 	"k8s.io/kube-openapi/pkg/common"
-	"k8s.io/kube-openapi/pkg/util"
+	"k8s.io/kube-openapi/pkg/cs848.util"
 )
 
 const (
@@ -194,7 +194,7 @@ func (o *openAPI) buildDefinitionForType(name string) (string, error) {
 
 // buildPaths builds OpenAPI paths using go-restful's web services.
 func (o *openAPI) buildPaths(webServices []*restful.WebService) error {
-	pathsToIgnore := util.NewTrie(o.config.IgnorePrefixes)
+	pathsToIgnore := cs848.util.NewTrie(o.config.IgnorePrefixes)
 	duplicateOpId := make(map[string]string)
 	for _, w := range webServices {
 		rootPath := w.RootPath()

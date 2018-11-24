@@ -24,7 +24,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	serverstore "k8s.io/apiserver/pkg/server/storage"
-	utilflag "k8s.io/apiserver/pkg/util/flag"
+	utilflag "k8s.io/apiserver/pkg/cs848.util/flag"
 )
 
 // GroupVersionRegistry provides access to registered group versions.

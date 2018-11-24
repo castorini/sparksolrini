@@ -26,9 +26,9 @@ import (
 
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime"
-	utilcache "k8s.io/apimachinery/pkg/util/cache"
-	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
-	"k8s.io/apimachinery/pkg/util/sets"
+	utilcache "k8s.io/apimachinery/pkg/cs848.util/cache"
+	utilruntime "k8s.io/apimachinery/pkg/cs848.util/runtime"
+	"k8s.io/apimachinery/pkg/cs848.util/sets"
 )
 
 // MutationCache is able to take the result of update operations and stores them in an LRU

@@ -29,8 +29,8 @@ import (
 	"github.com/golang/glog"
 	"golang.org/x/net/http2"
 
-	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
-	"k8s.io/apimachinery/pkg/util/validation"
+	utilruntime "k8s.io/apimachinery/pkg/cs848.util/runtime"
+	"k8s.io/apimachinery/pkg/cs848.util/validation"
 )
 
 const (

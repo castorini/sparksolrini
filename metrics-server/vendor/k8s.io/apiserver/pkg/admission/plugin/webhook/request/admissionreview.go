@@ -21,7 +21,7 @@ import (
 	authenticationv1 "k8s.io/api/authentication/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/util/uuid"
+	"k8s.io/apimachinery/pkg/cs848.util/uuid"
 	"k8s.io/apiserver/pkg/admission/plugin/webhook/generic"
 )
 

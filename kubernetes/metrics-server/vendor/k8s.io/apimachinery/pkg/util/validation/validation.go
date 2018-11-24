@@ -23,7 +23,7 @@ import (
 	"regexp"
 	"strings"
 
-	"k8s.io/apimachinery/pkg/util/validation/field"
+	"k8s.io/apimachinery/pkg/cs848.util/validation/field"
 )
 
 const qnameCharFmt string = "[A-Za-z0-9]"

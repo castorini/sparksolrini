@@ -22,7 +22,7 @@ import (
 
 	"github.com/golang/glog"
 	"github.com/prometheus/client_golang/prometheus"
-	utilerrors "k8s.io/apimachinery/pkg/util/errors"
+	utilerrors "k8s.io/apimachinery/pkg/cs848.util/errors"
 
 	utilmetrics "github.com/kubernetes-incubator/metrics-server/pkg/metrics"
 )

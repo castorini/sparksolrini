@@ -20,7 +20,7 @@ import (
 	"errors"
 	"net/http"
 
-	utilwaitgroup "k8s.io/apimachinery/pkg/util/waitgroup"
+	utilwaitgroup "k8s.io/apimachinery/pkg/cs848.util/waitgroup"
 	"k8s.io/apiserver/pkg/endpoints/handlers/responsewriters"
 	apirequest "k8s.io/apiserver/pkg/endpoints/request"
 )

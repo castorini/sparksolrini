@@ -26,7 +26,7 @@ import (
 	yaml "gopkg.in/yaml.v2"
 
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/kube-openapi/pkg/util/proto"
+	"k8s.io/kube-openapi/pkg/cs848.util/proto"
 )
 
 const (

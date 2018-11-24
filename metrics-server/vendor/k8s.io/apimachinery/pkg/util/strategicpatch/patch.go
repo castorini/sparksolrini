@@ -23,8 +23,8 @@ import (
 	"strings"
 
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	"k8s.io/apimachinery/pkg/util/json"
-	"k8s.io/apimachinery/pkg/util/mergepatch"
+	"k8s.io/apimachinery/pkg/cs848.util/json"
+	"k8s.io/apimachinery/pkg/cs848.util/mergepatch"
 )
 
 // An alternate implementation of JSON Merge Patch
@@ -83,7 +83,7 @@ type MergeOptions struct {
 	IgnoreUnmatchedNulls bool
 }
 
-// The following code is adapted from github.com/openshift/origin/pkg/util/jsonmerge.
+// The following code is adapted from github.com/openshift/origin/pkg/cs848.util/jsonmerge.
 // Instead of defining a Delta that holds an original, a patch and a set of preconditions,
 // the reconcile method accepts a set of preconditions as an argument.
 

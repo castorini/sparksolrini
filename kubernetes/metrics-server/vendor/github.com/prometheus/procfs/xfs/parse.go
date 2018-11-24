@@ -19,7 +19,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/prometheus/procfs/internal/util"
+	"github.com/prometheus/procfs/internal/cs848.util"
 )
 
 // ParseStats parses a Stats from an input io.Reader, using the format
@@ -69,7 +69,7 @@ func ParseStats(r io.Reader) (*Stats, error) {
 
 		// Extended precision counters are uint64 values.
 		if label == fieldXpc {
-			us, err := util.ParseUint64s(ss[1:])
+			us, err := cs848.util.ParseUint64s(ss[1:])
 			if err != nil {
 				return nil, err
 			}
@@ -83,7 +83,7 @@ func ParseStats(r io.Reader) (*Stats, error) {
 		}
 
 		// All other counters are uint32 values.
-		us, err := util.ParseUint32s(ss[1:])
+		us, err := cs848.util.ParseUint32s(ss[1:])
 		if err != nil {
 			return nil, err
 		}

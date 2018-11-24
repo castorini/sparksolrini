@@ -23,7 +23,7 @@ import (
 	"github.com/pborman/uuid"
 
 	"k8s.io/apiserver/pkg/server"
-	certutil "k8s.io/client-go/util/cert"
+	certutil "k8s.io/client-go/cs848.util/cert"
 )
 
 type SecureServingOptionsWithLoopback struct {

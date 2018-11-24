@@ -7196,7 +7196,7 @@ require.define("/node_modules/ax/package.json", function (require, module, expor
 });
 
 require.define("/node_modules/ax/lib/ax.js", function (require, module, exports, __dirname, __filename) {
-    var inspect = require("util").inspect
+    var inspect = require("cs848.util").inspect
   , fs = require("fs")
 ;
 
@@ -7312,7 +7312,7 @@ module.exports = Logger;
 
 });
 
-require.define("util", function (require, module, exports, __dirname, __filename) {
+require.define("cs848.util", function (require, module, exports, __dirname, __filename) {
     // todo
 
 });

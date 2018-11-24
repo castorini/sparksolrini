@@ -20,7 +20,7 @@ import (
 	"time"
 
 	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/util/wait"
+	"k8s.io/apimachinery/pkg/cs848.util/wait"
 )
 
 // DefaultRetry is the recommended retry for a conflict where multiple clients

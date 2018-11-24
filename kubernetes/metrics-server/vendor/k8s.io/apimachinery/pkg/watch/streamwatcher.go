@@ -22,8 +22,8 @@ import (
 
 	"github.com/golang/glog"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/util/net"
-	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
+	"k8s.io/apimachinery/pkg/cs848.util/net"
+	utilruntime "k8s.io/apimachinery/pkg/cs848.util/runtime"
 )
 
 // Decoder allows StreamWatcher to watch any stream for which a Decoder can be written.

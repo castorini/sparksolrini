@@ -21,11 +21,11 @@ import (
 	"sync"
 	"time"
 
-	"k8s.io/apimachinery/pkg/util/runtime"
-	"k8s.io/apimachinery/pkg/util/wait"
+	"k8s.io/apimachinery/pkg/cs848.util/runtime"
+	"k8s.io/apimachinery/pkg/cs848.util/wait"
 	auditinternal "k8s.io/apiserver/pkg/apis/audit"
 	"k8s.io/apiserver/pkg/audit"
-	"k8s.io/client-go/util/flowcontrol"
+	"k8s.io/client-go/cs848.util/flowcontrol"
 )
 
 // PluginName is the name reported in error metrics.

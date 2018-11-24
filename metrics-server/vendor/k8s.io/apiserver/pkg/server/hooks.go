@@ -23,8 +23,8 @@ import (
 
 	"github.com/golang/glog"
 
-	utilerrors "k8s.io/apimachinery/pkg/util/errors"
-	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
+	utilerrors "k8s.io/apimachinery/pkg/cs848.util/errors"
+	utilruntime "k8s.io/apimachinery/pkg/cs848.util/runtime"
 	"k8s.io/apiserver/pkg/server/healthz"
 	restclient "k8s.io/client-go/rest"
 )

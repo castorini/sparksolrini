@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"strings"
 
-	"k8s.io/apimachinery/pkg/util/errors"
+	"k8s.io/apimachinery/pkg/cs848.util/errors"
 	auditinternal "k8s.io/apiserver/pkg/apis/audit"
 )
 

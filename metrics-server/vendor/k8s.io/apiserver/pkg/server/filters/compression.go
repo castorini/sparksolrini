@@ -27,7 +27,7 @@ import (
 
 	"github.com/emicklei/go-restful"
 
-	"k8s.io/apimachinery/pkg/util/runtime"
+	"k8s.io/apimachinery/pkg/cs848.util/runtime"
 	"k8s.io/apiserver/pkg/endpoints/request"
 )
 

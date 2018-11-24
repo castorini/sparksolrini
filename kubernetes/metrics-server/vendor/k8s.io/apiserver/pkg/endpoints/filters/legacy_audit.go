@@ -29,7 +29,7 @@ import (
 	"github.com/pborman/uuid"
 
 	authenticationapi "k8s.io/api/authentication/v1"
-	utilnet "k8s.io/apimachinery/pkg/util/net"
+	utilnet "k8s.io/apimachinery/pkg/cs848.util/net"
 	"k8s.io/apiserver/pkg/endpoints/handlers/responsewriters"
 )
 

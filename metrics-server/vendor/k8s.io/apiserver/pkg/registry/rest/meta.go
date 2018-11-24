@@ -20,7 +20,7 @@ import (
 	"context"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/util/uuid"
+	"k8s.io/apimachinery/pkg/cs848.util/uuid"
 	genericapirequest "k8s.io/apiserver/pkg/endpoints/request"
 )
 

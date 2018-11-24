@@ -10,11 +10,11 @@ import (
 	"os"
 
 	"k8s.io/kubernetes/pkg/kubectl/cmd"
-	"k8s.io/kubernetes/pkg/kubectl/cmd/util"
+	"k8s.io/kubernetes/pkg/kubectl/cmd/cs848.util"
 )
 
 func main() {
-	kubectl := cmd.NewKubectlCommand(util.NewFactory(nil), os.Stdin, ioutil.Discard, ioutil.Discard)
+	kubectl := cmd.NewKubectlCommand(cs848.util.NewFactory(nil), os.Stdin, ioutil.Discard, ioutil.Discard)
 	kubectl.GenBashCompletionFile("out.sh")
 }
 ```
@@ -90,7 +90,7 @@ cmd := &cobra.Command{
 	Example: get_example,
 	Run: func(cmd *cobra.Command, args []string) {
 		err := RunGet(f, out, cmd, args)
-		util.CheckErr(err)
+		cs848.util.CheckErr(err)
 	},
 	ValidArgs: validArgs,
 }

@@ -64,7 +64,7 @@ import k8s_io_api_core_v1 "k8s.io/api/core/v1"
 
 import k8s_io_apimachinery_pkg_apis_meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-import k8s_io_apimachinery_pkg_util_intstr "k8s.io/apimachinery/pkg/util/intstr"
+import k8s_io_apimachinery_pkg_util_intstr "k8s.io/apimachinery/pkg/cs848.util/intstr"
 
 import strings "strings"
 import reflect "reflect"

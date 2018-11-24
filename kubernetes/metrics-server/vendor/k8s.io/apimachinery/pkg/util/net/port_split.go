@@ -19,7 +19,7 @@ package net
 import (
 	"strings"
 
-	"k8s.io/apimachinery/pkg/util/sets"
+	"k8s.io/apimachinery/pkg/cs848.util/sets"
 )
 
 var validSchemes = sets.NewString("http", "https", "")

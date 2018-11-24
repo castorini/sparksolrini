@@ -1,17 +1,11 @@
 package cs848.nlp
 
-import scala.io.Source
-
-import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.log4j.Logger
-
-import org.rogach.scallop.ScallopConf
-
-import org.jsoup.Jsoup
-
-import opennlp.tools.sentdetect.{SentenceDetectorME, SentenceModel}
-
 import com.github.takezoe.solr.scala._
+import cs848.util.SentenceDetector
+import org.apache.log4j.Logger
+import org.apache.spark.{SparkConf, SparkContext}
+import org.jsoup.Jsoup
+import org.rogach.scallop.ScallopConf
 
 class SolrSparkConf(args: Seq[String]) extends ScallopConf(args) {
   mainOptions = Seq(search, field, collection)
@@ -27,13 +21,6 @@ class SolrSparkConf(args: Seq[String]) extends ScallopConf(args) {
 object SolrSpark {
 
   val log = Logger.getLogger(getClass.getName)
-
-  // load NLP model
-  val modelIn = getClass.getClassLoader.getResourceAsStream("en-sent-detector.bin")
-
-  // set up NLP model
-  val model = new SentenceModel(modelIn)
-  val sentDetector = new SentenceDetectorME(model)
 
   def main(argv: Array[String]) = {
 
@@ -58,6 +45,7 @@ object SolrSpark {
     val queryResult = client.query(searchField + ": %" + searchField + "%")
       .fields("id", searchField)
       .sortBy("id", Order.asc)
+      .rows(10000)
       .getResultAsMap(Map(searchField -> searchTerm.toString))
 
     val docs = queryResult.documents.map(doc => {
@@ -90,10 +78,9 @@ object SolrSpark {
     docs
       .foreach { doc =>
         println("id: " + doc("id"))
-        inference(doc(searchField))
+        SentenceDetector.inference(doc(searchField))
           .foreach(println)
       }
   }
 
-  def inference(inputText : String) = { sentDetector.sentDetect(inputText) }
 }

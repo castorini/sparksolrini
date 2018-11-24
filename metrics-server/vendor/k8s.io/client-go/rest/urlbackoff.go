@@ -21,8 +21,8 @@ import (
 	"time"
 
 	"github.com/golang/glog"
-	"k8s.io/apimachinery/pkg/util/sets"
-	"k8s.io/client-go/util/flowcontrol"
+	"k8s.io/apimachinery/pkg/cs848.util/sets"
+	"k8s.io/client-go/cs848.util/flowcontrol"
 )
 
 // Set of resp. Codes that we backoff for.

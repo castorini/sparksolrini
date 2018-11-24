@@ -54,7 +54,7 @@ type prioNodeAddrResolver struct {
 }
 
 func (r *prioNodeAddrResolver) NodeAddress(node *corev1.Node) (string, error) {
-	// adapted from k8s.io/kubernetes/pkg/util/node
+	// adapted from k8s.io/kubernetes/pkg/cs848.util/node
 	for _, addrType := range r.addrTypePriority {
 		for _, addr := range node.Status.Addresses {
 			if addr.Type == addrType {

@@ -25,8 +25,8 @@ import (
 
 	"github.com/golang/glog"
 	"k8s.io/apimachinery/pkg/selection"
-	"k8s.io/apimachinery/pkg/util/sets"
-	"k8s.io/apimachinery/pkg/util/validation"
+	"k8s.io/apimachinery/pkg/cs848.util/sets"
+	"k8s.io/apimachinery/pkg/cs848.util/validation"
 )
 
 // Requirements is AND of all requirements.

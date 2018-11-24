@@ -26,10 +26,10 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
+	utilruntime "k8s.io/apimachinery/pkg/cs848.util/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/apiserver/pkg/storage"
-	etcdutil "k8s.io/apiserver/pkg/storage/etcd/util"
+	etcdutil "k8s.io/apiserver/pkg/storage/etcd/cs848.util"
 
 	etcd "github.com/coreos/etcd/client"
 	"github.com/golang/glog"

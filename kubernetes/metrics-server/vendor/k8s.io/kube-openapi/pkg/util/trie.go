@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package util
+package cs848.util
 
 // A simple trie implementation with Add and HasPrefix methods only.
 type Trie struct {
