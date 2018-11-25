@@ -81,7 +81,7 @@ bin/spark-submit \
     --conf spark.executor.instances=5 \
     --conf spark.kubernetes.container.image=<image_name>:<image_tag> \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
-    local:///opt/spark/examples/jars/<jar_name>.jar <input>
+    <path_to_the_jar>/<jar_name>.jar <input>
 ```
 ---
 
