@@ -1,6 +1,7 @@
 package cs848.util
 
 import opennlp.tools.sentdetect.{SentenceDetectorME, SentenceModel}
+import org.jsoup.Jsoup
 
 object SentenceDetector {
 
@@ -9,8 +10,14 @@ object SentenceDetector {
 
   val sentDetector = new SentenceDetectorME(model)
 
-  def inference(inputText: String) = {
-    sentDetector.sentDetect(inputText)
+  def parse(inputText: String): String = {
+    // parse HTML document
+    val htmlDoc = Jsoup.parse(inputText)
+    htmlDoc.body().text()
   }
 
+  def inference(inputText: String, searchField: String) = {
+    val input = if (searchField.equals("raw")) parse(inputText) else inputText
+    sentDetector.sentDetect(input)
+  }
 }

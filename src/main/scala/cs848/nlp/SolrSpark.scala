@@ -24,7 +24,7 @@ object SolrSpark {
 
   def main(argv: Array[String]) = {
 
-    val conf = new SparkConf().setAppName("Solr Spark Driver")
+    val conf = new SparkConf().setAppName("Solr Spark Driver").setJars(Array("/opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar"))
     val sc = new SparkContext(conf)
 
     val args = new SolrSparkConf(argv)
@@ -45,42 +45,13 @@ object SolrSpark {
     val queryResult = client.query(searchField + ": %" + searchField + "%")
       .fields("id", searchField)
       .sortBy("id", Order.asc)
-      .rows(10000)
+      .rows(50000)
       .getResultAsMap(Map(searchField -> searchTerm.toString))
 
-    val docs = queryResult.documents.map(doc => {
-      val docMap = scala.collection.mutable.Map[String, String]()
+    // sentence detection
+    val docs = queryResult.documents
+      .map(doc => SentenceDetector.inference(doc(searchField).toString, searchField))
 
-      docMap("id") = doc("id").toString
-
-      if (searchField.equals("raw")) {
-        // parse HTML document
-        val htmlDoc = Jsoup.parse(doc(searchField).toString)
-        docMap(searchField) = htmlDoc.body().text()
-      }
-      else {
-        docMap(searchField) = doc(searchField).toString
-      }
-
-      docMap
-
-    })
-
-    println("Original:")
-    docs
-      .foreach { doc =>
-        println("id: " + doc("id"))
-        println(searchField + ": " + doc(searchField))
-      }
-
-    println("########")
-    println("Filtered and split:")
-    docs
-      .foreach { doc =>
-        println("id: " + doc("id"))
-        SentenceDetector.inference(doc(searchField))
-          .foreach(println)
-      }
+    println("Count: " + docs.length)
   }
-
 }
