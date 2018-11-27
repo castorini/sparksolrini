@@ -113,7 +113,11 @@ Navigate to the Spark root directory
 #### Experiment #1: SolrSeq
 
 ```
-java -cp /opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar cs848.nlp.SolrSeq --search <search-term> --field raw --collection http://192.168.152.201:8983/solr/cw09b    \
+java -cp /opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
+    cs848.nlp.SolrSeq \
+    --search <search-term> \
+    --field raw \
+    --collection http://192.168.152.201:8983/solr/cw09b \
     &> solr-seq-output.log
 ```
 
