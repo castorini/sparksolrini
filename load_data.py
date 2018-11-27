@@ -3,8 +3,7 @@ import os
 import subprocess
 import datetime
 
-#  nohup python3 load_data.py my-hdfs-client-7b486bf744-lrlhh &
-#  status will be logged to nohup.out
+#  python3 load_data.py my-hdfs-client-7b486bf744-lrlhh
 
 if len(sys.argv) < 2:
     print("usage: python3 load_data.py <hadoop client pod name>")
@@ -36,7 +35,7 @@ for (_, _, filenames) in os.walk(DATA_PATH):
         total += len(filenames)
 
 print("total # of files = ", total)
-print("start loading ", datetime.datetime.now())
+print("start loading ", str(datetime.datetime.now()))
 
 count = 0
 
@@ -89,6 +88,6 @@ for (dirpath, dirnames, filenames) in os.walk(DATA_PATH):
 
             count += 1;
 
-        print("current progress ", count, "/", total, "( ", count/total * 100 ," )", datetime.datetime.now())
+        print("current progress ", count, "/", total, "( ", count/total * 100 ," )", str(datetime.datetime.now()))
 
-print("data load was successful", datetime.datetime.now())
+print("data load was successful", str(datetime.datetime.now()))
