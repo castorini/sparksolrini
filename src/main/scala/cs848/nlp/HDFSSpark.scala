@@ -63,8 +63,12 @@ object HDFSSpark {
 //      .map(pair => ("id" -> pair(1))) // (fileName, fileContent)
 
     // sentence detection
-    docs.map(doc => SentenceDetector.inference(doc, searchField))
-
-    println("Count: " + docs.count)
+    docs
+//      .map(doc => SentenceDetector.inference(doc, searchField))
+      .foreach(doc => {
+        println("ID: ")
+        SentenceDetector.inference(doc, searchField)
+          .foreach(println)
+      })
   }
 }

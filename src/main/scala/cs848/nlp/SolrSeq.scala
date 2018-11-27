@@ -46,8 +46,11 @@ object SolrSeq {
 
     // sentence detection
     val docs = queryResult.documents
-      .map(doc => SentenceDetector.inference(doc(searchField).toString, searchField))
-
-    println("Count: " + docs.length)
+      //      .map(doc => SentenceDetector.inference(doc(searchField).toString, searchField))
+      .foreach(doc => {
+        println("ID: " + doc("id"))
+        SentenceDetector.inference(doc(searchField).toString, searchField)
+          .foreach(println)
+      })
   }
 }

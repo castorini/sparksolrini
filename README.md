@@ -104,21 +104,57 @@ each file will have start timestamp as part of its name.
 
 ### Cluster:
 
-Run ```sudo docker pull zeynepakkalyoncu/spark:spark-nlp4``` to get the latest image
+1. ClueWeb09b
 
-1. Sentence Detection on ClueWeb:
+Run ```sudo docker pull zeynepakkalyoncu/spark:cs848-nlp5``` to get the latest image
+
+Navigate to the Spark root directory
+
+#### Experiment #1: SolrSeq
+
+```
+java -cp /opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar cs848.nlp.SolrSeq --search <search-term> --field raw --collection http://192.168.152.201:8983/solr/cw09b    \
+    &> solr-seq-output.log
+```
+
+#### Experiment #2: SolrSpark
+
+```
+bin/spark-submit \
+    --master k8s://http://192.168.152.201:8080 \
+    --deploy-mode client \
+    --name sent-detector-solr-spark \
+    --class cs848.nlp.SolrSpark \
+    --conf spark.driver.memory=7g \
+    --conf spark.executor.instances=5 \
+    --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp5 \
+    --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
+    local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
+    --search <search-term> --field raw --collection http://192.168.152.201:8983/solr/cw09b  \
+    &> solr-spark-output.log
+```
+
+#### Experiment #3: HDFSSpark
 
 ```
 bin/spark-submit \
     --master k8s://https://192.168.152.201:6443 \
-    --deploy-mode cluster \
-    --name sent-detector \
-    --class cs848.nlp.NLPDriver \
+    --deploy-mode client \
+    --name sent-detector-hdfs-spark \
+    --class cs848.nlp.HDFSSpark \
+    --conf spark.driver.memory=5g \
     --conf spark.executor.instances=5 \
-    --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:spark-nlp4 \
+    --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp5 \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
     local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
-    --solr --search <search-term> --field raw --collection http://192.168.152.201:30257/solr/cw09b
+    --search <search-term> --field raw  \
+    &> hdfs-spark-output.log
+```
+
+Count number of records:
+
+```
+cat <output-file>.log | grep "ID: " | wc -l
 ```
 
 2. Core17:
@@ -134,28 +170,4 @@ bin/spark-submit \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
     local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
     --solr --search <search-term> --field contents --collection http://tuna.cs.uwaterloo.ca:8983/solr/core17
-```
-
-### Single Node:
-
-Build: 
-=======
-Run with
-
-```
-mvn clean package
-```
-
-Run:
-
-1) Sentence Detection on Solr Docs
-
-```
-spark-submit --class cs848.nlp.NLPDriver target/cs848-project-1.0-SNAPSHOT.jar --solr --search <search-term> --field <field> --collection http://tuna.cs.uwaterloo.ca:8983/solr/core17
-```
-
-2) Sentence Detection on Text Files
-
-```
-spark-submit --class cs848.nlp.NLPDriver target/cs848-project-1.0-SNAPSHOT.jar --input <file-path>
 ```
