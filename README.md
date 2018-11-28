@@ -95,10 +95,17 @@ Noe that providing machine name like `node3` does not work.
 ---
 ## Running metric collector
 
-To run metric collector, `python3 collect_metrics.py <sleep time in sec>`
+To collect CPU and RAM usage on kubernete run following command on tem 101.
+```
+python3 collect_metrics.py <sleep time in sec>
+```
 the script will create two .txt files under `metrics` directory, one for nodes, one for pods.
 each file will have start timestamp as part of its name.
 
+Similarly, to collect resource usage of driver running on tem127,
+```
+python3 collect_driver_metrics.py <seq/solr/spark> <search term> <sleep time in sec>
+```
 
 ## OpenNLP
 
