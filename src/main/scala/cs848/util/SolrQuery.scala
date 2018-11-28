@@ -4,6 +4,8 @@ import scala.collection.JavaConversions._
 import java.util
 import org.apache.solr.client.solrj.impl.CloudSolrClient
 import org.apache.solr.common.params.MapSolrParams
+import com.lucidworks.spark.rdd._
+import org.apache.spark.SparkContext
 
 object SolrQuery {
 
@@ -18,5 +20,11 @@ object SolrQuery {
 
     val response = solrClient.query(index, queryParams)
     response.getResults
+  }
+
+  def queryRDD(searchField: String, searchTerm: String, index: String, sc: SparkContext) = {
+    val solr = new SelectSolrRDD("192.168.152.201:32181", index, sc)
+    val result = solr.query(searchField + ":" + searchTerm)
+    result
   }
 }

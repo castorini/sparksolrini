@@ -104,9 +104,11 @@ each file will have start timestamp as part of its name.
 
 ### Gov2
 
-Run ```sudo docker pull zeynepakkalyoncu/spark:cs848-nlp5``` to get the latest image
+Run ```sudo docker pull zeynepakkalyoncu/spark:cs848-nlp13``` to get the latest image
 
 Navigate to the Spark root directory
+
+Make sure ```log4j.properties``` is in the current directory
 
 #### Experiment #1: SolrSeq
 
@@ -115,10 +117,10 @@ java -cp /opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
     cs848.nlp.SolrSeq \
     --search <search-term> \
     --field raw \
-    --collection http://192.168.152.201:8983/solr \
+    --collection http://192.168.152.201:8983/solr,http://192.168.152.202:8983/solr,http://192.168.152.203:8983/solr,http://192.168.152.204:8983/solr,http://192.168.152.205:8983/solr \
     --index gov2 \
     [--debug] \
-    &> solr-seq-output.log
+    [&> solr-seq-output.log]
 ```
 
 #### Experiment #2: SolrSpark
@@ -129,9 +131,9 @@ bin/spark-submit \
     --deploy-mode client \
     --name sent-detector-solr-spark \
     --class cs848.nlp.SolrSpark \
-    --conf spark.driver.memory=7g \
+    --conf spark.driver.memory=24g \
     --conf spark.executor.instances=5 \
-    --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp5 \
+    --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp13 \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
     local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
     --search <search-term> \
@@ -139,7 +141,7 @@ bin/spark-submit \
     --collection http://192.168.152.201:8983/solr \
     --index gov2 \
     [--debug] \
-    &> solr-spark-output.log
+    [&> solr-spark-output.log]
 ```
 
 #### Experiment #3: HDFSSpark
@@ -152,11 +154,11 @@ bin/spark-submit \
     --class cs848.nlp.HDFSSpark \
     --conf spark.driver.memory=5g \
     --conf spark.executor.instances=5 \
-    --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp5 \
+    --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp13 \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
     local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
     --search <search-term> --field raw  \
-    &> hdfs-spark-output.log
+    [&> hdfs-spark-output.log]
 ```
 
 Count number of records:

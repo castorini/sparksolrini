@@ -10,8 +10,9 @@ import cs848.util.{SentenceDetector, Stemmer}
 class HDFSConf(args: Seq[String]) extends ScallopConf(args) {
   mainOptions = Seq(search, field, debug)
 
-  val search = opt[String](descr = "search term")
-  val field = opt[String](descr = "search field")
+  val search = opt[String](descr = "search term", required=true)
+  val field = opt[String](descr = "search field", required=true)
+  val path = opt[String](descr = "hdfs path", required=true)
   val debug = opt[Boolean](descr = "debug / print")
 
   codependent(search, field)
@@ -34,8 +35,11 @@ object HDFSSpark {
     val searchTerm = Stemmer.stem(args.search())
     log.info("Search Term: " + searchTerm)
 
-    val searchField = args.field()
+    val searchField = args.field().toString
     log.info("Search Field: " + searchField)
+
+    val hdfsPath = args.path()
+    log.info("HDFS Path: " + hdfsPath)
 
     val debug = args.debug()
     log.info("Debug: " + debug)
@@ -53,18 +57,19 @@ object HDFSSpark {
 //      docs += ("id" -> textFile)
 //    }
 
-    val docs = sc.wholeTextFiles("hdfs://192.168.152.203/ClueWeb09b/ClueWeb09_English_1/*/*") // TODO: potential OOM
+    val docs = sc.wholeTextFiles("hdfs://192.168.152.203" + hdfsPath + "/*") // TODO: potential OOM
       .filter(_._2.contains(searchTerm))
       .map(_._2.toString)
 
     // sentence detection
     log.info("Performing sentence detection")
-    docs.foreach(doc => {
+    docs.map(doc => {
       val sents = SentenceDetector.inference(doc, searchField)
       if (debug) {
         println("ID: ")
         sents.foreach(println)
       }
+      sents
     })
   }
 }
