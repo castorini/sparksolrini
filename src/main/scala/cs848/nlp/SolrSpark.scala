@@ -26,7 +26,7 @@ object SolrSpark {
 
   def main(argv: Array[String]) = {
 
-    val conf = new SparkConf().setAppName("Solr Spark Driver") //.setJars(Array("/opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar"))
+    val conf = new SparkConf().setAppName("Solr Spark Driver").setJars(Array("/opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar"))
     val sc = new SparkContext(conf)
 
     val args = new SolrConf(argv)
