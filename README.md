@@ -102,9 +102,7 @@ each file will have start timestamp as part of its name.
 
 ## OpenNLP
 
-### Cluster:
-
-1. ClueWeb09b
+### Gov2
 
 Run ```sudo docker pull zeynepakkalyoncu/spark:cs848-nlp5``` to get the latest image
 
@@ -117,7 +115,9 @@ java -cp /opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
     cs848.nlp.SolrSeq \
     --search <search-term> \
     --field raw \
-    --collection http://192.168.152.201:8983/solr/cw09b \
+    --collection http://192.168.152.201:8983/solr \
+    --index gov2 \
+    [--debug] \
     &> solr-seq-output.log
 ```
 
@@ -134,7 +134,11 @@ bin/spark-submit \
     --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp5 \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
     local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
-    --search <search-term> --field raw --collection http://192.168.152.201:8983/solr/cw09b  \
+    --search <search-term> \
+    --field raw \
+    --collection http://192.168.152.201:8983/solr \
+    --index gov2 \
+    [--debug] \
     &> solr-spark-output.log
 ```
 

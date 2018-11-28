@@ -1,26 +1,18 @@
-//package cs848.nlp
-
-package hdfs.jsr203
-
-import cs848.util.{SentenceDetector, Stemmer}
+package cs848.nlp
 
 import org.apache.log4j.Logger
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.rogach.scallop.ScallopConf
-
-import java.nio.file.{Files, Paths}
-import java.net.URI
-
 import org.jsoup.Jsoup
+import cs848.util.{SentenceDetector, Stemmer}
 
-class HDFSSparkConf(args: Seq[String]) extends ScallopConf(args) {
-  mainOptions = Seq(search, field)
+class HDFSConf(args: Seq[String]) extends ScallopConf(args) {
+  mainOptions = Seq(search, field, debug)
 
   val search = opt[String](descr = "search term")
   val field = opt[String](descr = "search field")
-
-  //  val path = opt[String](descr = "hdfs path")
+  val debug = opt[Boolean](descr = "debug / print")
 
   codependent(search, field)
 
@@ -37,7 +29,7 @@ object HDFSSpark {
     val sc = new SparkContext(conf)
     sc.hadoopConfiguration.set("mapreduce.input.fileinputformat.input.dir.recursive", "true")
 
-    val args = new HDFSSparkConf(argv)
+    val args = new HDFSConf(argv)
 
     val searchTerm = Stemmer.stem(args.search())
     log.info("Search Term: " + searchTerm)
@@ -45,7 +37,11 @@ object HDFSSpark {
     val searchField = args.field()
     log.info("Search Field: " + searchField)
 
-    // traverse files recursively
+    val debug = args.debug()
+    log.info("Debug: " + debug)
+
+    // read from HDFS
+    log.info("Reading from HDFS")
 //    val hdfs = FileSystem.get(new URI("hdfs://192.168.152.203"), sc.hadoopConfiguration)
 //    val paths = hdfs.listFiles(new Path("/ClueWeb09b/ClueWeb09_English_1"), true)
 //
@@ -60,15 +56,15 @@ object HDFSSpark {
     val docs = sc.wholeTextFiles("hdfs://192.168.152.203/ClueWeb09b/ClueWeb09_English_1/*/*") // TODO: potential OOM
       .filter(_._2.contains(searchTerm))
       .map(_._2.toString)
-//      .map(pair => ("id" -> pair(1))) // (fileName, fileContent)
 
     // sentence detection
-    docs
-//      .map(doc => SentenceDetector.inference(doc, searchField))
-      .foreach(doc => {
+    log.info("Performing sentence detection")
+    docs.foreach(doc => {
+      val sents = SentenceDetector.inference(doc, searchField)
+      if (debug) {
         println("ID: ")
-        SentenceDetector.inference(doc, searchField)
-          .foreach(println)
-      })
+        sents.foreach(println)
+      }
+    })
   }
 }
