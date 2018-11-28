@@ -26,8 +26,11 @@ object SolrSpark {
 
   def main(argv: Array[String]) = {
 
-    val conf = new SparkConf().setAppName("Solr Spark Driver") //.setJars(Array("/opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar"))
+    log.info("abc123 1")
+    val conf = new SparkConf().setAppName("Solr Spark Driver")
+    log.info("abc123 2")
     val sc = new SparkContext(conf)
+    log.info("abc123 3")
 
     val args = new SolrConf(argv)
 
@@ -48,13 +51,17 @@ object SolrSpark {
 
     // query Solr
     log.info("Querying Solr")
+    log.info("abc123 4")
     val queryResult = SolrQuery.queryRDD(searchField, searchTerm, index, sc)
+    log.info("abc123 5")
     log.info("Num docs: " + queryResult.count)
 
     // sentence detection
     log.info("Performing sentence detection")
     val docs = queryResult.map(doc => {
+      log.info("abc123 6")
       val sents = SentenceDetector.inference(doc.get(searchField).toString, searchField)
+      log.info("abc123 7")
       if (debug) {
         log.info("ID: " + doc.get("id"))
         sents.foreach(println)
