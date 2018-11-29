@@ -11,9 +11,9 @@ object SolrQuery {
 
   def query(collectionUrls: String, searchField: String, searchTerm: String, index: String) = {
     val solrUrls = collectionUrls.split(",").toSeq
-    val solrClient = new CloudSolrClient.Builder().withSolrUrl(solrUrls).build()
-
-    solrClient.setConnectionTimeout(86400000)
+    val solrClient = new CloudSolrClient.Builder()
+      .withConnectionTimeout(86400000)
+      .withSolrUrl(solrUrls).build()
 
     val queryParamMap = new util.HashMap[String, String]()
     queryParamMap.put("q", searchField + ":" + searchTerm)
