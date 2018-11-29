@@ -13,6 +13,8 @@ object SolrQuery {
     val solrUrls = collectionUrls.split(",").toSeq
     val solrClient = new CloudSolrClient.Builder().withSolrUrl(solrUrls).build()
 
+    solrClient.setConnectionTimeout(86400000)
+
     val queryParamMap = new util.HashMap[String, String]()
     queryParamMap.put("q", searchField + ":" + searchTerm)
     queryParamMap.put("rows", 2147483630.toString)
