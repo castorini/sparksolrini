@@ -30,7 +30,8 @@ while True:
     mapping = {}
     for line in get_pods.split("\n")[1:]:
         splits = line.split()
-        mapping[splits[0]] = splits[6]
+        if len(splits) > 6:
+            mapping[splits[0]] = splits[6]
 
     top_pods = subprocess.check_output(["kubectl", "top", "pods"]).decode("utf-8")
 
