@@ -1,10 +1,11 @@
-package cs848.nlp
+package ca.uwaterloo.cs848
 
 import java.util.concurrent.{Executors, TimeUnit}
 
+import ca.uwaterloo.cs848.conf.SolrConf
+import ca.uwaterloo.cs848.util.SentenceDetector
 import com.google.common.base.Splitter
-import cs848.util.SentenceDetector
-import org.apache.log4j.{BasicConfigurator, Logger, PropertyConfigurator}
+import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.solr.client.solrj.SolrQuery
 import org.apache.solr.client.solrj.SolrQuery.SortClause
 import org.apache.solr.client.solrj.impl.CloudSolrClient
@@ -12,9 +13,8 @@ import org.apache.solr.common.SolrDocumentList
 import org.apache.solr.common.params.CursorMarkParams
 
 import scala.collection.JavaConverters._
-import scala.cs848.nlp.SolrConf
 
-object SolrSeq {
+object Solr {
 
   val MILLIS_IN_DAY = 1000 * 60 * 60 * 24
 

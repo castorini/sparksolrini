@@ -1,4 +1,4 @@
-package cs848.util
+package ca.uwaterloo.cs848.util
 
 import opennlp.tools.sentdetect.{SentenceDetectorME, SentenceModel}
 import org.jsoup.Jsoup
@@ -11,8 +11,9 @@ object SentenceDetector {
   def parse(inputText: String): String = {
     // parse HTML document
     val htmlDoc = Jsoup.parse(inputText)
-    try { htmlDoc.body().text() }
-    catch {
+    try {
+      htmlDoc.body().text()
+    } catch {
       case e: Exception => println("exception caught: " + e);
         ""
     }

@@ -117,11 +117,11 @@ Navigate to the Spark root directory
 
 Make sure ```log4j.properties``` is in the current directory
 
-#### Experiment #1: SolrSeq
+#### Experiment #1: Solr
 
 ```
 java -cp /opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
-    cs848.nlp.SolrSeq \
+    ca.uwaterloo.cs848.Solr \
     --term <search-term> \
     --field raw \
     --solr http://192.168.152.201:8983/solr,http://192.168.152.202:8983/solr,http://192.168.152.203:8983/solr,http://192.168.152.204:8983/solr,http://192.168.152.205:8983/solr \
@@ -137,28 +137,28 @@ bin/spark-submit \
     --master k8s://http://192.168.152.201:8080 \
     --deploy-mode client \
     --name sent-detector-solr-spark \
-    --class cs848.nlp.SolrSpark \
+    --class ca.uwaterloo.cs848.SolrSpark \
     --conf spark.driver.memory=24g \
     --conf spark.executor.instances=5 \
     --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp13 \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
-    local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
+    <path_to_jar_on_tem127> \
     --term <search-term> \
     --field raw \
-    --solr http://192.168.152.201:8983/solr \
+    --solr 192.168.152.201:32181 \
     --index gov2 \
     [--debug] \
     [&> solr-spark-output.log]
 ```
 
-#### Experiment #3: HDFSSpark
+#### Experiment #3: HdfsSpark
 
 ```
 bin/spark-submit \
     --master k8s://https://192.168.152.201:6443 \
     --deploy-mode client \
     --name sent-detector-hdfs-spark \
-    --class cs848.nlp.HDFSSpark \
+    --class ca.uwaterloo.cs848.HdfsSpark \
     --conf spark.driver.memory=5g \
     --conf spark.executor.instances=5 \
     --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp13 \
@@ -172,19 +172,4 @@ Count number of records:
 
 ```
 cat <output-file>.log | grep "ID: " | wc -l
-```
-
-2. Core17:
-
-```
-bin/spark-submit \
-    --master k8s://https://192.168.152.201:6443 \
-    --deploy-mode cluster \
-    --name sent-detector \
-    --class cs848.nlp.NLPDriver \
-    --conf spark.executor.instances=5 \
-    --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:spark-nlp4 \
-    --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
-    local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
-    --solr --search <search-term> --field contents --collection http://tuna.cs.uwaterloo.ca:8983/solr/core17
 ```
