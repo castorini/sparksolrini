@@ -122,9 +122,9 @@ Make sure ```log4j.properties``` is in the current directory
 ```
 java -cp /opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
     cs848.nlp.SolrSeq \
-    --search <search-term> \
+    --term <search-term> \
     --field raw \
-    --collection http://192.168.152.201:8983/solr,http://192.168.152.202:8983/solr,http://192.168.152.203:8983/solr,http://192.168.152.204:8983/solr,http://192.168.152.205:8983/solr \
+    --solr http://192.168.152.201:8983/solr,http://192.168.152.202:8983/solr,http://192.168.152.203:8983/solr,http://192.168.152.204:8983/solr,http://192.168.152.205:8983/solr \
     --index gov2 \
     [--debug] \
     [&> solr-seq-output.log]
@@ -143,9 +143,9 @@ bin/spark-submit \
     --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp13 \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
     local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
-    --search <search-term> \
+    --term <search-term> \
     --field raw \
-    --collection http://192.168.152.201:8983/solr \
+    --solr http://192.168.152.201:8983/solr \
     --index gov2 \
     [--debug] \
     [&> solr-spark-output.log]
@@ -164,7 +164,7 @@ bin/spark-submit \
     --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp13 \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
     local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
-    --search <search-term> --field raw  \
+    --term <search-term> --field raw  \
     [&> hdfs-spark-output.log]
 ```
 

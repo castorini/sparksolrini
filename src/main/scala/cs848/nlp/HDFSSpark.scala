@@ -8,14 +8,14 @@ import org.jsoup.Jsoup
 import cs848.util.{SentenceDetector, Stemmer}
 
 class HDFSConf(args: Seq[String]) extends ScallopConf(args) {
-  mainOptions = Seq(search, field, debug)
+  mainOptions = Seq(term, field, debug)
 
-  val search = opt[String](descr = "search term", required=true)
+  val term = opt[String](descr = "search term", required=true)
   val field = opt[String](descr = "search field", required=true)
   val path = opt[String](descr = "hdfs path", required=true)
   val debug = opt[Boolean](descr = "debug / print")
 
-  codependent(search, field)
+  codependent(term, field)
 
   verify()
 }
@@ -32,7 +32,7 @@ object HDFSSpark {
 
     val args = new HDFSConf(argv)
 
-    val searchTerm = Stemmer.stem(args.search())
+    val searchTerm = Stemmer.stem(args.term())
     log.info("Search Term: " + searchTerm)
 
     val searchField = args.field().toString
@@ -57,6 +57,8 @@ object HDFSSpark {
 //      docs += ("id" -> textFile)
 //    }
 
+    val sentenceDetector = new SentenceDetector()
+
     val docs = sc.wholeTextFiles("hdfs://192.168.152.203" + hdfsPath + "/*") // TODO: potential OOM
       .filter(_._2.contains(searchTerm))
       .map(_._2.toString)
@@ -64,7 +66,7 @@ object HDFSSpark {
     // sentence detection
     log.info("Performing sentence detection")
     docs.map(doc => {
-      val sents = SentenceDetector.inference(doc, searchField)
+      val sents = sentenceDetector.inference(doc, searchField)
       if (debug) {
         println("ID: ")
         sents.foreach(println)
