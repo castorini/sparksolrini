@@ -1,46 +1,124 @@
 package cs848.nlp
 
+import java.util.concurrent.{Executors, TimeUnit}
+
+import com.google.common.base.Splitter
+import cs848.util.SentenceDetector
+import org.apache.log4j.{BasicConfigurator, Logger, PropertyConfigurator}
+import org.apache.solr.client.solrj.SolrQuery
+import org.apache.solr.client.solrj.SolrQuery.SortClause
+import org.apache.solr.client.solrj.impl.CloudSolrClient
+import org.apache.solr.common.SolrDocumentList
+import org.apache.solr.common.params.CursorMarkParams
+
 import scala.collection.JavaConverters._
-import org.apache.log4j.{Logger, PropertyConfigurator}
-import cs848.util.{SentenceDetector, SolrQuery}
+import scala.cs848.nlp.SolrConf
 
 object SolrSeq {
 
+  val MILLIS_IN_DAY = 1000 * 60 * 60 * 24
+
+  // Setup logging
   val log = Logger.getLogger(getClass.getName)
   PropertyConfigurator.configure("log4j.properties")
 
   def main(argv: Array[String]) = {
 
+    // Parse command line args
     val args = new SolrConf(argv)
+    log.info(args.summary)
 
-    val searchTerm = args.search().toString
-    log.info("Search Term: " + searchTerm)
+    // Start timing the experiment now
+    val start = System.currentTimeMillis
 
-    val searchField = args.field().toString
-    log.info("Search Field: " + searchField)
+    // Parse Solr URLs
+    val solrUrls = Splitter.on(',').splitToList(args.solr())
 
-    val collectionUrls = args.collection()
-    log.info("Collection URL: " + collectionUrls)
+    // Build the SolrClient.
+    val solrClient = new CloudSolrClient.Builder()
+      .withConnectionTimeout(MILLIS_IN_DAY)
+      .withSolrUrl(solrUrls)
+      .build()
 
-    val index = args.index()
-    log.info("Index Name: " + index)
+    // Set the default collection
+    solrClient.setDefaultCollection(args.index())
 
-    val debug = args.debug()
-    log.info("Debug: " + debug)
+    // # of executors = # of cores
+    val executorService = Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors)
 
-    // query Solr
-    log.info("Querying Solr")
-    val queryResult = SolrQuery.query(collectionUrls, searchField, searchTerm, index).asScala
-    log.info("Num docs: " + queryResult.size)
+    // SolrJ cursor setup
+    var done = false
+    var cursorMark = CursorMarkParams.CURSOR_MARK_START
 
-    // sentence detection
-    log.info("Performing sentence detection")
-    val docs = queryResult.map(doc => {
-        val sents = SentenceDetector.inference(doc.get(searchField).toString, searchField)
+    // The query to run
+    val query = new SolrQuery(args.field() + ":" + args.term()).setRows(args.rows()).setSort(SortClause.asc("id"))
+
+    while (!done) {
+
+      // Update cursor
+      query.set(CursorMarkParams.CURSOR_MARK_PARAM, cursorMark)
+
+      log.info(s"Querying Solr w/ cursorMark=$cursorMark")
+
+      // Do query
+      val response = solrClient.query(query)
+
+      // Get new cursor from response
+      val nextCursorMark = response.getNextCursorMark
+
+      // The documents
+      val docs = response.getResults
+      log.info(s"Num docs: ${docs.size}")
+
+      // Do sentence detection in a new Thread
+      if (!docs.isEmpty) {
+        executorService.submit(new SentenceDetectionTask(docs, args.field(), args.debug()))
+      }
+
+      // End of results
+      if (cursorMark.equals(nextCursorMark)) {
+        done = true
+      }
+
+      // Update prev cursor
+      cursorMark = nextCursorMark
+
+    }
+
+    // Clean-up
+    solrClient.close
+    executorService.shutdown
+
+    // Wait for any remaining sentence detection tasks to finish
+    while (!executorService.awaitTermination(10, TimeUnit.SECONDS)) {
+      log.info("Waiting for sentence detection to finish...")
+    }
+
+    // Print out total time
+    log.info(s"Took ${System.currentTimeMillis - start}ms")
+
+  }
+
+  // Wrap a Runnable so we can pass in some params
+  class SentenceDetectionTask(docs: SolrDocumentList, searchField: String, debug: Boolean) extends Runnable {
+
+    val sentenceDetector = new SentenceDetector()
+
+    override def run(): Unit = {
+
+      log.info("Sentence detection starting...")
+
+      docs.asScala.foreach(doc => {
+        val sentences = sentenceDetector.inference(doc.get(searchField).toString, searchField)
         if (debug) {
           log.info("ID: " + doc.get("id"))
-          sents.foreach(println)
+          sentences.foreach(println)
         }
       })
+
+      log.info("Sentence detection done...")
+
+    }
   }
+
 }
