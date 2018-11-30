@@ -1,4 +1,4 @@
-package scala.cs848.nlp
+package ca.uwaterloo.cs848.conf
 
 import org.rogach.scallop.ScallopConf
 
