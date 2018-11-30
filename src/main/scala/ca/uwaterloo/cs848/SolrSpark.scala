@@ -31,7 +31,7 @@ object SolrSpark {
       .query(field + ":" + term)
       .foreach(doc => {
         val sentenceDetector = new SentenceDetector()
-        val sentences = sentenceDetector.inference(doc.get(field).toString, field)
+        val sentences = sentenceDetector.inference(doc.get(field).toString)
         if (debug) {
           log.info("ID: " + doc.get("id"))
           sentences.foreach(println)

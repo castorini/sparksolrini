@@ -109,7 +109,7 @@ object Solr {
       log.info("Sentence detection starting...")
 
       docs.asScala.foreach(doc => {
-        val sentences = sentenceDetector.inference(doc.get(searchField).toString, searchField)
+        val sentences = sentenceDetector.inference(doc.get(searchField).toString)
         if (debug) {
           log.info("ID: " + doc.get("id"))
           sentences.foreach(println)
