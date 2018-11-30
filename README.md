@@ -95,30 +95,39 @@ Noe that providing machine name like `node3` does not work.
 ---
 ## Running metric collector
 
-To run metric collector, `python3 collect_metrics.py <sleep time in sec>`
+To collect CPU and RAM usage on kubernete run following command on tem 101.
+```
+python3 collect_metrics.py <sleep time in sec>
+```
 the script will create two .txt files under `metrics` directory, one for nodes, one for pods.
 each file will have start timestamp as part of its name.
 
+Similarly, to collect resource usage of driver running on tem127,
+```
+python3 collect_driver_metrics.py <seq/solr/spark> <search term> <sleep time in sec>
+```
 
 ## OpenNLP
 
-### Cluster:
+### Gov2
 
-1. ClueWeb09b
-
-Run ```sudo docker pull zeynepakkalyoncu/spark:cs848-nlp5``` to get the latest image
+Run ```sudo docker pull zeynepakkalyoncu/spark:cs848-nlp13``` to get the latest image
 
 Navigate to the Spark root directory
 
-#### Experiment #1: SolrSeq
+Make sure ```log4j.properties``` is in the current directory
+
+#### Experiment #1: Solr
 
 ```
 java -cp /opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
-    cs848.nlp.SolrSeq \
-    --search <search-term> \
+    ca.uwaterloo.cs848.Solr \
+    --term <search-term> \
     --field raw \
-    --collection http://192.168.152.201:8983/solr/cw09b \
-    &> solr-seq-output.log
+    --solr http://192.168.152.201:8983/solr,http://192.168.152.202:8983/solr,http://192.168.152.203:8983/solr,http://192.168.152.204:8983/solr,http://192.168.152.205:8983/solr \
+    --index gov2 \
+    [--debug] \
+    [&> solr-seq-output.log]
 ```
 
 #### Experiment #2: SolrSpark
@@ -128,50 +137,39 @@ bin/spark-submit \
     --master k8s://http://192.168.152.201:8080 \
     --deploy-mode client \
     --name sent-detector-solr-spark \
-    --class cs848.nlp.SolrSpark \
-    --conf spark.driver.memory=7g \
+    --class ca.uwaterloo.cs848.SolrSpark \
+    --conf spark.driver.memory=24g \
     --conf spark.executor.instances=5 \
-    --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp5 \
+    --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp13 \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
-    local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
-    --search <search-term> --field raw --collection http://192.168.152.201:8983/solr/cw09b  \
-    &> solr-spark-output.log
+    <path_to_jar_on_tem127> \
+    --term <search-term> \
+    --field raw \
+    --solr 192.168.152.201:32181 \
+    --index gov2 \
+    [--debug] \
+    [&> solr-spark-output.log]
 ```
 
-#### Experiment #3: HDFSSpark
+#### Experiment #3: HdfsSpark
 
 ```
 bin/spark-submit \
     --master k8s://https://192.168.152.201:6443 \
     --deploy-mode client \
     --name sent-detector-hdfs-spark \
-    --class cs848.nlp.HDFSSpark \
+    --class ca.uwaterloo.cs848.HdfsSpark \
     --conf spark.driver.memory=5g \
     --conf spark.executor.instances=5 \
-    --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp5 \
+    --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp13 \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
     local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
-    --search <search-term> --field raw  \
-    &> hdfs-spark-output.log
+    --term <search-term> --field raw  \
+    [&> hdfs-spark-output.log]
 ```
 
 Count number of records:
 
 ```
 cat <output-file>.log | grep "ID: " | wc -l
-```
-
-2. Core17:
-
-```
-bin/spark-submit \
-    --master k8s://https://192.168.152.201:6443 \
-    --deploy-mode cluster \
-    --name sent-detector \
-    --class cs848.nlp.NLPDriver \
-    --conf spark.executor.instances=5 \
-    --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:spark-nlp4 \
-    --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
-    local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
-    --solr --search <search-term> --field contents --collection http://tuna.cs.uwaterloo.ca:8983/solr/core17
 ```

@@ -33,20 +33,6 @@
     </dependency>
 
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.4</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.specs</groupId>
-      <artifactId>specs</artifactId>
-      <version>1.2.5</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-core_2.11</artifactId>
       <version>2.4.0</version>
@@ -66,12 +52,6 @@
       <version>3.1.1</version>
     </dependency>
 
-    <dependency>
-      <groupId>com.github.takezoe</groupId>
-      <artifactId>solr-scala-client_2.11</artifactId>
-      <version>0.0.19</version>
-    </dependency>
-
     <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
     <dependency>
       <groupId>org.jsoup</groupId>
@@ -81,21 +61,27 @@
 
     <dependency>
       <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-core</artifactId>
-      <version>7.5.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-analyzers-common</artifactId>
       <version>7.5.0</version>
     </dependency>
 
-    <!--<dependency>-->
-      <!--<groupId>org.apache.httpcomponents</groupId>-->
-      <!--<artifactId>httpclient</artifactId>-->
-      <!--<version>4.3.5</version>-->
-    <!--</dependency>-->
+    <dependency>
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr-solrj</artifactId>
+      <version>7.5.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.lucidworks.spark</groupId>
+      <artifactId>spark-solr</artifactId>
+      <version>3.6.0</version>
+    </dependency>
 
   </dependencies>
 
