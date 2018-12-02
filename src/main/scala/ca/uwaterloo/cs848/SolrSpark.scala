@@ -8,6 +8,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 object SolrSpark {
 
+  // Setup logging
   val log = Logger.getLogger(getClass.getName)
   PropertyConfigurator.configure("log4j.properties")
 
@@ -21,10 +22,10 @@ object SolrSpark {
     val conf = new SparkConf().setAppName(getClass.getSimpleName)
     val sc = new SparkContext(conf)
 
-    // Start timing the experiment
-    val start = System.currentTimeMillis()
-
     val (solr, index, rows, field, term, debug) = (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.debug())
+
+    // Start timing the experiment
+    val start = System.currentTimeMillis
 
     val rdd = new SelectSolrRDD(solr, index, sc)
       .rows(rows)
@@ -38,10 +39,10 @@ object SolrSpark {
         }
       })
 
+    log.info(s"Took ${System.currentTimeMillis - start}ms")
+
     // Need to manually call stop()
     sc.stop()
-
-    log.info(s"Took ${System.currentTimeMillis() - start}ms")
 
   }
 }

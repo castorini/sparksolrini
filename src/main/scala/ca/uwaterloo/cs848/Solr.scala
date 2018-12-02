@@ -28,9 +28,6 @@ object Solr {
     val args = new SolrConf(argv)
     log.info(args.summary)
 
-    // Start timing the experiment now
-    val start = System.currentTimeMillis
-
     // Parse Solr URLs
     val solrUrls = Splitter.on(',').splitToList(args.solr())
 
@@ -52,6 +49,9 @@ object Solr {
 
     // The query to run
     val query = new SolrQuery(args.field() + ":" + args.term()).setRows(args.rows()).setSort(SortClause.asc("id"))
+
+    // Start timing the experiment now
+    val start = System.currentTimeMillis
 
     while (!done) {
 
