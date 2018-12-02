@@ -120,7 +120,7 @@ Make sure ```log4j.properties``` is in the current directory
 #### Experiment #1: Solr
 
 ```
-java -cp /opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
+java -Xms24g -Xmx30g -cp target/cs848-project-1.0-SNAPSHOT.jar \
     ca.uwaterloo.cs848.Solr \
     --term <search-term> \
     --field raw \
