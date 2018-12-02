@@ -24,7 +24,7 @@ def wrap_kubectl_cp(source, dest) :
     return "kubectl cp " + source + " "+ POD_NAME + ":" + dest
 
 def exec_cmd(command) :
-    print("\t \t executing - ", command)
+    # print("\t \t executing - ", command)
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
     process.wait()
     return process
@@ -40,6 +40,12 @@ print("start loading ", str(datetime.datetime.now()))
 count = 0
 
 for (dirpath, dirnames, filenames) in os.walk(DATA_PATH):
+    if "gov2" not in dirpath:
+        continue
+
+    if "gov2-extras" in dirpath:
+        continue
+
     hdfs_dirpath = dirpath[len(DATA_PATH):]
 
     process = exec_cmd(wrap_kubectl_exec("hadoop fs -mkdir -p /" + hdfs_dirpath))
@@ -50,6 +56,7 @@ for (dirpath, dirnames, filenames) in os.walk(DATA_PATH):
         for filename in filenames:
             if filename.endswith(".gz"):
                 path = hdfs_dirpath + '/' + filename[:-3]
+                print('\tprocessing ' + path)
 
                 # generate temp gz
                 command = "cp " + CLIENT_DATA_PATH + path + ".gz " + CLIENT_DATA_PATH + path + "_temp.gz"
