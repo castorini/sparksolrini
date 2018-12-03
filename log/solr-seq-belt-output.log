@@ -1,0 +1,48 @@
+2018-11-29 00:13:36 INFO  SolrSeq$:17 - Search Term: belt
+2018-11-29 00:13:36 INFO  SolrSeq$:20 - Search Field: raw
+2018-11-29 00:13:36 INFO  SolrSeq$:23 - Collection URL: http://192.168.152.201:8983/solr,http://192.168.152.202:8983/solr,http://192.168.152.203:8983/solr,http://192.168.152.204:8983/solr,http://192.168.152.205:8983/solr
+2018-11-29 00:13:36 INFO  SolrSeq$:26 - Index Name: gov2
+2018-11-29 00:13:36 INFO  SolrSeq$:29 - Debug: false
+2018-11-29 00:13:36 INFO  SolrSeq$:32 - Querying Solr
+2018-11-29 00:20:16 INFO  SolrSeq$:34 - Num docs: 99287
+2018-11-29 00:20:16 INFO  SolrSeq$:37 - Performing sentence detection
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+exception caught: java.lang.NullPointerException
+2018-11-29 00:25:23 INFO  SolrSeq$:45 - Sequential processing completed
