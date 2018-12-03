@@ -22,9 +22,9 @@ delta = math.floor(len(x) / graph_freq)
 x = x[0::delta]
 y = y[0::delta]
 
+plt.subplots_adjust(left=0.2)
 plt.plot(x, y)
-plt.xlabel('document frequency')
-plt.ylabel('document count')
-plt.title('count vs frequency')
-plt.savefig("words_distribution.png")
+plt.xlabel('Document frequency', fontsize='large')
+plt.ylabel('Number of words', fontsize='large')
+plt.savefig("Document_distribution.pdf")
 plt.show()
