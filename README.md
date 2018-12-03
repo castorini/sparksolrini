@@ -24,7 +24,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp; from tem101 (cluster mode)
 ```
 bin/spark-submit \
-    --master k8s://https://192.168.152.201:6443 \
+    --master k8s://http://192.168.152.201:8080 \
     --deploy-mode cluster \
     --name <job_name> \
     --class <class_name> \
@@ -40,7 +40,7 @@ bin/spark-submit \
 &nbsp;&nbsp;&nbsp;&nbsp; to run WordCount example,
 ```
 bin/spark-submit \
-    --master k8s://https://192.168.152.201:6443 \
+    --master k8s://http://192.168.152.201:8080 \
     --deploy-mode cluster \
     --name word-count \
     --class cs848.wordcount.WordCount \
@@ -155,7 +155,7 @@ bin/spark-submit \
 
 ```
 bin/spark-submit \
-    --master k8s://https://192.168.152.201:6443 \
+    --master k8s://http://192.168.152.201:8080 \
     --deploy-mode client \
     --name sent-detector-hdfs-spark \
     --class ca.uwaterloo.cs848.HdfsSpark \
