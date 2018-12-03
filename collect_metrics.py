@@ -4,18 +4,25 @@ import subprocess
 import sys
 import time
 
-if len(sys.argv) < 2:
-    print("usage: python3 collect_metrics.py <sleep time in sec>")
+
+if len(sys.argv) < 4:
+    print("usage: python3 collect_metrics.py <seq/solr/spark> <search term> <sleep time in sec>")
     sys.exit()
 
 DIR_NAME = 'metrics'
+EX_TYPE = sys.argv[1]
+SEARCH_TERM = sys.argv[2]
+
+if EX_TYPE != "seq" and EX_TYPE != "solr" and EX_TYPE == "spark":
+    print("usage: python3 collect_metrics.py <seq/solr/spark> <search term> <sleep time in sec>")
+    sys.exit()
 
 pathlib.Path(DIR_NAME).mkdir(parents=True, exist_ok=True)
 
-start_time = datetime.datetime.now()
+nodes_metrics_file = open(DIR_NAME+"/"+EX_TYPE+"_"+SEARCH_TERM+"_node.txt", "w+")
+pods_metrics_file = open(DIR_NAME+"/"+EX_TYPE+"_"+SEARCH_TERM+"_pod.txt", "w+")
 
-nodes_metrics_file = open(DIR_NAME+"/nodes_"+str(start_time)+".txt", "w+")
-pods_metrics_file = open(DIR_NAME+"/pods_"+str(start_time)+".txt", "w+")
+start_time = datetime.datetime.now()
 
 while True:
     current_time = datetime.datetime.now()
@@ -40,4 +47,4 @@ while True:
             splits = line.split()
             pods_metrics_file.write(str(time_elapsed)+"\t"+line+"\t" + mapping[splits[0]] + "\n")
 
-    time.sleep(int(sys.argv[1]))
+    time.sleep(int(sys.argv[3]))
