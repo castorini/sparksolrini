@@ -24,7 +24,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp; from tem101 (cluster mode)
 ```
 bin/spark-submit \
-    --master k8s://https://192.168.152.201:6443 \
+    --master k8s://http://192.168.152.201:8080 \
     --deploy-mode cluster \
     --name <job_name> \
     --class <class_name> \
@@ -40,7 +40,7 @@ bin/spark-submit \
 &nbsp;&nbsp;&nbsp;&nbsp; to run WordCount example,
 ```
 bin/spark-submit \
-    --master k8s://https://192.168.152.201:6443 \
+    --master k8s://http://192.168.152.201:8080 \
     --deploy-mode cluster \
     --name word-count \
     --class cs848.wordcount.WordCount \
@@ -97,7 +97,7 @@ Noe that providing machine name like `node3` does not work.
 
 To collect CPU and RAM usage on kubernete run following command on tem 101.
 ```
-python3 collect_metrics.py <sleep time in sec>
+python3 collect_metrics.py <seq/solr/spark> <search term> <sleep time in sec>
 ```
 the script will create two .txt files under `metrics` directory, one for nodes, one for pods.
 each file will have start timestamp as part of its name.
@@ -120,7 +120,7 @@ Make sure ```log4j.properties``` is in the current directory
 #### Experiment #1: Solr
 
 ```
-java -cp /opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
+java -Xms24g -Xmx30g -cp target/cs848-project-1.0-SNAPSHOT.jar \
     ca.uwaterloo.cs848.Solr \
     --term <search-term> \
     --field raw \
@@ -155,7 +155,7 @@ bin/spark-submit \
 
 ```
 bin/spark-submit \
-    --master k8s://https://192.168.152.201:6443 \
+    --master k8s://http://192.168.152.201:8080 \
     --deploy-mode client \
     --name sent-detector-hdfs-spark \
     --class ca.uwaterloo.cs848.HdfsSpark \
