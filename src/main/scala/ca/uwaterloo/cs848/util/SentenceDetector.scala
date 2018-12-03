@@ -26,9 +26,8 @@ class SentenceDetector {
 
   val sentenceDetector = new SentenceDetectorME(SentenceDetector.model)
 
-  def inference(inputText: String, searchField: String) = {
-    val input = if (searchField.equals("raw")) SentenceDetector.parse(inputText) else inputText
-    sentenceDetector.sentDetect(input)
+  def inference(inputText: String) = {
+    sentenceDetector.sentDetect(SentenceDetector.parse(inputText))
   }
 
 }
