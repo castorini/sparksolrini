@@ -142,6 +142,9 @@ bin/spark-submit \
     --conf spark.executor.instances=5 \
     --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp13 \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
+    --conf spark.kubernetes.executor.limit.cores=12 \
+    --conf spark.kubernetes.executor.request.cores=11 \
+    --conf spark.executor.cores=11 \
     <path_to_jar_on_tem127> \
     --term <search-term> \
     --field raw \
@@ -163,6 +166,9 @@ bin/spark-submit \
     --conf spark.executor.instances=5 \
     --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp13 \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
+    --conf spark.kubernetes.executor.limit.cores=12 \
+    --conf spark.kubernetes.executor.request.cores=11 \
+    --conf spark.executor.cores=11 \
     local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
     --term <search-term> --field raw  \
     [&> hdfs-spark-output.log]
