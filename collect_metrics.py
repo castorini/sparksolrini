@@ -13,7 +13,7 @@ DIR_NAME = 'metrics'
 EX_TYPE = sys.argv[1]
 SEARCH_TERM = sys.argv[2]
 
-if EX_TYPE != "seq" and EX_TYPE != "solr" and EX_TYPE == "spark":
+if EX_TYPE != "seq" and EX_TYPE != "solr" and EX_TYPE != "spark":
     print("usage: python3 collect_metrics.py <seq/solr/spark> <search term> <sleep time in sec>")
     sys.exit()
 
