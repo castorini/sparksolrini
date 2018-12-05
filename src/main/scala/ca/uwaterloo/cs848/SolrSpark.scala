@@ -1,7 +1,6 @@
 package ca.uwaterloo.cs848
 
 import ca.uwaterloo.cs848.conf.SolrConf
-import ca.uwaterloo.cs848.util.SentenceDetector
 import com.lucidworks.spark.rdd.SelectSolrRDD
 import org.apache.log4j.{Level, Logger, PropertyConfigurator}
 import org.apache.solr.client.solrj.SolrQuery
