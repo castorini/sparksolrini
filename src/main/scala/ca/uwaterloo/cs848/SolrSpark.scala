@@ -28,6 +28,7 @@ object SolrSpark {
     val start = System.currentTimeMillis
 
     val rdd = new SelectSolrRDD(solr, index, sc)
+      .splitsPerShard(1)
       .rows(rows)
       .query(field + ":" + term)
       .foreachPartition(partition => {
