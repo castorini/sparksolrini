@@ -28,7 +28,7 @@ object SolrSpark {
     // Start timing the experiment
     val start = System.currentTimeMillis
 
-    val query = new SolrQuery(term + ":" + field)
+    val query = new SolrQuery(field + ":" + term)
     query.set("rows", 1000)
     query.set("max_rows", 1000)
 
