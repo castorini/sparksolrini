@@ -3,16 +3,22 @@ package ca.uwaterloo.cs848
 import ca.uwaterloo.cs848.conf.SolrConf
 import ca.uwaterloo.cs848.util.SentenceDetector
 import com.lucidworks.spark.rdd.SelectSolrRDD
-import org.apache.log4j.{Logger, PropertyConfigurator}
+import org.apache.log4j.{BasicConfigurator, Level, Logger}
+import org.apache.solr.client.solrj.SolrQuery
+import org.apache.solr.client.solrj.SolrQuery.SortClause
 import org.apache.spark.{SparkConf, SparkContext}
 
 object SolrSpark {
 
-  // Setup logging
   val log = Logger.getLogger(getClass.getName)
-  PropertyConfigurator.configure("log4j.properties")
 
   def main(argv: Array[String]) = {
+
+    // Configure logging, no need for log4j.properties
+    BasicConfigurator.configure()
+
+    // Set debugging log level
+    Logger.getRootLogger.setLevel(Level.DEBUG)
 
     // Parse command line args
     val args = new SolrConf(argv)
@@ -27,10 +33,12 @@ object SolrSpark {
     // Start timing the experiment
     val start = System.currentTimeMillis
 
+    // The query to run
+    val query = new SolrQuery(field + ":" + term).setSort(SortClause.asc("id"))
+
     val rdd = new SelectSolrRDD(solr, index, sc)
       .rows(rows)
-      .doSplits()
-      .query(field + ":" + term)
+      .query(query)
       .foreachPartition(partition => {
         val sentenceDetector = new SentenceDetector()
         partition.foreach(doc => {
