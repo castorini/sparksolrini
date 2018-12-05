@@ -138,7 +138,8 @@ bin/spark-submit \
     --deploy-mode client \
     --name sent-detector-solr-spark \
     --class ca.uwaterloo.cs848.SolrSpark \
-    --conf spark.driver.memory=24g \
+    --conf spark.driver.memory=16g \
+    --conf spark.executor.memory=8g \
     --conf spark.executor.instances=5 \
     --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp13 \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
@@ -162,7 +163,8 @@ bin/spark-submit \
     --deploy-mode client \
     --name sent-detector-hdfs-spark \
     --class ca.uwaterloo.cs848.HdfsSpark \
-    --conf spark.driver.memory=5g \
+    --conf spark.driver.memory=16g \
+    --conf spark.executor.memory=8g \
     --conf spark.executor.instances=5 \
     --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp13 \
     --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
