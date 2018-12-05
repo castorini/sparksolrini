@@ -13,9 +13,11 @@ class SolrConf(args: Seq[String]) extends ScallopConf(args) {
   val index = opt[String](descr = "Solr index name", required = true)
 
   val rows = opt[Int](descr = "number of rows to return per request", default = Some(1000))
+  val parallelism = opt[Int](descr = "number of cores/executors/etc. to use", default = Some(12))
+
   val debug = opt[Boolean](descr = "debug / print")
 
-  codependent(term, field, solr, index)
+  codependent(field, term, solr, index)
 
   verify()
 
