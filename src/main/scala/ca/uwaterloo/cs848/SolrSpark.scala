@@ -3,18 +3,16 @@ package ca.uwaterloo.cs848
 import ca.uwaterloo.cs848.conf.SolrConf
 import ca.uwaterloo.cs848.util.SentenceDetector
 import com.lucidworks.spark.rdd.SelectSolrRDD
-import org.apache.log4j.{Level, Logger, PropertyConfigurator}
+import org.apache.log4j.{BasicConfigurator, Level, Logger}
 import org.apache.spark.{SparkConf, SparkContext}
 
 object SolrSpark {
 
   val log = Logger.getLogger(getClass.getName)
-  PropertyConfigurator.configure("log4j.properties")
+  BasicConfigurator.configure()
+  Logger.getLogger(classOf[SelectSolrRDD]).setLevel(Level.DEBUG)
 
   def main(argv: Array[String]) = {
-
-    // Set debugging log level
-    Logger.getLogger("org.apache.solr").setLevel(Level.DEBUG)
 
     // Parse command line args
     val args = new SolrConf(argv)
@@ -28,7 +26,7 @@ object SolrSpark {
 
     // Start timing the experiment
     val start = System.currentTimeMillis
-    
+
     val rdd = new SelectSolrRDD(solr, index, sc)
       .rows(rows)
       .query(field + ":" + term)
