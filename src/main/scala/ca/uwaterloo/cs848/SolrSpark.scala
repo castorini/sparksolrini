@@ -29,15 +29,20 @@ object SolrSpark {
 
     val rdd = new SelectSolrRDD(solr, index, sc)
       .rows(rows)
+      .doSplits()
       .query(field + ":" + term)
-      .foreach(doc => {
+      .foreachPartition(partition => {
         val sentenceDetector = new SentenceDetector()
-        val sentences = sentenceDetector.inference(doc.get(field).toString)
-        if (debug) {
-          log.info("ID: " + doc.get("id"))
-          sentences.foreach(println)
-        }
+        partition.foreach(doc => {
+          val sentences = sentenceDetector.inference(doc.get(field).toString)
+          if (debug) {
+            log.info("ID: " + doc.get("id"))
+            sentences.foreach(println)
+          }
+        })
+
       })
+
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
 
