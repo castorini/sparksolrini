@@ -4,8 +4,6 @@ import ca.uwaterloo.cs848.conf.SolrConf
 import ca.uwaterloo.cs848.util.SentenceDetector
 import com.lucidworks.spark.rdd.SelectSolrRDD
 import org.apache.log4j.{Level, Logger, PropertyConfigurator}
-import org.apache.solr.client.solrj.SolrQuery
-import org.apache.solr.client.solrj.SolrQuery.SortClause
 import org.apache.spark.{SparkConf, SparkContext}
 
 object SolrSpark {
@@ -30,13 +28,10 @@ object SolrSpark {
 
     // Start timing the experiment
     val start = System.currentTimeMillis
-
-    // The query to run
-    val query = new SolrQuery(field + ":" + term).setSort(SortClause.asc("id"))
-
+    
     val rdd = new SelectSolrRDD(solr, index, sc)
       .rows(rows)
-      .query(query)
+      .query(field + ":" + term)
       .foreachPartition(partition => {
         val sentenceDetector = new SentenceDetector()
         partition.foreach(doc => {
