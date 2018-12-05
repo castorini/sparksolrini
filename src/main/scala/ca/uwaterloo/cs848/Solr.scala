@@ -5,7 +5,7 @@ import java.util.concurrent.{Executors, TimeUnit}
 import ca.uwaterloo.cs848.conf.SolrConf
 import ca.uwaterloo.cs848.util.SentenceDetector
 import com.google.common.base.Splitter
-import org.apache.log4j.{Logger, PropertyConfigurator}
+import org.apache.log4j.{BasicConfigurator, Logger}
 import org.apache.solr.client.solrj.SolrQuery
 import org.apache.solr.client.solrj.SolrQuery.SortClause
 import org.apache.solr.client.solrj.impl.CloudSolrClient
@@ -18,11 +18,12 @@ object Solr {
 
   val MILLIS_IN_DAY = 1000 * 60 * 60 * 24
 
-  // Setup logging
   val log = Logger.getLogger(getClass.getName)
-  PropertyConfigurator.configure("log4j.properties")
 
   def main(argv: Array[String]) = {
+
+    // Configure logging, no need for log4j.properties
+    BasicConfigurator.configure()
 
     // Parse command line args
     val args = new SolrConf(argv)
@@ -32,16 +33,15 @@ object Solr {
     val solrUrls = Splitter.on(',').splitToList(args.solr())
 
     // Build the SolrClient.
-    val solrClient = new CloudSolrClient.Builder()
+    val solrClient = new CloudSolrClient.Builder(solrUrls)
       .withConnectionTimeout(MILLIS_IN_DAY)
-      .withSolrUrl(solrUrls)
       .build()
 
     // Set the default collection
     solrClient.setDefaultCollection(args.index())
 
     // # of executors = # of cores
-    val executorService = Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors)
+    val executorService = Executors.newFixedThreadPool(args.parallelism())
 
     // SolrJ cursor setup
     var done = false

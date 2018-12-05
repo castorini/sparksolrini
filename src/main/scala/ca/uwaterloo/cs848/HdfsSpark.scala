@@ -4,16 +4,17 @@ import ca.uwaterloo.cs848.conf.HdfsConf
 import ca.uwaterloo.cs848.util.{SentenceDetector, Stemmer}
 import com.databricks.spark.xml.XmlInputFormat
 import org.apache.hadoop.io.{LongWritable, Text}
-import org.apache.log4j.{Logger, PropertyConfigurator}
+import org.apache.log4j.{BasicConfigurator, Logger}
 import org.apache.spark.{SparkConf, SparkContext}
 
 object HdfsSpark {
 
-  // Setup logging
   val log = Logger.getLogger(getClass.getName)
-  PropertyConfigurator.configure("log4j.properties")
 
   def main(argv: Array[String]) = {
+
+    // Configure logging, no need for log4j.properties
+    BasicConfigurator.configure()
 
     val args = new HdfsConf(argv)
     log.info(args.summary)
@@ -34,19 +35,19 @@ object HdfsSpark {
       .filter(doc => Stemmer.stem(doc._2.toString).contains(Stemmer.stem(term))) // Stemming to match Solr results
       .foreachPartition(part => {
 
-        val sentenceDetector = new SentenceDetector()
+      val sentenceDetector = new SentenceDetector()
 
-        part.foreach(doc => {
+      part.foreach(doc => {
 
-          val sentences = sentenceDetector.inference(doc._2.toString)
+        val sentences = sentenceDetector.inference(doc._2.toString)
 
-          if (debug) {
-            sentences.foreach(println)
-          }
-
-        })
+        if (debug) {
+          sentences.foreach(println)
+        }
 
       })
+
+    })
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
 
