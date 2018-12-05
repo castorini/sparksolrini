@@ -18,7 +18,6 @@ object Solr {
 
   val MILLIS_IN_DAY = 1000 * 60 * 60 * 24
 
-  // Setup logging
   val log = Logger.getLogger(getClass.getName)
   PropertyConfigurator.configure("log4j.properties")
 
@@ -32,16 +31,15 @@ object Solr {
     val solrUrls = Splitter.on(',').splitToList(args.solr())
 
     // Build the SolrClient.
-    val solrClient = new CloudSolrClient.Builder()
+    val solrClient = new CloudSolrClient.Builder(solrUrls)
       .withConnectionTimeout(MILLIS_IN_DAY)
-      .withSolrUrl(solrUrls)
       .build()
 
     // Set the default collection
     solrClient.setDefaultCollection(args.index())
 
     // # of executors = # of cores
-    val executorService = Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors)
+    val executorService = Executors.newFixedThreadPool(args.parallelism())
 
     // SolrJ cursor setup
     var done = false
