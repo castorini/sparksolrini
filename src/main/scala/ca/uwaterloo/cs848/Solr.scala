@@ -5,7 +5,7 @@ import java.util.concurrent.{Executors, TimeUnit}
 import ca.uwaterloo.cs848.conf.SolrConf
 import ca.uwaterloo.cs848.util.SentenceDetector
 import com.google.common.base.Splitter
-import org.apache.log4j.{BasicConfigurator, Logger}
+import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.solr.client.solrj.SolrQuery
 import org.apache.solr.client.solrj.SolrQuery.SortClause
 import org.apache.solr.client.solrj.impl.CloudSolrClient
@@ -19,11 +19,9 @@ object Solr {
   val MILLIS_IN_DAY = 1000 * 60 * 60 * 24
 
   val log = Logger.getLogger(getClass.getName)
+  PropertyConfigurator.configure("log4j.properties")
 
   def main(argv: Array[String]) = {
-
-    // Configure logging, no need for log4j.properties
-    BasicConfigurator.configure()
 
     // Parse command line args
     val args = new SolrConf(argv)

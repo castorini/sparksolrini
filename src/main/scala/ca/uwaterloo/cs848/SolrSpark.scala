@@ -1,9 +1,8 @@
 package ca.uwaterloo.cs848
 
 import ca.uwaterloo.cs848.conf.SolrConf
-import ca.uwaterloo.cs848.util.SentenceDetector
 import com.lucidworks.spark.rdd.SelectSolrRDD
-import org.apache.log4j.{BasicConfigurator, Level, Logger}
+import org.apache.log4j.{Level, Logger, PropertyConfigurator}
 import org.apache.solr.client.solrj.SolrQuery
 import org.apache.solr.client.solrj.SolrQuery.SortClause
 import org.apache.spark.{SparkConf, SparkContext}
@@ -11,14 +10,12 @@ import org.apache.spark.{SparkConf, SparkContext}
 object SolrSpark {
 
   val log = Logger.getLogger(getClass.getName)
+  PropertyConfigurator.configure("log4j.properties")
 
   def main(argv: Array[String]) = {
 
-    // Configure logging, no need for log4j.properties
-    BasicConfigurator.configure()
-
     // Set debugging log level
-    Logger.getRootLogger.setLevel(Level.DEBUG)
+    Logger.getLogger("org.apache.solr").setLevel(Level.DEBUG)
 
     // Parse command line args
     val args = new SolrConf(argv)
