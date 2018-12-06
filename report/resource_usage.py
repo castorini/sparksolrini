@@ -157,6 +157,10 @@ def get_pod_metrics(exp_type, term, log_length, pod_name_filter):
 	return (run_time, cpu_usage, mem_usage)
 
 
+# initialize cavas with 3 by 3
+plt.plot([3,3,1])
+
+
 for exp_type in exp_results.keys():
 	for term in terms:
 		print("processing ", exp_type, " -  term ", term)
@@ -199,7 +203,6 @@ for exp_type in exp_results.keys():
 		print('\tlog length - ', driver_log_length, 'm')
 
 		# TODO : generate a fiture
-
 
 
 
