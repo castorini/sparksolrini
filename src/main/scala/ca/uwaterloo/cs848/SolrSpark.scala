@@ -10,7 +10,6 @@ object SolrSpark {
 
   val log = Logger.getLogger(getClass.getName)
   BasicConfigurator.configure()
-  Logger.getLogger(classOf[SelectSolrRDD]).setLevel(Level.DEBUG)
 
   def main(argv: Array[String]) = {
 
