@@ -31,21 +31,7 @@ object HdfsSpark {
 
     val rdd = sc.newAPIHadoopFile(args.path(), classOf[XmlInputFormat], classOf[LongWritable], classOf[Text])
       .filter(doc => Stemmer.stem(doc._2.toString).contains(Stemmer.stem(term))) // Stemming to match Solr results
-      .foreachPartition(part => {
-
-      val sentenceDetector = new SentenceDetector()
-
-      part.foreach(doc => {
-
-        val sentences = sentenceDetector.inference(doc._2.toString)
-
-        if (debug) {
-          sentences.foreach(println)
-        }
-
-      })
-
-    })
+      .count()
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
 

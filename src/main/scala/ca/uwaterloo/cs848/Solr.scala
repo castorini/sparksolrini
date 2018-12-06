@@ -68,10 +68,10 @@ object Solr {
       val docs = response.getResults
       log.info(s"Num docs: ${docs.size}")
 
-      // Do sentence detection in a new Thread
-      if (!docs.isEmpty) {
-        executorService.submit(new SentenceDetectionTask(docs, args.field(), args.debug()))
-      }
+//      // Do sentence detection in a new Thread
+//      if (!docs.isEmpty) {
+//        executorService.submit(new SentenceDetectionTask(docs, args.field(), args.debug()))
+//      }
 
       // End of results
       if (cursorMark.equals(nextCursorMark)) {

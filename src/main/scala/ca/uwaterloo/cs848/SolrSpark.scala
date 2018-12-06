@@ -1,7 +1,6 @@
 package ca.uwaterloo.cs848
 
 import ca.uwaterloo.cs848.conf.SolrConf
-import ca.uwaterloo.cs848.util.SentenceDetector
 import com.lucidworks.spark.rdd.SelectSolrRDD
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.spark.{SparkConf, SparkContext}
@@ -29,16 +28,7 @@ object SolrSpark {
     val rdd = new SelectSolrRDD(solr, index, sc)
       .rows(rows)
       .query(field + ":" + term)
-      .foreachPartition(partition => {
-        val sentenceDetector = new SentenceDetector()
-        partition.foreach(doc => {
-          val sentences = sentenceDetector.inference(doc.get(field).toString)
-          if (debug) {
-            log.info("ID: " + doc.get("id"))
-            sentences.foreach(println)
-          }
-        })
-      })
+      .count()
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
 
