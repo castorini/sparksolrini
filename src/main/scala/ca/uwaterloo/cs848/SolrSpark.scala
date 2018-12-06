@@ -27,7 +27,7 @@ object SolrSpark {
     val start = System.currentTimeMillis
 
     val rdd = new SelectSolrRDD(solr, index, sc)
-      .splitsPerShard(1)
+//      .splitsPerShard(1)
       .splitField("id")
       .rows(rows)
       .query(field + ":" + term)
