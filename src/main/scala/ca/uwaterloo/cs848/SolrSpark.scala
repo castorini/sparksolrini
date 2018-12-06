@@ -28,7 +28,7 @@ object SolrSpark {
 
     val rdd = new SelectSolrRDD(solr, index, sc)
 //      .splitsPerShard(1)
-      .splitField("id")
+//      .splitField("id")
       .rows(rows)
       .query(field + ":" + term)
       .foreachPartition(partition => {
