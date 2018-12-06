@@ -4,7 +4,6 @@ import ca.uwaterloo.cs848.conf.SolrConf
 import ca.uwaterloo.cs848.util.SentenceDetector
 import com.lucidworks.spark.rdd.SelectSolrRDD
 import org.apache.log4j.{BasicConfigurator, Level, Logger}
-import org.apache.solr.client.solrj.SolrQuery
 import org.apache.spark.{SparkConf, SparkContext}
 
 object SolrSpark {
@@ -28,13 +27,10 @@ object SolrSpark {
     // Start timing the experiment
     val start = System.currentTimeMillis
 
-    val query = new SolrQuery(field + ":" + term)
-    query.set("rows", 1000)
-    query.set("max_rows", 1000)
-
     val rdd = new SelectSolrRDD(solr, index, sc)
       .splitsPerShard(1)
-      .query(query)
+      .rows(rows)
+      .query(field + ":" + term)
       .foreachPartition(partition => {
         val sentenceDetector = new SentenceDetector()
         partition.foreach(doc => {
