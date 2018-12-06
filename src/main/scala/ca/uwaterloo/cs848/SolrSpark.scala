@@ -3,13 +3,13 @@ package ca.uwaterloo.cs848
 import ca.uwaterloo.cs848.conf.SolrConf
 import ca.uwaterloo.cs848.util.SentenceDetector
 import com.lucidworks.spark.rdd.SelectSolrRDD
-import org.apache.log4j.{BasicConfigurator, Level, Logger}
+import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.spark.{SparkConf, SparkContext}
 
 object SolrSpark {
 
   val log = Logger.getLogger(getClass.getName)
-  BasicConfigurator.configure()
+  PropertyConfigurator.configure("log4j.properties")
 
   def main(argv: Array[String]) = {
 
@@ -40,7 +40,6 @@ object SolrSpark {
             sentences.foreach(println)
           }
         })
-
       })
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
