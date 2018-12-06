@@ -172,7 +172,7 @@ bin/spark-submit \
     --conf spark.kubernetes.executor.request.cores=11 \
     --conf spark.executor.cores=11 \
     local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
-    --term <search-term> --field raw  \
+    --term <search-term> \
     [&> hdfs-spark-output.log]
 ```
 
