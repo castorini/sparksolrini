@@ -171,7 +171,8 @@ bin/spark-submit \
     --conf spark.kubernetes.executor.limit.cores=12 \
     --conf spark.kubernetes.executor.request.cores=11 \
     --conf spark.executor.cores=11 \
-    local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
+    <path_to_jar_on_tem127> \
+    --path hdfs://192.168.152.203/gov2/gov2-corpus \
     --term <search-term> \
     [&> hdfs-spark-output.log]
 ```
