@@ -4,7 +4,8 @@ import subprocess
 import sys
 import re
 
-# driver_metric.py must be copied to ~/ on tem101
+# cp run_experiments.py, collect_metrics.py, collect_driver_metrics.py to ~/
+# execute run_experiments.py
 # metrics folder for cluster will be creaded under ~/
 
 if len(sys.argv) < 2:
@@ -17,7 +18,6 @@ if EX_TYPE != "seq" and EX_TYPE != "solr" and EX_TYPE != "hdfs" and EX_TYPE != "
     print("usage: python3 run_experiments.py <seq/solr/hdfs/all>")
     sys.exit()
 
-LOG_DIR_NAME = '/hdd1/CS848-project/exp_results'
 LOG_DIR_NAME = 'metrics'
 
 pathlib.Path(LOG_DIR_NAME).mkdir(parents=True, exist_ok=True)
