@@ -28,7 +28,7 @@ while True:
     usage = subprocess.check_output(["ps", "aux"]).decode("utf-8").split('\n')
 
     for process in usage:
-        if SEARCH_TERM in process:
+        if "term "+SEARCH_TERM in process:
             metrics_file.write(str(time_elapsed)+"\t"+process+"\n")
             break
 

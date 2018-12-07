@@ -3,7 +3,6 @@ import pathlib
 import subprocess
 import sys
 import re
-import os
 
 # driver_metric.py must be copied to ~/ on tem101
 # metrics folder for cluster will be creaded under ~/
@@ -19,6 +18,7 @@ if EX_TYPE != "seq" and EX_TYPE != "solr" and EX_TYPE != "hdfs" and EX_TYPE != "
     sys.exit()
 
 LOG_DIR_NAME = '/hdd1/CS848-project/exp_results'
+LOG_DIR_NAME = 'metrics'
 
 pathlib.Path(LOG_DIR_NAME).mkdir(parents=True, exist_ok=True)
 
@@ -63,7 +63,7 @@ command_template = {
         --conf spark.kubernetes.executor.request.cores=11 \
         --conf spark.executor.cores=11 \
         /hdd1/CS848-project/target/cs848-project-1.0-SNAPSHOT.jar \
-        --path 'hdfs://192.168.152.203/gov2/gov2-corpus' \
+        --path hdfs://192.168.152.203/gov2/gov2-corpus \
         --term {0}"
 }
 
@@ -72,13 +72,24 @@ def run_exp(type):
         print("\n" + str(datetime.datetime.now()) + " executing " + type + " with term : " + term)
         command = command_template[type].format(term)
 
-        driver_metric_proc = subprocess.Popen(["python3", "/hdd1/CS848-project/collect_driver_metrics.py", type, term, "60"])
+        driver_metric_proc = subprocess.Popen(["python3", "collect_driver_metrics.py", type, term, "60"])
         cluster_metric_proc = subprocess.Popen(["ssh", "tem101", "python3 collect_metrics.py " + type + " " + term + " 60"])
 
-        result = subprocess.check_output(command.split()).decode("utf-8")
+        print(str(datetime.datetime.now()) + " driver metrics pid : " + str(driver_metric_proc.pid))
+        print(str(datetime.datetime.now()) + " cluster metrics pid : " + str(cluster_metric_proc.pid))
+
+        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
-        os.system('kill -15 ' + str(driver_metric_proc.pid))
-        os.system('kill -15 ' + str(cluster_metric_proc.pid))
+        process.wait()
+        
+        driver_metric_proc.kill()
+        cluster_metric_proc.kill()
+            
+        if process.stderr:
+            print(str(datetime.datetime.now()) + " error has occurred")
+            for line in process.stderr:
+                line = line.decode("utf-8")
+                print(line)
 
         if type == "solr" :
             log_file_name = LOG_DIR_NAME+"/solr-spark-"+term+".log"
@@ -90,8 +101,9 @@ def run_exp(type):
         run_time = 0
 
         with open(log_file_name, "w+") as f:
-            for line in result.split("\n"):
-                f.write(line+"\n")
+            for line in process.stdout:
+                line = line.decode("utf-8")
+                f.write(line)
 
                 search = re.match('.*Took (.*)ms', line)
                 if search:
