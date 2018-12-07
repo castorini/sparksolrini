@@ -94,7 +94,7 @@ object Solr {
 
     // Print out total time
     log.info(s"Took ${System.currentTimeMillis - start}ms")
-
+    printf(s"Took ${System.currentTimeMillis - start}ms")
   }
 
   // Wrap a Runnable so we can pass in some params

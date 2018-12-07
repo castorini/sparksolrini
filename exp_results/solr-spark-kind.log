@@ -1,0 +1,243 @@
+2018-12-05 23:42:47 WARN  Utils:66 - Kubernetes master URL uses HTTP instead of HTTPS.
+2018-12-05 23:42:47 WARN  Utils:66 - Your hostname, tem127 resolves to a loopback address: 127.0.1.1; using 192.168.152.227 instead (on interface eno1)
+2018-12-05 23:42:47 WARN  Utils:66 - Set SPARK_LOCAL_IP if you need to bind to another address
+2018-12-05 23:42:48 WARN  NativeCodeLoader:62 - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2018-12-05 23:42:48 INFO  SolrSpark$:17 - Scallop(--term, kind, --field, raw, --solr, 192.168.152.201:32181, --index, gov2)
+ *  field => raw
+ *  term => kind
+ *  solr => 192.168.152.201:32181
+ *  index => gov2
+    rows => 1000
+    parallelism => 12
+    debug => false
+
+2018-12-05 23:42:48 INFO  SparkContext:54 - Running Spark version 2.4.0
+2018-12-05 23:42:48 INFO  SparkContext:54 - Submitted application: SolrSpark$
+2018-12-05 23:42:49 INFO  SecurityManager:54 - Changing view acls to: root
+2018-12-05 23:42:49 INFO  SecurityManager:54 - Changing modify acls to: root
+2018-12-05 23:42:49 INFO  SecurityManager:54 - Changing view acls groups to: 
+2018-12-05 23:42:49 INFO  SecurityManager:54 - Changing modify acls groups to: 
+2018-12-05 23:42:49 INFO  SecurityManager:54 - SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(root); groups with view permissions: Set(); users  with modify permissions: Set(root); groups with modify permissions: Set()
+2018-12-05 23:42:49 INFO  Utils:54 - Successfully started service 'sparkDriver' on port 35291.
+2018-12-05 23:42:49 INFO  SparkEnv:54 - Registering MapOutputTracker
+2018-12-05 23:42:49 INFO  SparkEnv:54 - Registering BlockManagerMaster
+2018-12-05 23:42:49 INFO  BlockManagerMasterEndpoint:54 - Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+2018-12-05 23:42:49 INFO  BlockManagerMasterEndpoint:54 - BlockManagerMasterEndpoint up
+2018-12-05 23:42:49 INFO  DiskBlockManager:54 - Created local directory at /tmp/blockmgr-00a633dc-0361-4877-8e37-7b2aadc9f983
+2018-12-05 23:42:49 INFO  MemoryStore:54 - MemoryStore started with capacity 8.4 GB
+2018-12-05 23:42:49 INFO  SparkEnv:54 - Registering OutputCommitCoordinator
+2018-12-05 23:42:49 INFO  log:192 - Logging initialized @2987ms
+2018-12-05 23:42:49 INFO  Server:351 - jetty-9.3.z-SNAPSHOT, build timestamp: unknown, git hash: unknown
+2018-12-05 23:42:49 INFO  Server:419 - Started @3088ms
+2018-12-05 23:42:49 INFO  AbstractConnector:278 - Started ServerConnector@e36bb2a{HTTP/1.1,[http/1.1]}{0.0.0.0:4040}
+2018-12-05 23:42:49 INFO  Utils:54 - Successfully started service 'SparkUI' on port 4040.
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@537b32ef{/jobs,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@6f89f665{/jobs/json,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@df1cff6{/jobs/job,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@1ad926d3{/jobs/job/json,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@3a43d133{/stages,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@39ce27f2{/stages/json,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@5f2afe62{/stages/stage,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@60c16548{/stages/stage/json,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@68105edc{/stages/pool,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@511816c0{/stages/pool/json,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@38b972d7{/storage,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@5339bbad{/storage/json,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@3935e9a8{/storage/rdd,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@288a4658{/storage/rdd/json,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@5b56b654{/environment,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@452c8a40{/environment/json,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@534243e4{/executors,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@29006752{/executors/json,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@470a9030{/executors/threadDump,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@66d57c1b{/executors/threadDump/json,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@27494e46{/static,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@7f9e1534{/,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@138a7441{/api,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@7e31ce0f{/jobs/job/kill,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@99a65d3{/stages/stage/kill,null,AVAILABLE,@Spark}
+2018-12-05 23:42:49 INFO  SparkUI:54 - Bound SparkUI to 0.0.0.0, and started at http://192.168.152.227:4040
+2018-12-05 23:42:49 INFO  SparkContext:54 - Added JAR file:/hdd1/CS848-project/target/cs848-project-1.0-SNAPSHOT.jar at spark://192.168.152.227:35291/jars/cs848-project-1.0-SNAPSHOT.jar with timestamp 1544071369935
+2018-12-05 23:42:50 WARN  Config:347 - Error reading service account token from: [/var/run/secrets/kubernetes.io/serviceaccount/token]. Ignoring.
+2018-12-05 23:42:50 INFO  ExecutorPodsAllocator:54 - Going to request 5 executors from Kubernetes.
+2018-12-05 23:42:50 INFO  Utils:54 - Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 38227.
+2018-12-05 23:42:50 INFO  NettyBlockTransferService:54 - Server created on 192.168.152.227:38227
+2018-12-05 23:42:50 INFO  BlockManager:54 - Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+2018-12-05 23:42:50 INFO  BlockManagerMaster:54 - Registering BlockManager BlockManagerId(driver, 192.168.152.227, 38227, None)
+2018-12-05 23:42:50 INFO  BlockManagerMasterEndpoint:54 - Registering block manager 192.168.152.227:38227 with 8.4 GB RAM, BlockManagerId(driver, 192.168.152.227, 38227, None)
+2018-12-05 23:42:50 INFO  BlockManagerMaster:54 - Registered BlockManager BlockManagerId(driver, 192.168.152.227, 38227, None)
+2018-12-05 23:42:50 INFO  BlockManager:54 - Initialized BlockManager: BlockManagerId(driver, 192.168.152.227, 38227, None)
+2018-12-05 23:42:50 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@bd1111a{/metrics/json,null,AVAILABLE,@Spark}
+2018-12-05 23:43:02 INFO  KubernetesClusterSchedulerBackend$KubernetesDriverEndpoint:54 - Registered executor NettyRpcEndpointRef(spark-client://Executor) (192.168.152.205:46076) with ID 1
+2018-12-05 23:43:02 INFO  BlockManagerMasterEndpoint:54 - Registering block manager 10.233.97.184:44269 with 4.4 GB RAM, BlockManagerId(1, 10.233.97.184, 44269, None)
+2018-12-05 23:43:03 INFO  KubernetesClusterSchedulerBackend$KubernetesDriverEndpoint:54 - Registered executor NettyRpcEndpointRef(spark-client://Executor) (192.168.152.204:60236) with ID 2
+2018-12-05 23:43:03 INFO  BlockManagerMasterEndpoint:54 - Registering block manager 10.233.74.83:45067 with 4.4 GB RAM, BlockManagerId(2, 10.233.74.83, 45067, None)
+2018-12-05 23:43:07 INFO  KubernetesClusterSchedulerBackend$KubernetesDriverEndpoint:54 - Registered executor NettyRpcEndpointRef(spark-client://Executor) (192.168.152.202:40638) with ID 3
+2018-12-05 23:43:07 INFO  BlockManagerMasterEndpoint:54 - Registering block manager 10.233.75.5:36571 with 4.4 GB RAM, BlockManagerId(3, 10.233.75.5, 36571, None)
+2018-12-05 23:43:15 INFO  KubernetesClusterSchedulerBackend$KubernetesDriverEndpoint:54 - Registered executor NettyRpcEndpointRef(spark-client://Executor) (192.168.152.203:56968) with ID 4
+2018-12-05 23:43:15 INFO  KubernetesClusterSchedulerBackend:54 - SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.8
+2018-12-05 23:43:16 INFO  BlockManagerMasterEndpoint:54 - Registering block manager 10.233.71.55:42181 with 4.4 GB RAM, BlockManagerId(4, 10.233.71.55, 42181, None)
+2018-12-05 23:43:16 INFO  ZooKeeper:100 - Client environment:zookeeper.version=3.4.6-1569965, built on 02/20/2014 09:09 GMT
+2018-12-05 23:43:16 INFO  ZooKeeper:100 - Client environment:host.name=tem127.tembo-domain.cs.uwaterloo.ca
+2018-12-05 23:43:16 INFO  ZooKeeper:100 - Client environment:java.version=1.8.0_181
+2018-12-05 23:43:16 INFO  ZooKeeper:100 - Client environment:java.vendor=Oracle Corporation
+2018-12-05 23:43:16 INFO  ZooKeeper:100 - Client environment:java.home=/usr/lib/jvm/java-8-openjdk-amd64/jre
+2018-12-05 23:43:16 INFO  ZooKeeper:100 - Client environment:java.class.path=/home/j474lee/spark-2.4.0-bin-hadoop2.7/conf/:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/calcite-avatica-1.2.0-incubating.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/slf4j-api-1.7.16.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/snappy-0.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/machinist_2.11-0.6.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hadoop-yarn-common-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/opencsv-2.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/datanucleus-core-3.2.10.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-mllib-local_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hadoop-hdfs-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/paranamer-2.8.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hadoop-auth-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jackson-module-scala_2.11-2.6.7.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-unsafe_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-beanutils-1.7.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/orc-core-1.5.2-nohive.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-lang3-3.5.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jersey-server-2.22.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-compiler-3.0.9.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jackson-annotations-2.6.7.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/kubernetes-client-3.0.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/log4j-1.2.17.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/ST4-4.0.4.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/janino-3.0.9.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hadoop-mapreduce-client-app-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/JavaEWAH-0.3.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/scala-parser-combinators_2.11-1.1.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-configuration-1.6.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-tags_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/xmlenc-0.52.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-io-2.4.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/lz4-java-1.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/antlr-runtime-3.4.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/validation-api-1.1.0.Final.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/zstd-jni-1.3.2-2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/api-util-1.0.0-M20.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/datanucleus-rdbms-3.2.9.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/javax.servlet-api-3.1.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/scala-reflect-2.11.12.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jackson-jaxrs-1.9.13.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/libthrift-0.9.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jetty-6.1.26.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-pool-1.5.4.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/datanucleus-api-jdo-3.2.6.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-logging-1.1.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/stringtemplate-3.2.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/apacheds-i18n-2.0.0-M15.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jaxb-api-2.2.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-repl_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/stax-api-1.0.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jersey-guava-2.22.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/core-1.1.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/breeze_2.11-0.13.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/logging-interceptor-3.8.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hadoop-annotations-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hadoop-yarn-client-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hive-exec-1.2.1.spark2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/json4s-core_2.11-3.5.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-tags_2.11-2.4.0-tests.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jdo-api-3.0.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/parquet-hadoop-1.10.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hadoop-yarn-server-common-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/javax.ws.rs-api-2.0.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-graphx_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hppc-0.7.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/metrics-jvm-3.1.5.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hadoop-mapreduce-client-core-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-sketch_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/httpcore-4.4.10.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/py4j-0.10.7.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-net-3.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/xercesImpl-2.9.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hive-jdbc-1.2.1.spark2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hadoop-mapreduce-client-common-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/arpack_combined_all-0.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/aircompressor-0.10.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-launcher_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/automaton-1.11-8.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/curator-client-2.7.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-hive-thriftserver_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hadoop-mapreduce-client-jobclient-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/snakeyaml-1.15.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hk2-utils-2.4.0-b34.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jackson-dataformat-yaml-2.6.7.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/metrics-json-3.1.5.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/guava-14.0.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/avro-ipc-1.8.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/bonecp-0.8.0.RELEASE.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jersey-container-servlet-2.22.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hadoop-yarn-server-web-proxy-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/metrics-core-3.1.5.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jersey-container-servlet-core-2.22.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-yarn_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/api-asn1-api-1.0.0-M20.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-mesos_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jline-2.14.6.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spire-macros_2.11-0.13.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jersey-client-2.22.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/ivy-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/pyrolite-4.13.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/xz-1.5.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-crypto-1.0.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/zookeeper-3.4.6.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/javassist-3.18.1-GA.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hk2-locator-2.4.0-b34.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-hive_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jodd-core-3.5.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/calcite-linq4j-1.2.0-incubating.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/avro-1.8.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/stax-api-1.0-2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/chill_2.11-0.9.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-beanutils-core-1.8.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/javolution-5.5.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/okhttp-3.8.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-math3-3.4.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/libfb303-0.9.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/parquet-jackson-1.10.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-catalyst_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jackson-core-asl-1.9.13.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-kvstore_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/guice-3.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jackson-mapper-asl-1.9.13.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-dbcp-1.4.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jpam-1.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hadoop-client-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hk2-api-2.4.0-b34.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/avro-mapred-1.8.2-hadoop2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/json4s-jackson_2.11-3.5.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/breeze-macros_2.11-0.13.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/eigenbase-properties-1.1.5.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/RoaringBitmap-0.5.11.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/shapeless_2.11-2.3.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hadoop-yarn-api-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/activation-1.1.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-cli-1.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jersey-common-2.22.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/curator-recipes-2.7.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/httpclient-4.5.6.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/snappy-java-1.1.7.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-sql_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/arrow-vector-0.10.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/protobuf-java-2.5.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jackson-xc-1.9.13.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jsp-api-2.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/apacheds-kerberos-codec-2.0.0-M15.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jta-1.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hadoop-common-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jcl-over-slf4j-1.7.16.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jackson-module-paranamer-2.7.9.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jackson-databind-2.6.7.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hive-beeline-1.2.1.spark2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jetty-util-6.1.26.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-streaming_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jackson-module-jaxb-annotations-2.6.7.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-core_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/leveldbjni-all-1.8.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/guice-servlet-3.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/mesos-1.4.0-shaded-protobuf.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/scala-library-2.11.12.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/parquet-column-1.10.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/objenesis-2.5.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/chill-java-0.9.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/arrow-format-0.10.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/apache-log4j-extras-1.2.17.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/json4s-ast_2.11-3.5.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/antlr4-runtime-4.7.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/json4s-scalap_2.11-3.5.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/gson-2.2.4.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hadoop-mapreduce-client-shuffle-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/arrow-memory-0.10.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-kubernetes_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/macro-compat_2.11-1.1.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/scala-compiler-2.11.12.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/orc-mapreduce-1.5.2-nohive.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jsr305-1.3.9.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/aopalliance-repackaged-2.4.0-b34.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-digester-1.8.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/stream-2.7.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/javax.inject-1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/xbean-asm6-shaded-4.8.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/orc-shims-1.5.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/antlr-2.7.7.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/parquet-encoding-1.10.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-mllib_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jtransforms-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hive-metastore-1.2.1.spark2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/derby-10.12.1.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/htrace-core-3.1.0-incubating.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/parquet-common-1.10.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/kubernetes-model-2.0.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/metrics-graphite-3.1.5.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/parquet-format-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/compress-lzf-1.0.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/zjsonpatch-0.3.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/minlog-1.3.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/slf4j-log4j12-1.7.16.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/flatbuffers-1.2.0-3f79e055.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/generex-1.0.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-compress-1.8.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/netty-3.9.9.Final.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/okio-1.13.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/super-csv-2.2.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/joda-time-2.9.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/javax.inject-2.4.0-b34.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/aopalliance-1.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/curator-framework-2.7.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-collections-3.2.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-network-shuffle_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/netty-all-4.1.17.Final.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/osgi-resource-locator-1.0.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jul-to-slf4j-1.7.16.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/calcite-core-1.2.0-incubating.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spire_2.11-0.13.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-httpclient-3.1.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jackson-core-2.6.7.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/javax.annotation-api-1.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/oro-2.0.8.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/univocity-parsers-2.7.3.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/kryo-shaded-4.0.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-lang-2.6.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/parquet-hadoop-bundle-1.6.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/hive-cli-1.2.1.spark2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/scala-xml_2.11-1.0.5.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/spark-network-common_2.11-2.4.0.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/jersey-media-jaxb-2.22.2.jar:/home/j474lee/spark-2.4.0-bin-hadoop2.7/jars/commons-codec-1.10.jar:/home/j474lee/hdfs_conf/
+2018-12-05 23:43:16 INFO  ZooKeeper:100 - Client environment:java.library.path=/usr/java/packages/lib/amd64:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib
+2018-12-05 23:43:16 INFO  ZooKeeper:100 - Client environment:java.io.tmpdir=/tmp
+2018-12-05 23:43:16 INFO  ZooKeeper:100 - Client environment:java.compiler=<NA>
+2018-12-05 23:43:16 INFO  ZooKeeper:100 - Client environment:os.name=Linux
+2018-12-05 23:43:16 INFO  ZooKeeper:100 - Client environment:os.arch=amd64
+2018-12-05 23:43:16 INFO  ZooKeeper:100 - Client environment:os.version=4.15.0-33-generic
+2018-12-05 23:43:16 INFO  ZooKeeper:100 - Client environment:user.name=root
+2018-12-05 23:43:16 INFO  ZooKeeper:100 - Client environment:user.home=/root
+2018-12-05 23:43:16 INFO  ZooKeeper:100 - Client environment:user.dir=/home/j474lee
+2018-12-05 23:43:16 INFO  ZooKeeper:438 - Initiating client connection, connectString=192.168.152.201:32181 sessionTimeout=30000 watcher=org.apache.solr.common.cloud.SolrZkClient$1@7569ea63
+2018-12-05 23:43:16 INFO  ClientCnxn:975 - Opening socket connection to server 192.168.152.201/192.168.152.201:32181. Will not attempt to authenticate using SASL (unknown error)
+2018-12-05 23:43:16 INFO  ClientCnxn:852 - Socket connection established to 192.168.152.201/192.168.152.201:32181, initiating session
+2018-12-05 23:43:16 INFO  ClientCnxn:1235 - Session establishment complete on server 192.168.152.201/192.168.152.201:32181, sessionid = 0x167620807d4005d, negotiated timeout = 30000
+2018-12-05 23:43:16 INFO  ConnectionManager:119 - zkClient has connected
+2018-12-05 23:43:16 INFO  ZkStateReader:786 - Updated live nodes from ZooKeeper... (0) -> (5)
+2018-12-05 23:43:16 INFO  ZkClientClusterStateProvider:158 - Cluster at 192.168.152.201:32181 ready
+2018-12-05 23:43:16 INFO  SelectSolrRDD:8 - Updated Solr query: q=raw:kind&rows=1000&collection=gov2&distrib=false&start=0&sort=id+asc&fq=_version_:[*+TO+1618535134362861568]
+2018-12-05 23:43:16 INFO  SelectSolrRDD:8 - Found 50 partitions
+2018-12-05 23:43:16 INFO  SparkContext:54 - Starting job: count at SolrSpark.scala:31
+2018-12-05 23:43:16 INFO  DAGScheduler:54 - Got job 0 (count at SolrSpark.scala:31) with 50 output partitions
+2018-12-05 23:43:16 INFO  DAGScheduler:54 - Final stage: ResultStage 0 (count at SolrSpark.scala:31)
+2018-12-05 23:43:16 INFO  DAGScheduler:54 - Parents of final stage: List()
+2018-12-05 23:43:16 INFO  DAGScheduler:54 - Missing parents: List()
+2018-12-05 23:43:16 INFO  DAGScheduler:54 - Submitting ResultStage 0 (SelectSolrRDD[2] at RDD at SolrRDD.scala:26), which has no missing parents
+2018-12-05 23:43:16 INFO  MemoryStore:54 - Block broadcast_0 stored as values in memory (estimated size 2.1 KB, free 8.4 GB)
+2018-12-05 23:43:16 INFO  MemoryStore:54 - Block broadcast_0_piece0 stored as bytes in memory (estimated size 1520.0 B, free 8.4 GB)
+2018-12-05 23:43:16 INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on 192.168.152.227:38227 (size: 1520.0 B, free: 8.4 GB)
+2018-12-05 23:43:16 INFO  SparkContext:54 - Created broadcast 0 from broadcast at DAGScheduler.scala:1161
+2018-12-05 23:43:16 INFO  DAGScheduler:54 - Submitting 50 missing tasks from ResultStage 0 (SelectSolrRDD[2] at RDD at SolrRDD.scala:26) (first 15 tasks are for partitions Vector(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14))
+2018-12-05 23:43:16 INFO  TaskSchedulerImpl:54 - Adding task set 0.0 with 50 tasks
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 0.0 in stage 0.0 (TID 0, 10.233.74.83, executor 2, partition 0, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 1.0 in stage 0.0 (TID 1, 10.233.97.184, executor 1, partition 1, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 2.0 in stage 0.0 (TID 2, 10.233.71.55, executor 4, partition 2, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 3.0 in stage 0.0 (TID 3, 10.233.75.5, executor 3, partition 3, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 4.0 in stage 0.0 (TID 4, 10.233.74.83, executor 2, partition 4, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 5.0 in stage 0.0 (TID 5, 10.233.97.184, executor 1, partition 5, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 6.0 in stage 0.0 (TID 6, 10.233.71.55, executor 4, partition 6, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 7.0 in stage 0.0 (TID 7, 10.233.75.5, executor 3, partition 7, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 8.0 in stage 0.0 (TID 8, 10.233.74.83, executor 2, partition 8, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 9.0 in stage 0.0 (TID 9, 10.233.97.184, executor 1, partition 9, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 10.0 in stage 0.0 (TID 10, 10.233.71.55, executor 4, partition 10, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 11.0 in stage 0.0 (TID 11, 10.233.75.5, executor 3, partition 11, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 12.0 in stage 0.0 (TID 12, 10.233.74.83, executor 2, partition 12, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 13.0 in stage 0.0 (TID 13, 10.233.97.184, executor 1, partition 13, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 14.0 in stage 0.0 (TID 14, 10.233.71.55, executor 4, partition 14, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 15.0 in stage 0.0 (TID 15, 10.233.75.5, executor 3, partition 15, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 16.0 in stage 0.0 (TID 16, 10.233.74.83, executor 2, partition 16, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 17.0 in stage 0.0 (TID 17, 10.233.97.184, executor 1, partition 17, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 18.0 in stage 0.0 (TID 18, 10.233.71.55, executor 4, partition 18, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 19.0 in stage 0.0 (TID 19, 10.233.75.5, executor 3, partition 19, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 20.0 in stage 0.0 (TID 20, 10.233.74.83, executor 2, partition 20, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 21.0 in stage 0.0 (TID 21, 10.233.97.184, executor 1, partition 21, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 22.0 in stage 0.0 (TID 22, 10.233.71.55, executor 4, partition 22, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 23.0 in stage 0.0 (TID 23, 10.233.75.5, executor 3, partition 23, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 24.0 in stage 0.0 (TID 24, 10.233.74.83, executor 2, partition 24, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 25.0 in stage 0.0 (TID 25, 10.233.97.184, executor 1, partition 25, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 26.0 in stage 0.0 (TID 26, 10.233.71.55, executor 4, partition 26, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 27.0 in stage 0.0 (TID 27, 10.233.75.5, executor 3, partition 27, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 28.0 in stage 0.0 (TID 28, 10.233.74.83, executor 2, partition 28, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 29.0 in stage 0.0 (TID 29, 10.233.97.184, executor 1, partition 29, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 30.0 in stage 0.0 (TID 30, 10.233.71.55, executor 4, partition 30, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 31.0 in stage 0.0 (TID 31, 10.233.75.5, executor 3, partition 31, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 32.0 in stage 0.0 (TID 32, 10.233.74.83, executor 2, partition 32, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 33.0 in stage 0.0 (TID 33, 10.233.97.184, executor 1, partition 33, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 34.0 in stage 0.0 (TID 34, 10.233.71.55, executor 4, partition 34, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 35.0 in stage 0.0 (TID 35, 10.233.75.5, executor 3, partition 35, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 36.0 in stage 0.0 (TID 36, 10.233.74.83, executor 2, partition 36, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 37.0 in stage 0.0 (TID 37, 10.233.97.184, executor 1, partition 37, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 38.0 in stage 0.0 (TID 38, 10.233.71.55, executor 4, partition 38, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 39.0 in stage 0.0 (TID 39, 10.233.75.5, executor 3, partition 39, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 40.0 in stage 0.0 (TID 40, 10.233.74.83, executor 2, partition 40, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 41.0 in stage 0.0 (TID 41, 10.233.97.184, executor 1, partition 41, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 42.0 in stage 0.0 (TID 42, 10.233.71.55, executor 4, partition 42, ANY, 9173 bytes)
+2018-12-05 23:43:16 INFO  TaskSetManager:54 - Starting task 43.0 in stage 0.0 (TID 43, 10.233.75.5, executor 3, partition 43, ANY, 9173 bytes)
+2018-12-05 23:43:17 INFO  KubernetesClusterSchedulerBackend$KubernetesDriverEndpoint:54 - Registered executor NettyRpcEndpointRef(spark-client://Executor) (192.168.152.201:43594) with ID 5
+2018-12-05 23:43:17 INFO  TaskSetManager:54 - Starting task 44.0 in stage 0.0 (TID 44, 10.233.102.149, executor 5, partition 44, ANY, 9173 bytes)
+2018-12-05 23:43:17 INFO  TaskSetManager:54 - Starting task 45.0 in stage 0.0 (TID 45, 10.233.102.149, executor 5, partition 45, ANY, 9173 bytes)
+2018-12-05 23:43:17 INFO  TaskSetManager:54 - Starting task 46.0 in stage 0.0 (TID 46, 10.233.102.149, executor 5, partition 46, ANY, 9173 bytes)
+2018-12-05 23:43:17 INFO  TaskSetManager:54 - Starting task 47.0 in stage 0.0 (TID 47, 10.233.102.149, executor 5, partition 47, ANY, 9173 bytes)
+2018-12-05 23:43:17 INFO  TaskSetManager:54 - Starting task 48.0 in stage 0.0 (TID 48, 10.233.102.149, executor 5, partition 48, ANY, 9173 bytes)
+2018-12-05 23:43:17 INFO  TaskSetManager:54 - Starting task 49.0 in stage 0.0 (TID 49, 10.233.102.149, executor 5, partition 49, ANY, 9173 bytes)
+2018-12-05 23:43:17 INFO  BlockManagerMasterEndpoint:54 - Registering block manager 10.233.102.149:45987 with 4.4 GB RAM, BlockManagerId(5, 10.233.102.149, 45987, None)
+2018-12-05 23:43:27 INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on 10.233.74.83:45067 (size: 1520.0 B, free: 4.4 GB)
+2018-12-05 23:43:27 INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on 10.233.71.55:42181 (size: 1520.0 B, free: 4.4 GB)
+2018-12-05 23:43:27 INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on 10.233.97.184:44269 (size: 1520.0 B, free: 4.4 GB)
+2018-12-05 23:43:28 INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on 10.233.75.5:36571 (size: 1520.0 B, free: 4.4 GB)
+2018-12-05 23:43:28 INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on 10.233.102.149:45987 (size: 1520.0 B, free: 4.4 GB)
+2018-12-05 23:48:47 INFO  TaskSetManager:54 - Finished task 20.0 in stage 0.0 (TID 20) in 330218 ms on 10.233.74.83 (executor 2) (1/50)
+2018-12-05 23:48:47 INFO  TaskSetManager:54 - Finished task 28.0 in stage 0.0 (TID 28) in 330217 ms on 10.233.74.83 (executor 2) (2/50)
+2018-12-05 23:48:48 INFO  TaskSetManager:54 - Finished task 22.0 in stage 0.0 (TID 22) in 331260 ms on 10.233.71.55 (executor 4) (3/50)
+2018-12-05 23:48:50 INFO  TaskSetManager:54 - Finished task 24.0 in stage 0.0 (TID 24) in 333053 ms on 10.233.74.83 (executor 2) (4/50)
+2018-12-05 23:48:51 INFO  TaskSetManager:54 - Finished task 26.0 in stage 0.0 (TID 26) in 334406 ms on 10.233.71.55 (executor 4) (5/50)
+2018-12-05 23:48:55 INFO  TaskSetManager:54 - Finished task 23.0 in stage 0.0 (TID 23) in 338075 ms on 10.233.75.5 (executor 3) (6/50)
+2018-12-05 23:48:57 INFO  TaskSetManager:54 - Finished task 21.0 in stage 0.0 (TID 21) in 340310 ms on 10.233.97.184 (executor 1) (7/50)
+2018-12-05 23:48:57 INFO  TaskSetManager:54 - Finished task 27.0 in stage 0.0 (TID 27) in 340861 ms on 10.233.75.5 (executor 3) (8/50)
+2018-12-05 23:48:58 INFO  TaskSetManager:54 - Finished task 25.0 in stage 0.0 (TID 25) in 341323 ms on 10.233.97.184 (executor 1) (9/50)
+2018-12-05 23:48:59 INFO  TaskSetManager:54 - Finished task 29.0 in stage 0.0 (TID 29) in 342126 ms on 10.233.97.184 (executor 1) (10/50)
+2018-12-05 23:50:02 INFO  TaskSetManager:54 - Finished task 38.0 in stage 0.0 (TID 38) in 405286 ms on 10.233.71.55 (executor 4) (11/50)
+2018-12-05 23:50:02 INFO  TaskSetManager:54 - Finished task 36.0 in stage 0.0 (TID 36) in 405313 ms on 10.233.74.83 (executor 2) (12/50)
+2018-12-05 23:50:02 INFO  TaskSetManager:54 - Finished task 32.0 in stage 0.0 (TID 32) in 405331 ms on 10.233.74.83 (executor 2) (13/50)
+2018-12-05 23:50:02 INFO  TaskSetManager:54 - Finished task 35.0 in stage 0.0 (TID 35) in 405509 ms on 10.233.75.5 (executor 3) (14/50)
+2018-12-05 23:50:05 INFO  TaskSetManager:54 - Finished task 37.0 in stage 0.0 (TID 37) in 408447 ms on 10.233.97.184 (executor 1) (15/50)
+2018-12-05 23:50:06 INFO  TaskSetManager:54 - Finished task 33.0 in stage 0.0 (TID 33) in 409910 ms on 10.233.97.184 (executor 1) (16/50)
+2018-12-05 23:50:12 INFO  TaskSetManager:54 - Finished task 34.0 in stage 0.0 (TID 34) in 415313 ms on 10.233.71.55 (executor 4) (17/50)
+2018-12-05 23:50:12 INFO  TaskSetManager:54 - Finished task 39.0 in stage 0.0 (TID 39) in 415831 ms on 10.233.75.5 (executor 3) (18/50)
+2018-12-05 23:50:20 INFO  TaskSetManager:54 - Finished task 30.0 in stage 0.0 (TID 30) in 423525 ms on 10.233.71.55 (executor 4) (19/50)
+2018-12-05 23:50:24 INFO  TaskSetManager:54 - Finished task 31.0 in stage 0.0 (TID 31) in 427267 ms on 10.233.75.5 (executor 3) (20/50)
+2018-12-05 23:51:33 INFO  TaskSetManager:54 - Finished task 12.0 in stage 0.0 (TID 12) in 496378 ms on 10.233.74.83 (executor 2) (21/50)
+2018-12-05 23:51:33 INFO  TaskSetManager:54 - Finished task 11.0 in stage 0.0 (TID 11) in 496838 ms on 10.233.75.5 (executor 3) (22/50)
+2018-12-05 23:51:33 INFO  TaskSetManager:54 - Finished task 16.0 in stage 0.0 (TID 16) in 497053 ms on 10.233.74.83 (executor 2) (23/50)
+2018-12-05 23:51:34 INFO  TaskSetManager:54 - Finished task 15.0 in stage 0.0 (TID 15) in 497061 ms on 10.233.75.5 (executor 3) (24/50)
+2018-12-05 23:51:34 INFO  TaskSetManager:54 - Finished task 18.0 in stage 0.0 (TID 18) in 497430 ms on 10.233.71.55 (executor 4) (25/50)
+2018-12-05 23:51:34 INFO  TaskSetManager:54 - Finished task 17.0 in stage 0.0 (TID 17) in 497970 ms on 10.233.97.184 (executor 1) (26/50)
+2018-12-05 23:51:35 INFO  TaskSetManager:54 - Finished task 14.0 in stage 0.0 (TID 14) in 498101 ms on 10.233.71.55 (executor 4) (27/50)
+2018-12-05 23:51:35 INFO  TaskSetManager:54 - Finished task 19.0 in stage 0.0 (TID 19) in 498121 ms on 10.233.75.5 (executor 3) (28/50)
+2018-12-05 23:51:35 INFO  TaskSetManager:54 - Finished task 10.0 in stage 0.0 (TID 10) in 498133 ms on 10.233.71.55 (executor 4) (29/50)
+2018-12-05 23:51:35 INFO  TaskSetManager:54 - Finished task 13.0 in stage 0.0 (TID 13) in 498372 ms on 10.233.97.184 (executor 1) (30/50)
+2018-12-05 23:52:45 INFO  TaskSetManager:54 - Finished task 4.0 in stage 0.0 (TID 4) in 568381 ms on 10.233.74.83 (executor 2) (31/50)
+2018-12-05 23:52:45 INFO  TaskSetManager:54 - Finished task 3.0 in stage 0.0 (TID 3) in 568511 ms on 10.233.75.5 (executor 3) (32/50)
+2018-12-05 23:52:45 INFO  TaskSetManager:54 - Finished task 0.0 in stage 0.0 (TID 0) in 568720 ms on 10.233.74.83 (executor 2) (33/50)
+2018-12-05 23:52:45 INFO  TaskSetManager:54 - Finished task 6.0 in stage 0.0 (TID 6) in 568904 ms on 10.233.71.55 (executor 4) (34/50)
+2018-12-05 23:52:45 INFO  TaskSetManager:54 - Finished task 9.0 in stage 0.0 (TID 9) in 569010 ms on 10.233.97.184 (executor 1) (35/50)
+2018-12-05 23:52:46 INFO  TaskSetManager:54 - Finished task 2.0 in stage 0.0 (TID 2) in 569560 ms on 10.233.71.55 (executor 4) (36/50)
+2018-12-05 23:52:46 INFO  TaskSetManager:54 - Finished task 7.0 in stage 0.0 (TID 7) in 569781 ms on 10.233.75.5 (executor 3) (37/50)
+2018-12-05 23:52:46 INFO  TaskSetManager:54 - Finished task 1.0 in stage 0.0 (TID 1) in 569867 ms on 10.233.97.184 (executor 1) (38/50)
+2018-12-05 23:52:47 INFO  TaskSetManager:54 - Finished task 8.0 in stage 0.0 (TID 8) in 570716 ms on 10.233.74.83 (executor 2) (39/50)
+2018-12-05 23:52:51 INFO  TaskSetManager:54 - Finished task 5.0 in stage 0.0 (TID 5) in 575018 ms on 10.233.97.184 (executor 1) (40/50)
+2018-12-05 23:53:37 INFO  TaskSetManager:54 - Finished task 48.0 in stage 0.0 (TID 48) in 620251 ms on 10.233.102.149 (executor 5) (41/50)
+2018-12-05 23:53:37 INFO  TaskSetManager:54 - Finished task 42.0 in stage 0.0 (TID 42) in 620945 ms on 10.233.71.55 (executor 4) (42/50)
+2018-12-05 23:53:37 INFO  TaskSetManager:54 - Finished task 44.0 in stage 0.0 (TID 44) in 620453 ms on 10.233.102.149 (executor 5) (43/50)
+2018-12-05 23:53:37 INFO  TaskSetManager:54 - Finished task 46.0 in stage 0.0 (TID 46) in 620468 ms on 10.233.102.149 (executor 5) (44/50)
+2018-12-05 23:53:38 INFO  TaskSetManager:54 - Finished task 41.0 in stage 0.0 (TID 41) in 621113 ms on 10.233.97.184 (executor 1) (45/50)
+2018-12-05 23:53:38 INFO  TaskSetManager:54 - Finished task 43.0 in stage 0.0 (TID 43) in 621248 ms on 10.233.75.5 (executor 3) (46/50)
+2018-12-05 23:53:38 INFO  TaskSetManager:54 - Finished task 40.0 in stage 0.0 (TID 40) in 621347 ms on 10.233.74.83 (executor 2) (47/50)
+2018-12-05 23:53:38 INFO  TaskSetManager:54 - Finished task 49.0 in stage 0.0 (TID 49) in 620901 ms on 10.233.102.149 (executor 5) (48/50)
+2018-12-05 23:53:38 INFO  TaskSetManager:54 - Finished task 45.0 in stage 0.0 (TID 45) in 620934 ms on 10.233.102.149 (executor 5) (49/50)
+2018-12-05 23:53:40 INFO  TaskSetManager:54 - Finished task 47.0 in stage 0.0 (TID 47) in 623424 ms on 10.233.102.149 (executor 5) (50/50)
+2018-12-05 23:53:40 INFO  TaskSchedulerImpl:54 - Removed TaskSet 0.0, whose tasks have all completed, from pool 
+2018-12-05 23:53:40 INFO  DAGScheduler:54 - ResultStage 0 (count at SolrSpark.scala:31) finished in 624.280 s
+2018-12-05 23:53:40 INFO  DAGScheduler:54 - Job 0 finished: count at SolrSpark.scala:31, took 624.355608 s
+2018-12-05 23:53:41 INFO  SolrSpark$:33 - Took 625148ms
+2018-12-05 23:53:41 INFO  ZooKeeper:684 - Session: 0x167620807d4005d closed
+2018-12-05 23:53:41 INFO  ClientCnxn:512 - EventThread shut down
+2018-12-05 23:53:41 INFO  AbstractConnector:318 - Stopped Spark@e36bb2a{HTTP/1.1,[http/1.1]}{0.0.0.0:4040}
+2018-12-05 23:53:41 INFO  SparkUI:54 - Stopped Spark web UI at http://192.168.152.227:4040
+2018-12-05 23:53:41 INFO  KubernetesClusterSchedulerBackend:54 - Shutting down all executors
+2018-12-05 23:53:41 INFO  KubernetesClusterSchedulerBackend$KubernetesDriverEndpoint:54 - Asking each executor to shut down
+2018-12-05 23:53:41 WARN  ExecutorPodsWatchSnapshotSource:87 - Kubernetes client has been closed (this is expected if the application is shutting down.)
+2018-12-05 23:53:41 INFO  MapOutputTrackerMasterEndpoint:54 - MapOutputTrackerMasterEndpoint stopped!
+2018-12-05 23:53:41 INFO  MemoryStore:54 - MemoryStore cleared
+2018-12-05 23:53:41 INFO  BlockManager:54 - BlockManager stopped
+2018-12-05 23:53:41 INFO  BlockManagerMaster:54 - BlockManagerMaster stopped
+2018-12-05 23:53:41 INFO  OutputCommitCoordinator$OutputCommitCoordinatorEndpoint:54 - OutputCommitCoordinator stopped!
+2018-12-05 23:53:41 INFO  SparkContext:54 - Successfully stopped SparkContext
+2018-12-05 23:53:41 INFO  ShutdownHookManager:54 - Shutdown hook called
+2018-12-05 23:53:41 INFO  ShutdownHookManager:54 - Deleting directory /tmp/spark-2b50c7aa-0185-4e94-9cc6-0deb2264b4b9
+2018-12-05 23:53:41 INFO  ShutdownHookManager:54 - Deleting directory /tmp/spark-63c4552c-1120-48f3-a453-7530425a1755
+
