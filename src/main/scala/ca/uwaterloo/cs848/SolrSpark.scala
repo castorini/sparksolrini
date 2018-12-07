@@ -9,7 +9,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 object SolrSpark {
 
   val log = Logger.getLogger(getClass.getName)
-  PropertyConfigurator.configure("log4j.properties")
+  PropertyConfigurator.configure("/hdd1/CS848-project/log4j.properties")
 
   def main(argv: Array[String]) = {
 
