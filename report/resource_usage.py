@@ -3,8 +3,10 @@ import numpy as np
 import math
 import re
 import sys
+import os
 
-metrics_dir = "../init_exp_results/metrics/"
+root_dir = os.getcwd()
+metrics_dir = os.path.join(root_dir, "init_exp_results", "metrics")
 
 # terms = ["napoleon", "interpol", "belt", "kind", "idea", "current", "other", "public"]
 
@@ -23,7 +25,7 @@ doc_freq = {
 }
 
 exp_results = {
-	'seq' : {
+	'solr' : {
 		"napoleon" : 59345, 
 		"interpol" : 191769, 
 		"belt" : 312432, 
@@ -33,7 +35,7 @@ exp_results = {
 		"other" : 6342624, 
 		"public" : 9462147
 	},
-	'solr' : {
+	'spark_solr' : {
 		"napoleon" : 18403, 
 		"interpol" : 152145, 
 		"belt" : 182208, 
@@ -43,7 +45,7 @@ exp_results = {
 		"other" : 19737940, 
 		"public" : 28968021
 	},
-	'spark' : {
+	'hdfs_spark' : {
 		"napoleon" : 2254306, 
 		"interpol" : 2256404, 
 		"belt" : 2286729, 
@@ -58,7 +60,7 @@ exp_results = {
 ps_aux_regex = r"^(\d+)\t(root|j474lee)[ ]+\d+[ ]+(\d+(\.\d*)?)[ ]+(\d+(\.\d*)?)[ ]+(\d+)[ ]+(\d+)"
 
 def get_driver_metrics(exp_type, term):
-	file_name = metrics_dir+exp_type + "_" + term + ".txt"
+	file_name = os.path.join(metrics_dir, exp_type + "_" + term + ".txt")
 	target_str = "--term " + term
 	run_time = exp_results[exp_type][term] / 1000
 
@@ -97,7 +99,7 @@ def get_driver_metrics(exp_type, term):
 pod_regex_format = r"^(\d+)\t([a-z|\d-]+)[ ]+(\d+)m[ ]+(\d+)(Gi|Mi|Ki)[ ]+\snode(\d)"
 
 def get_pod_metrics(exp_type, term, log_length, pod_name_filter):
-	file_name = metrics_dir+exp_type + "_" + term + "_pod.txt"
+	file_name = os.path.join(metrics_dir, exp_type + "_" + term + "_pod.txt")
 	run_time = exp_results[exp_type][term] / 1000
 
 	cpu_usage = [] 
@@ -156,57 +158,113 @@ def get_pod_metrics(exp_type, term, log_length, pod_name_filter):
 
 	return (run_time, cpu_usage, mem_usage)
 
+for term in terms:
 
-# initialize cavas with 3 by 3
-plt.plot([3,3,1])
+	term_exps = {}
 
+	for exp_type in exp_results.keys():
+		term_exps[exp_type] = {}
 
-for exp_type in exp_results.keys():
-	for term in terms:
 		print("processing ", exp_type, " -  term ", term)
 		# driver log
 		(run_time, cpu_usage, mem_usage, vsz_usage, rss_usage) = get_driver_metrics(exp_type, term)
-		
+
 		# to algin driver log with pod log
 		driver_log_length = len(cpu_usage)
 
-		(run_time, spark_cpu_usage, spark_mem_usage) = get_pod_metrics(exp_type, term, driver_log_length, "spark")
+		term_exps[exp_type]['cpu_usage'] = cpu_usage
+		term_exps[exp_type]['mem_usage'] = mem_usage
 
-		spark_log_length = len(spark_cpu_usage)
+		if 'spark' in exp_type:
 
-		if spark_log_length < driver_log_length:
-			# pad remaining indices with zero
-			pad_size = driver_log_length - spark_log_length
-			spark_cpu_usage = np.pad(spark_cpu_usage, (0, pad_size), 'constant')
-			spark_mem_usage = np.pad(spark_mem_usage, (0, pad_size), 'constant')
+			(run_time, spark_cpu_usage, spark_mem_usage) = get_pod_metrics(exp_type, term, driver_log_length, "spark")
 
 			spark_log_length = len(spark_cpu_usage)
 
-		# pods log
-		(run_time, solr_cpu_usage, solr_mem_usage) = get_pod_metrics(exp_type, term, driver_log_length, "solr")
+			if spark_log_length < driver_log_length:
+				# pad remaining indices with zero
+				pad_size = driver_log_length - spark_log_length
+				spark_cpu_usage = np.pad(spark_cpu_usage, (0, pad_size), 'constant')
+				spark_mem_usage = np.pad(spark_mem_usage, (0, pad_size), 'constant')
 
-		solr_log_length = len(solr_cpu_usage)
+				spark_log_length = len(spark_cpu_usage)
 
-		if solr_log_length < driver_log_length:
-			# center align and pad with first/last value
-			pad_size = driver_log_length - solr_log_length
+			term_exps[exp_type]['spark_cpu_usage'] = spark_cpu_usage
+			term_exps[exp_type]['spark_mem_usage'] = spark_mem_usage
 
-			left_pad = math.ceil(pad_size/2)
-			right_pad = pad_size - left_pad
-
-			solr_cpu_usage = np.pad(solr_cpu_usage, (left_pad, right_pad), 'edge')
-			solr_mem_usage = np.pad(solr_mem_usage, (left_pad, right_pad), 'edge')
+		if 'solr' in exp_type:
+			# pods log
+			(run_time, solr_cpu_usage, solr_mem_usage) = get_pod_metrics(exp_type, term, driver_log_length, "solr")
 
 			solr_log_length = len(solr_cpu_usage)
+
+			if solr_log_length < driver_log_length:
+				# center align and pad with first/last value
+				pad_size = driver_log_length - solr_log_length
+
+				left_pad = math.ceil(pad_size/2)
+				right_pad = pad_size - left_pad
+
+				solr_cpu_usage = np.pad(solr_cpu_usage, (left_pad, right_pad), 'edge')
+				solr_mem_usage = np.pad(solr_mem_usage, (left_pad, right_pad), 'edge')
+
+				solr_log_length = len(solr_cpu_usage)
+
+			term_exps[exp_type]['solr_cpu_usage'] = solr_cpu_usage
+			term_exps[exp_type]['solr_mem_usage'] = solr_mem_usage
 
 		print('\trun_time - ', run_time, 's')
 		print('\tlog length - ', driver_log_length, 'm')
 
-		# TODO : generate a fiture
+	# plot graph for each term
 
+	plt.clf()
+	plt.title(term + " cpu")
 
+	# exp 1: solr
+	plt.plot(term_exps['solr']['cpu_usage'])
+	plt.plot(term_exps['solr']['solr_cpu_usage'])
 
+	# exp 2: spark-solr
+	plt.plot(term_exps['spark_solr']['cpu_usage'])
+	plt.plot(term_exps['spark_solr']['solr_cpu_usage'])
+	plt.plot(term_exps['spark_solr']['spark_cpu_usage'])
 
+	# # exp 1: hdfs-spark
+	plt.plot(term_exps['hdfs_spark']['cpu_usage'])
+	plt.plot(term_exps['hdfs_spark']['spark_cpu_usage'])
+
+	plt.legend(['Solr - Driver CPU Usage', 'Solr - Solr CPU Usage', \
+				'SparkSolr - Driver CPU Usage', 'SparkSolr - Solr CPU Usage', 'SparkSolr - Spark CPU Usage', \
+				'HdfsSpark - Driver CPU Usage', 'HdfsSpark - Spark CPU Usage'], \
+			   loc='upper left')
+
+	plt.show()
+
+	plt.clf()
+	plt.title(term + " memory")
+
+	# memory
+
+	# exp 1: solr
+	plt.plot(term_exps['solr']['mem_usage'])
+	plt.plot(term_exps['solr']['solr_mem_usage'])
+
+	# exp 2: spark-solr
+	plt.plot(term_exps['spark_solr']['mem_usage'])
+	plt.plot(term_exps['spark_solr']['solr_mem_usage'])
+	plt.plot(term_exps['spark_solr']['spark_mem_usage'])
+
+	# exp 1: hdfs-spark
+	plt.plot(term_exps['hdfs_spark']['mem_usage'])
+	plt.plot(term_exps['hdfs_spark']['spark_mem_usage'])
+
+	plt.legend(['Solr - Driver Memory Usage', 'Solr - Solr Memory Usage', \
+				'SparkSolr - Driver Memory Usage', 'SparkSolr - Solr Memory Usage', 'SparkSolr - Spark Memory Usage', \
+				'HdfsSpark - Driver Memory Usage', 'HdfsSpark - Spark Memory Usage'], \
+			   loc='upper left')
+
+	plt.show()
 
 # mapping = {}
 
