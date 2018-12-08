@@ -4,7 +4,8 @@ import subprocess
 import sys
 import re
 
-# driver_metric.py must be copied to ~/ on tem101
+# cp run_experiments.py, collect_metrics.py, collect_driver_metrics.py to ~/
+# execute run_experiments.py
 # metrics folder for cluster will be creaded under ~/
 
 if len(sys.argv) < 2:
@@ -17,12 +18,11 @@ if EX_TYPE != "seq" and EX_TYPE != "solr" and EX_TYPE != "hdfs" and EX_TYPE != "
     print("usage: python3 run_experiments.py <seq/solr/hdfs/all>")
     sys.exit()
 
-LOG_DIR_NAME = '/hdd1/CS848-project/exp_results'
 LOG_DIR_NAME = 'metrics'
 
 pathlib.Path(LOG_DIR_NAME).mkdir(parents=True, exist_ok=True)
 
-search_terms = ["napoleon", "interpol", "belt", "kind", "idea", "current", "other", "public"]
+search_terms = ["napoleon", "interpol", "belt", "kind", "idea", "study", "current", "more", "service", "other", "public"]
 
 command_template = {
     'solr' : "spark-2.4.0-bin-hadoop2.7/bin/spark-submit \
@@ -79,16 +79,17 @@ def run_exp(type):
         print(str(datetime.datetime.now()) + " cluster metrics pid : " + str(cluster_metric_proc.pid))
 
         process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        
-        process.wait()
-        
+
+        stdout_data, stderr_data = process.communicate()
+        stdout_data = stdout_data.decode("utf-8")
+        stderr_data = stderr_data.decode("utf-8")
+
         driver_metric_proc.kill()
         cluster_metric_proc.kill()
             
-        if process.stderr:
+        if len(stderr_data) > 0:
             print(str(datetime.datetime.now()) + " error has occurred")
-            for line in process.stderr:
-                line = line.decode("utf-8")
+            for line in stderr_data.split('\n'):
                 print(line)
 
         if type == "solr" :
@@ -101,8 +102,7 @@ def run_exp(type):
         run_time = 0
 
         with open(log_file_name, "w+") as f:
-            for line in process.stdout:
-                line = line.decode("utf-8")
+            for line in stdout_data.split('\n'):
                 f.write(line)
 
                 search = re.match('.*Took (.*)ms', line)
