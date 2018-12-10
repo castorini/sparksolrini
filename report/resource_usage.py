@@ -320,11 +320,10 @@ def draw_bar_terms():
                 term_exps[term][exp_type]['hdfs_cpu_usage'] = np.pad(term_exps[term][exp_type]['hdfs_cpu_usage'], (left_pad, right_pad), 'edge')
                 term_exps[term][exp_type]['hdfs_mem_usage'] = np.pad(term_exps[term][exp_type]['hdfs_mem_usage'], (left_pad, right_pad), 'edge')
 
-    exp1_driver_cpu_usage = np.sum([term_exps[term]['solr']['cpu_usage'] for term in terms])
-
-    exp2_driver_cpu_usage = np.sum([term_exps[term]['spark_solr']['cpu_usage'] for term in terms])
-
-    exp3_driver_cpu_usage = np.sum([term_exps[term]['hdfs_spark']['cpu_usage'] for term in terms])
+    # cpu
+    exp1_driver_cpu_usage = np.sum([term_exps[term]['solr']['cpu_usage'] for term in terms], axis=1)
+    exp2_driver_cpu_usage = np.sum([term_exps[term]['spark_solr']['cpu_usage'] for term in terms], axis=1)
+    exp3_driver_cpu_usage = np.sum([term_exps[term]['hdfs_spark']['cpu_usage'] for term in terms], axis=1)
 
     X = np.arange(len(terms))
 
@@ -341,10 +340,35 @@ def draw_bar_terms():
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
-    plt.ylabel('Total Driver CPU Usage (millicpu)')
+    plt.ylabel('Total Driver CPU Usage')
     plt.legend(['Solr', 'SolrSpark', 'HdfsSpark'], loc='upper right')
 
     plt.savefig(os.path.join(graphs_dir, "cpu_selectivity.png"))
+
+    # memory
+    exp1_driver_mem_usage = np.sum([term_exps[term]['solr']['mem_usage'] for term in terms], axis=1)
+    exp2_driver_mem_usage = np.sum([term_exps[term]['spark_solr']['mem_usage'] for term in terms], axis=1)
+    exp3_driver_mem_usage = np.sum([term_exps[term]['hdfs_spark']['mem_usage'] for term in terms], axis=1)
+
+    X = np.arange(len(terms))
+
+    plt.title("Total Memory Usage vs Selectivity")
+
+    # driver totals
+    plt.bar(X, exp1_driver_mem_usage, color='b', width=0.25)
+
+    # solr totals
+    plt.bar(X + 0.25, exp2_driver_mem_usage, color='g', width=0.25)
+
+    # spark totals
+    plt.bar(X + 0.50, exp3_driver_mem_usage, color='r', width=0.25)
+
+    plt.xticks(X, terms)
+    plt.xlabel('Search Term')
+    plt.ylabel('Total Driver Memory Usage')
+    plt.legend(['Solr', 'SolrSpark', 'HdfsSpark'], loc='upper right')
+
+    plt.savefig(os.path.join(graphs_dir, "mem_selectivity.png"))
 
 ###
 
@@ -379,8 +403,8 @@ for term in terms:
         print('\trun_time - ', driver_run_time, 's')
         print('\tlog length - ', driver_log_length, 'm')
 
-draw_line_exp()
-# draw_bar_terms()
+# draw_line_exp()
+draw_bar_terms()
 
 # mapping = {}
 
