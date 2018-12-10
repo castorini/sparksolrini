@@ -7,10 +7,11 @@ import os
 
 root_dir = os.getcwd()
 metrics_dir = os.path.join(root_dir, "init_exp_results", "metrics")
+graphs_dir = os.path.join(root_dir, "report", "graphs")
 
 total_mem = 32  # single node memory in Ki
 num_nodes = 5  # number of machines
-num_cores = 12
+num_cores = 12 # number of cores
 
 # terms = ["napoleon", "interpol", "belt", "kind", "idea", "current", "other", "public"]
 
@@ -71,8 +72,6 @@ def get_driver_metrics(exp_type, term):
 
     cpu_usage = []
     mem_usage = []
-    vsz_usage = []
-    rss_usage = []
 
     with open(file_name) as f:
         for line in f.readlines():
@@ -83,22 +82,16 @@ def get_driver_metrics(exp_type, term):
                     CPU = float(match_result.group(3))  # % cpu
                     MEM = float(match_result.group(5))  # % mem
 
-                    # TODO : confirm that unit match with pod memory logs
-                    VSZ = int(match_result.group(7))  # virtual size in kilobytes
-                    RSS = int(match_result.group(8))  # real memory size or resident set size in 1024 byte units
-
                     if log_time < run_time:
                         cpu_usage.append(CPU)
                         mem_usage.append(MEM)
-                        vsz_usage.append(VSZ)
-                        rss_usage.append(RSS)
                     else:
                         break
                 else:
                     print("no match found for driver metrics", line)
                     sys.exit()
 
-    return (run_time, cpu_usage, mem_usage, vsz_usage, rss_usage)
+    return (run_time, cpu_usage, mem_usage)
 
 
 pod_regex_format = r"^(\d+)\t([a-z|\d-]+)[ ]+(\d+)m[ ]+(\d+)(Gi|Mi|Ki)[ ]+\snode(\d)"
@@ -141,7 +134,7 @@ def get_pod_metrics(exp_type, term, log_length):
                 CPU = int(match_result.group(3))  # milliCPU
                 MEM = int(match_result.group(4))  # mem
                 MEM_UNIT = match_result.group(5)  # Gi - GB, Mi - MB, Ki - KB
-                node = int(match_result.group(6))  # node num
+                # node = int(match_result.group(6))  # node num
 
                 if last_log_time == 0 and log_time != 60:
                     # target pod was not started until current log_time
@@ -218,106 +211,176 @@ term_spark_mem_totals = {}
 term_solr_mem_totals = {}
 term_hdfs_mem_totals = {}
 
-def draw_line_exp(exp_type):
+def draw_line_exp():
     # plot line graph for each experiment's CPU and memory usage
     # values aggregated for all terms
 
-    # cpu
-    plt.clf()
-    plt.title("exp: " + exp_type + " - cpu")
+    for term in terms:
+        for exp_type in exp_results.keys():
+            total_cpu_usage = term_exps[term][exp_type]['cpu_usage']
+            total_solr_cpu_usage = term_exps[term][exp_type]['solr_cpu_usage']
+            total_spark_cpu_usage = term_exps[term][exp_type]['spark_cpu_usage']
+            total_hdfs_cpu_usage = term_exps[term][exp_type]['hdfs_cpu_usage']
 
-    plt.plot(term_exps[exp_type]['cpu_usage'])
-    legend = [exp_type + ' - Driver CPU Usage']
-    if "solr" in exp_type:
-        plt.plot(term_exps[exp_type]['solr_cpu_usage'])
-        legend.append(exp_type + ' - Solr CPU Usage')
-    if "spark" in exp_type:
-        plt.plot(term_exps[exp_type]['spark_cpu_usage'])
-        legend.append(exp_type + ' - Spark CPU Usage')
-    if "hdfs" in exp_type:
-        plt.plot(term_exps[exp_type]['hdfs_cpu_usage'])
-        legend.append(exp_type + ' - Hdfs CPU Usage')
+            total_mem_usage = term_exps[term][exp_type]['mem_usage']
+            total_solr_mem_usage = term_exps[term][exp_type]['solr_mem_usage']
+            total_spark_mem_usage = term_exps[term][exp_type]['spark_mem_usage']
+            total_hdfs_mem_usage = term_exps[term][exp_type]['hdfs_mem_usage']
 
-    plt.legend(legend, loc='upper right')
+            # cpu
+            plt.clf()
+            plt.xlabel('Time')
+            plt.ylabel('CPU Usage %')
+            plt.title("exp: " + exp_type + " - cpu")
 
-    plt.show()
+            plt.plot(total_cpu_usage)
+            legend = [exp_type + ' - Driver CPU Usage']
+            if "solr" in exp_type:
+                plt.plot(total_solr_cpu_usage)
+                legend.append(exp_type + ' - Solr CPU Usage')
+            if "spark" in exp_type:
+                plt.plot(total_spark_cpu_usage)
+                legend.append(exp_type + ' - Spark CPU Usage')
+            if "hdfs" in exp_type:
+                plt.plot(total_hdfs_cpu_usage)
+                legend.append(exp_type + ' - Hdfs CPU Usage')
 
-    # memory
-    plt.clf()
-    plt.title("exp: " + exp_type + " - mem")
+            plt.legend(legend, loc='upper right')
 
-    plt.plot(term_exps[exp_type]['mem_usage'])
-    legend = [exp_type + ' - Driver Memory Usage']
-    if "solr" in exp_type:
-        plt.plot(term_exps[exp_type]['solr_mem_usage'])
-        legend.append(exp_type + ' - Solr Memory Usage')
-    if "spark" in exp_type:
-        plt.plot(term_exps[exp_type]['spark_mem_usage'])
-        legend.append(exp_type + ' - Spark Memory Usage')
-    if "hdfs" in exp_type:
-        plt.plot(term_exps[exp_type]['hdfs_mem_usage'])
-        legend.append(exp_type + ' - Hdfs Memory Usage')
+            plt.savefig(os.path.join(graphs_dir, "cpu_time_" + exp_type + "_" + term + ".png"))
 
-    plt.legend(legend, loc='upper right')
+            # memory
+            plt.clf()
+            plt.xlabel('Time')
+            plt.ylabel('Memory Usage %')
+            plt.title("exp: " + exp_type + " - mem")
 
-    plt.show()
+            plt.plot(total_mem_usage)
+            legend = [exp_type + ' - Driver Memory Usage']
+            if "solr" in exp_type:
+                plt.plot(total_solr_mem_usage)
+                legend.append(exp_type + ' - Solr Memory Usage')
+            if "spark" in exp_type:
+                plt.plot(total_spark_mem_usage)
+                legend.append(exp_type + ' - Spark Memory Usage')
+            if "hdfs" in exp_type:
+                plt.plot(total_hdfs_mem_usage)
+                legend.append(exp_type + ' - Hdfs Memory Usage')
 
-def draw_bar_all():
+            plt.legend(legend, loc='upper right')
+
+            plt.savefig(os.path.join(graphs_dir, "mem_time_" + exp_type + "_" + term + ".png"))
+
+def draw_bar_terms():
     # plot bar graph for total cpu and memory usage
 
-    print(term_driver_cpu_totals['solr'])
+    max_driver_cpu_usage_len = max([len(term_exps[term][exp_type]['cpu_usage']) for term in terms for exp_type in exp_results.keys()])
+
+    # pad
+    for term in terms:
+        for exp_type in exp_results.keys():
+
+            driver_log_length = len(term_exps[term][exp_type]['cpu_usage'])
+
+            if driver_log_length < max_driver_cpu_usage_len:
+                # pad remaining indices with zero
+                pad_size = max_driver_cpu_usage_len - driver_log_length
+                term_exps[term][exp_type]['cpu_usage'] = np.pad(term_exps[term][exp_type]['cpu_usage'], (0, pad_size), 'constant')
+                term_exps[term][exp_type]['mem_usage'] = np.pad(term_exps[term][exp_type]['mem_usage'], (0, pad_size), 'constant')
+
+            spark_log_length = len(term_exps[term][exp_type]['spark_cpu_usage'])
+
+            if spark_log_length < max_driver_cpu_usage_len:
+                # pad remaining indices with zero
+                pad_size = max_driver_cpu_usage_len - spark_log_length
+                term_exps[term][exp_type]['spark_cpu_usage'] = np.pad(term_exps[term][exp_type]['spark_cpu_usage'], (0, pad_size), 'constant')
+                term_exps[term][exp_type]['spark_mem_usage'] = np.pad(term_exps[term][exp_type]['spark_mem_usage'], (0, pad_size), 'constant')
+
+            solr_log_length = len(term_exps[term][exp_type]['solr_cpu_usage'])
+
+            if solr_log_length < max_driver_cpu_usage_len:
+                # center align and pad with first/last value
+                pad_size = max_driver_cpu_usage_len - solr_log_length
+
+                left_pad = math.ceil(pad_size/2)
+                right_pad = pad_size - left_pad
+
+                term_exps[term][exp_type]['solr_cpu_usage'] = np.pad(term_exps[term][exp_type]['solr_cpu_usage'], (left_pad, right_pad), 'edge')
+                term_exps[term][exp_type]['solr_mem_usage'] = np.pad(term_exps[term][exp_type]['solr_mem_usage'], (left_pad, right_pad), 'edge')
+
+            hdfs_log_length = len(term_exps[term][exp_type]['hdfs_cpu_usage'])
+
+            if hdfs_log_length < max_driver_cpu_usage_len:
+                # center align and pad with first/last value
+                pad_size = max_driver_cpu_usage_len - hdfs_log_length
+
+                left_pad = math.ceil(pad_size/2)
+                right_pad = pad_size - left_pad
+
+                term_exps[term][exp_type]['hdfs_cpu_usage'] = np.pad(term_exps[term][exp_type]['hdfs_cpu_usage'], (left_pad, right_pad), 'edge')
+                term_exps[term][exp_type]['hdfs_mem_usage'] = np.pad(term_exps[term][exp_type]['hdfs_mem_usage'], (left_pad, right_pad), 'edge')
+
+    exp1_driver_cpu_usage = np.sum([term_exps[term]['solr']['cpu_usage'] for term in terms])
+
+    exp2_driver_cpu_usage = np.sum([term_exps[term]['spark_solr']['cpu_usage'] for term in terms])
+
+    exp3_driver_cpu_usage = np.sum([term_exps[term]['hdfs_spark']['cpu_usage'] for term in terms])
+
+    X = np.arange(len(terms))
+
+    plt.title("Total CPU Usage vs Selectivity")
 
     # driver totals
-    plt.bar(terms, term_driver_cpu_totals['solr'], color='b', width=0.25)
-    # plt.bar(X + 0.25, term_driver_totals['spark_solr'], color='b', width=0.25)
-    # plt.bar(X + 0.50, term_driver_totals['hdfs_spark'], color='b', width=0.25)
+    plt.bar(X, exp1_driver_cpu_usage, color='b', width=0.25)
 
-    plt.show()
+    # solr totals
+    plt.bar(X + 0.25, exp2_driver_cpu_usage, color='g', width=0.25)
+
+    # spark totals
+    plt.bar(X + 0.50, exp3_driver_cpu_usage, color='r', width=0.25)
+
+    plt.xticks(X, terms)
+    plt.xlabel('Search Term')
+    plt.ylabel('Total Driver CPU Usage (millicpu)')
+    plt.legend(['Solr', 'SolrSpark', 'HdfsSpark'], loc='upper right')
+
+    plt.savefig(os.path.join(graphs_dir, "cpu_selectivity.png"))
 
 ###
 
-for exp_type in exp_results.keys():
+for term in terms:
 
-    term_exps[exp_type] = {}
+    term_exps[term] = {}
 
-    term_exps[exp_type]['cpu_usage'] = []
-    term_exps[exp_type]['spark_cpu_usage'] = []
-    term_exps[exp_type]['hdfs_cpu_usage'] = []
-    term_exps[exp_type]['solr_cpu_usage'] = []
+    for exp_type in exp_results.keys():
 
-    term_exps[exp_type]['mem_usage'] = []
-    term_exps[exp_type]['spark_mem_usage'] = []
-    term_exps[exp_type]['hdfs_mem_usage'] = []
-    term_exps[exp_type]['solr_mem_usage'] = []
-
-    for term in terms:
+        term_exps[term][exp_type] = {}
 
         print("processing ", exp_type, " -  term ", term)
         # driver log
-        (driver_run_time, cpu_usage, mem_usage, vsz_usage, rss_usage) = get_driver_metrics(exp_type, term)
+        (driver_run_time, cpu_usage, mem_usage) = get_driver_metrics(exp_type, term)
 
         # to algin driver log with pod log
         driver_log_length = len(cpu_usage)
 
-        term_exps[exp_type]['cpu_usage'] += cpu_usage
-        term_exps[exp_type]['mem_usage'] += mem_usage
+        term_exps[term][exp_type]['cpu_usage'] = cpu_usage
+        term_exps[term][exp_type]['mem_usage'] = mem_usage
 
         (run_time, spark_cpu_usage, hdfs_cpu_usage, solr_cpu_usage, spark_mem_usage, hdfs_mem_usage, solr_mem_usage) = get_pod_metrics(exp_type, term, driver_log_length)
 
-        term_exps[exp_type]['spark_cpu_usage'] += spark_cpu_usage
-        term_exps[exp_type]['hdfs_cpu_usage'] += hdfs_cpu_usage
-        term_exps[exp_type]['solr_cpu_usage'] += solr_cpu_usage
+        term_exps[term][exp_type]['spark_cpu_usage'] = spark_cpu_usage
+        term_exps[term][exp_type]['hdfs_cpu_usage'] = hdfs_cpu_usage
+        term_exps[term][exp_type]['solr_cpu_usage'] = solr_cpu_usage
 
-        term_exps[exp_type]['spark_mem_usage'] += spark_mem_usage
-        term_exps[exp_type]['hdfs_mem_usage'] += hdfs_mem_usage
-        term_exps[exp_type]['solr_mem_usage'] += solr_mem_usage
+        term_exps[term][exp_type]['spark_mem_usage'] = spark_mem_usage
+        term_exps[term][exp_type]['hdfs_mem_usage'] = hdfs_mem_usage
+        term_exps[term][exp_type]['solr_mem_usage'] = solr_mem_usage
 
         print('\trun_time - ', driver_run_time, 's')
         print('\tlog length - ', driver_log_length, 'm')
 
-    draw_line_exp(exp_type)
-
-# draw_bar_all()
+draw_line_exp()
+# draw_bar_terms()
 
 # mapping = {}
 
