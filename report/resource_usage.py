@@ -147,13 +147,25 @@ def get_pod_metrics(exp_type, term, log_length):
 
                 if log_time > last_log_time:
                     # flush the last group
-                    spark_cpu_usage.append(np.sum(spark_cpu_group))
-                    hdfs_cpu_usage.append(np.sum(hdfs_cpu_group))
-                    solr_cpu_usage.append(np.sum(solr_cpu_group))
 
-                    spark_mem_usage.append(np.sum(spark_mem_group))
-                    hdfs_mem_usage.append(np.sum(hdfs_mem_group))
-                    solr_mem_usage.append(np.sum(solr_mem_group))
+                    # TODO: convert to percentage?
+                    total_spark_cpu = np.sum(spark_cpu_group)
+                    total_hdfs_cpu = np.sum(hdfs_cpu_group)
+                    total_solr_cpu = np.sum(solr_cpu_group)
+                    total_cpu = total_spark_cpu + total_hdfs_cpu + total_solr_cpu
+
+                    spark_cpu_usage.append(total_spark_cpu / total_cpu * 100)
+                    hdfs_cpu_usage.append(total_hdfs_cpu / total_cpu * 100)
+                    solr_cpu_usage.append(total_solr_cpu / total_cpu * 100)
+
+                    total_spark_mem = np.sum(spark_mem_group)
+                    total_hdfs_mem = np.sum(hdfs_mem_group)
+                    total_solr_mem = np.sum(solr_mem_group)
+                    total_mem = total_spark_mem + total_hdfs_mem + total_solr_mem
+
+                    spark_mem_usage.append(total_spark_mem / total_mem * 100)
+                    hdfs_mem_usage.append(total_hdfs_mem / total_mem * 100)
+                    solr_mem_usage.append(total_solr_mem / total_mem * 100)
 
                     if log_length == len(spark_cpu_usage): break
 
@@ -167,8 +179,8 @@ def get_pod_metrics(exp_type, term, log_length):
 
                     last_log_time = log_time
 
-                # convert milliCPU to CPU %
-                CPU /= (10 * num_cores)
+                # convert milliCPU to CPU
+                CPU /= (1000 * num_cores)
 
                 # convert all memory to Gi
                 converted = MEM
@@ -177,9 +189,6 @@ def get_pod_metrics(exp_type, term, log_length):
                     converted /= 1024
                     if MEM_UNIT == "Ki":
                         converted /= 1024
-
-                # convert to percentage
-                converted = converted / total_mem * 100
 
                 if "spark" in label:
                     spark_cpu_group.append(CPU)
@@ -287,42 +296,46 @@ def draw_bar_terms():
                 term_exps[term][exp_type]['cpu_usage'] = np.pad(term_exps[term][exp_type]['cpu_usage'], (0, pad_size), 'constant')
                 term_exps[term][exp_type]['mem_usage'] = np.pad(term_exps[term][exp_type]['mem_usage'], (0, pad_size), 'constant')
 
-            spark_log_length = len(term_exps[term][exp_type]['spark_cpu_usage'])
-
-            if spark_log_length < max_driver_cpu_usage_len:
-                # pad remaining indices with zero
-                pad_size = max_driver_cpu_usage_len - spark_log_length
-                term_exps[term][exp_type]['spark_cpu_usage'] = np.pad(term_exps[term][exp_type]['spark_cpu_usage'], (0, pad_size), 'constant')
-                term_exps[term][exp_type]['spark_mem_usage'] = np.pad(term_exps[term][exp_type]['spark_mem_usage'], (0, pad_size), 'constant')
-
-            solr_log_length = len(term_exps[term][exp_type]['solr_cpu_usage'])
-
-            if solr_log_length < max_driver_cpu_usage_len:
-                # center align and pad with first/last value
-                pad_size = max_driver_cpu_usage_len - solr_log_length
-
-                left_pad = math.ceil(pad_size/2)
-                right_pad = pad_size - left_pad
-
-                term_exps[term][exp_type]['solr_cpu_usage'] = np.pad(term_exps[term][exp_type]['solr_cpu_usage'], (left_pad, right_pad), 'edge')
-                term_exps[term][exp_type]['solr_mem_usage'] = np.pad(term_exps[term][exp_type]['solr_mem_usage'], (left_pad, right_pad), 'edge')
-
-            hdfs_log_length = len(term_exps[term][exp_type]['hdfs_cpu_usage'])
-
-            if hdfs_log_length < max_driver_cpu_usage_len:
-                # center align and pad with first/last value
-                pad_size = max_driver_cpu_usage_len - hdfs_log_length
-
-                left_pad = math.ceil(pad_size/2)
-                right_pad = pad_size - left_pad
-
-                term_exps[term][exp_type]['hdfs_cpu_usage'] = np.pad(term_exps[term][exp_type]['hdfs_cpu_usage'], (left_pad, right_pad), 'edge')
-                term_exps[term][exp_type]['hdfs_mem_usage'] = np.pad(term_exps[term][exp_type]['hdfs_mem_usage'], (left_pad, right_pad), 'edge')
+            # spark_log_length = len(term_exps[term][exp_type]['spark_cpu_usage'])
+            #
+            # if spark_log_length < max_driver_cpu_usage_len:
+            #     # pad remaining indices with zero
+            #     pad_size = max_driver_cpu_usage_len - spark_log_length
+            #     term_exps[term][exp_type]['spark_cpu_usage'] = np.pad(term_exps[term][exp_type]['spark_cpu_usage'], (0, pad_size), 'constant')
+            #     term_exps[term][exp_type]['spark_mem_usage'] = np.pad(term_exps[term][exp_type]['spark_mem_usage'], (0, pad_size), 'constant')
+            #
+            # solr_log_length = len(term_exps[term][exp_type]['solr_cpu_usage'])
+            #
+            # if solr_log_length < max_driver_cpu_usage_len:
+            #     # center align and pad with first/last value
+            #     pad_size = max_driver_cpu_usage_len - solr_log_length
+            #
+            #     left_pad = math.ceil(pad_size/2)
+            #     right_pad = pad_size - left_pad
+            #
+            #     term_exps[term][exp_type]['solr_cpu_usage'] = np.pad(term_exps[term][exp_type]['solr_cpu_usage'], (left_pad, right_pad), 'edge')
+            #     term_exps[term][exp_type]['solr_mem_usage'] = np.pad(term_exps[term][exp_type]['solr_mem_usage'], (left_pad, right_pad), 'edge')
+            #
+            # hdfs_log_length = len(term_exps[term][exp_type]['hdfs_cpu_usage'])
+            #
+            # if hdfs_log_length < max_driver_cpu_usage_len:
+            #     # center align and pad with first/last value
+            #     pad_size = max_driver_cpu_usage_len - hdfs_log_length
+            #
+            #     left_pad = math.ceil(pad_size/2)
+            #     right_pad = pad_size - left_pad
+            #
+            #     term_exps[term][exp_type]['hdfs_cpu_usage'] = np.pad(term_exps[term][exp_type]['hdfs_cpu_usage'], (left_pad, right_pad), 'edge')
+            #     term_exps[term][exp_type]['hdfs_mem_usage'] = np.pad(term_exps[term][exp_type]['hdfs_mem_usage'], (left_pad, right_pad), 'edge')
 
     # cpu
     exp1_driver_cpu_usage = np.sum([term_exps[term]['solr']['cpu_usage'] for term in terms], axis=1)
     exp2_driver_cpu_usage = np.sum([term_exps[term]['spark_solr']['cpu_usage'] for term in terms], axis=1)
     exp3_driver_cpu_usage = np.sum([term_exps[term]['hdfs_spark']['cpu_usage'] for term in terms], axis=1)
+
+    exp1_driver_cpu_usage = exp1_driver_cpu_usage / np.sum(exp1_driver_cpu_usage) * 100
+    exp2_driver_cpu_usage = exp2_driver_cpu_usage / np.sum(exp2_driver_cpu_usage) * 100
+    exp3_driver_cpu_usage = exp3_driver_cpu_usage / np.sum(exp3_driver_cpu_usage) * 100
 
     X = np.arange(len(terms))
 
@@ -349,6 +362,10 @@ def draw_bar_terms():
     exp2_driver_mem_usage = np.sum([term_exps[term]['spark_solr']['mem_usage'] for term in terms], axis=1)
     exp3_driver_mem_usage = np.sum([term_exps[term]['hdfs_spark']['mem_usage'] for term in terms], axis=1)
 
+    exp1_driver_mem_usage = exp1_driver_mem_usage / np.sum(exp1_driver_mem_usage) * 100
+    exp2_driver_mem_usage = exp2_driver_mem_usage / np.sum(exp2_driver_mem_usage) * 100
+    exp3_driver_mem_usage = exp3_driver_mem_usage / np.sum(exp3_driver_mem_usage) * 100
+
     X = np.arange(len(terms))
 
     plt.title("Total Memory Usage vs Selectivity")
@@ -368,7 +385,6 @@ def draw_bar_terms():
     plt.legend(['Solr', 'SolrSpark', 'HdfsSpark'], loc='upper right')
 
     plt.savefig(os.path.join(graphs_dir, "mem_selectivity.png"))
-
 
 def draw_runtime():
     # plot bar graph for driver runtime for each experiment
@@ -434,9 +450,9 @@ for term in terms:
         print('\tlog length - ', driver_log_length, 'm')
 
 
-draw_runtime()
+# draw_runtime()
 # draw_line_exp()
-# draw_bar_terms()
+draw_bar_terms()
 
 # mapping = {}
 
