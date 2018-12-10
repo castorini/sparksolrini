@@ -96,7 +96,6 @@ def get_driver_metrics(exp_type, term):
 
 pod_regex_format = r"^(\d+)\t([a-z|\d-]+)[ ]+(\d+)m[ ]+(\d+)(Gi|Mi|Ki)[ ]+\snode(\d)"
 
-
 def get_pod_metrics(exp_type, term, log_length):
     file_name = os.path.join(metrics_dir, exp_type + "_" + term + "_pod.txt")
     run_time = exp_results[exp_type][term] / 1000
@@ -370,7 +369,36 @@ def draw_bar_terms():
 
     plt.savefig(os.path.join(graphs_dir, "mem_selectivity.png"))
 
+
+def draw_runtime():
+    # plot bar graph for driver runtime for each experiment
+
+    exp1_runtime = [term_exps[term]['solr']['runtime'] for term in terms]
+    exp2_runtime = [term_exps[term]['spark_solr']['runtime'] for term in terms]
+    exp3_runtime = [term_exps[term]['hdfs_spark']['runtime'] for term in terms]
+
+    X = np.arange(len(terms))
+
+    plt.title("Execution Time vs Selectivity")
+
+    # driver totals
+    plt.bar(X, exp1_runtime, color='b', width=0.25)
+
+    # solr totals
+    plt.bar(X + 0.25, exp2_runtime, color='g', width=0.25)
+
+    # spark totals
+    plt.bar(X + 0.50, exp3_runtime, color='r', width=0.25)
+
+    plt.xticks(X, terms)
+    plt.xlabel('Search Term')
+    plt.ylabel('Execution Time (s)')
+    plt.legend(['Solr', 'SolrSpark', 'HdfsSpark'], loc='upper right')
+
+    plt.savefig(os.path.join(graphs_dir, "runtime_selectivity.png"))
+
 ###
+
 
 for term in terms:
 
@@ -383,6 +411,8 @@ for term in terms:
         print("processing ", exp_type, " -  term ", term)
         # driver log
         (driver_run_time, cpu_usage, mem_usage) = get_driver_metrics(exp_type, term)
+
+        term_exps[term][exp_type]['runtime'] = driver_run_time
 
         # to algin driver log with pod log
         driver_log_length = len(cpu_usage)
@@ -403,8 +433,10 @@ for term in terms:
         print('\trun_time - ', driver_run_time, 's')
         print('\tlog length - ', driver_log_length, 'm')
 
+
+draw_runtime()
 # draw_line_exp()
-draw_bar_terms()
+# draw_bar_terms()
 
 # mapping = {}
 
