@@ -329,81 +329,79 @@ def draw_bar_terms():
                 term_exps[term][exp_type]['hdfs_mem_usage'] = np.pad(term_exps[term][exp_type]['hdfs_mem_usage'], (left_pad, right_pad), 'edge')
 
     # cpu
-    exp1_driver_cpu_usage = np.sum([term_exps[term]['solr']['cpu_usage'] for term in terms], axis=1)
-    exp1_solr_cpu_usage = np.sum([term_exps[term]['solr']['solr_cpu_usage'] for term in terms], axis=1)
+    exp1_driver_cpu_usage = np.max([term_exps[term]['solr']['cpu_usage'] for term in terms], axis=1)
+    exp1_solr_cpu_usage = np.max([term_exps[term]['solr']['solr_cpu_usage'] for term in terms], axis=1)
 
-    exp2_driver_cpu_usage = np.sum([term_exps[term]['spark_solr']['cpu_usage'] for term in terms], axis=1)
-    exp2_solr_cpu_usage = np.sum([term_exps[term]['spark_solr']['solr_cpu_usage'] for term in terms], axis=1)
-    exp2_spark_cpu_usage = np.sum([term_exps[term]['spark_solr']['spark_cpu_usage'] for term in terms], axis=1)
+    exp2_driver_cpu_usage = np.max([term_exps[term]['spark_solr']['cpu_usage'] for term in terms], axis=1)
+    exp2_solr_cpu_usage = np.max([term_exps[term]['spark_solr']['solr_cpu_usage'] for term in terms], axis=1)
+    exp2_spark_cpu_usage = np.max([term_exps[term]['spark_solr']['spark_cpu_usage'] for term in terms], axis=1)
 
-    exp3_driver_cpu_usage = np.sum([term_exps[term]['hdfs_spark']['cpu_usage'] for term in terms], axis=1)
-    exp3_spark_cpu_usage = np.sum([term_exps[term]['hdfs_spark']['spark_cpu_usage'] for term in terms], axis=1)
-    exp3_hdfs_cpu_usage = np.sum([term_exps[term]['hdfs_spark']['hdfs_cpu_usage'] for term in terms], axis=1)
+    exp3_driver_cpu_usage = np.max([term_exps[term]['hdfs_spark']['cpu_usage'] for term in terms], axis=1)
+    exp3_spark_cpu_usage = np.max([term_exps[term]['hdfs_spark']['spark_cpu_usage'] for term in terms], axis=1)
+    exp3_hdfs_cpu_usage = np.max([term_exps[term]['hdfs_spark']['hdfs_cpu_usage'] for term in terms], axis=1)
 
     ###
 
     # memory
-    exp1_driver_mem_usage = np.sum([term_exps[term]['solr']['mem_usage'] for term in terms], axis=1)
-    exp1_solr_mem_usage = np.sum([term_exps[term]['solr']['solr_mem_usage'] for term in terms], axis=1)
+    exp1_driver_mem_usage = np.max([term_exps[term]['solr']['mem_usage'] for term in terms], axis=1)
+    exp1_solr_mem_usage = np.max([term_exps[term]['solr']['solr_mem_usage'] for term in terms], axis=1)
 
-    exp2_driver_mem_usage = np.sum([term_exps[term]['spark_solr']['mem_usage'] for term in terms], axis=1)
-    exp2_solr_mem_usage = np.sum([term_exps[term]['spark_solr']['solr_mem_usage'] for term in terms], axis=1)
-    exp2_spark_mem_usage = np.sum([term_exps[term]['spark_solr']['spark_mem_usage'] for term in terms], axis=1)
+    exp2_driver_mem_usage = np.max([term_exps[term]['spark_solr']['mem_usage'] for term in terms], axis=1)
+    exp2_solr_mem_usage = np.max([term_exps[term]['spark_solr']['solr_mem_usage'] for term in terms], axis=1)
+    exp2_spark_mem_usage = np.max([term_exps[term]['spark_solr']['spark_mem_usage'] for term in terms], axis=1)
 
-    exp3_driver_mem_usage = np.sum([term_exps[term]['hdfs_spark']['mem_usage'] for term in terms], axis=1)
-    exp3_spark_mem_usage = np.sum([term_exps[term]['hdfs_spark']['spark_mem_usage'] for term in terms], axis=1)
-    exp3_hdfs_mem_usage = np.sum([term_exps[term]['hdfs_spark']['hdfs_mem_usage'] for term in terms], axis=1)
+    exp3_driver_mem_usage = np.max([term_exps[term]['hdfs_spark']['mem_usage'] for term in terms], axis=1)
+    exp3_spark_mem_usage = np.max([term_exps[term]['hdfs_spark']['spark_mem_usage'] for term in terms], axis=1)
+    exp3_hdfs_mem_usage = np.max([term_exps[term]['hdfs_spark']['hdfs_mem_usage'] for term in terms], axis=1)
 
     X = np.arange(len(terms))
 
     plt.title("Total CPU Usage % vs Selectivity")
 
     # exp1
-    plt1 = plt.bar(X, exp1_driver_cpu_usage, color='b', width=0.25)
-    plt2 = plt.bar(X, exp1_solr_cpu_usage, bottom=exp1_driver_cpu_usage, color='y', width=0.25)
+    plt1 = plt.bar(X - 0.27, exp1_driver_cpu_usage, color='b', width=0.25)
+    plt2 = plt.bar(X - 0.27, exp1_solr_cpu_usage, bottom=exp1_driver_cpu_usage, color='y', width=0.25)
 
     # exp2
-    plt.bar(X + 0.30, exp2_driver_cpu_usage, color='b', width=0.25)
-    plt.bar(X + 0.30, exp2_solr_cpu_usage, bottom=exp2_driver_cpu_usage, color='y', width=0.25)
-    plt.bar(X + 0.30, exp2_spark_cpu_usage, bottom=exp2_driver_cpu_usage + exp2_solr_cpu_usage, color='g', width=0.25)
+    plt.bar(X, exp2_driver_cpu_usage, color='b', width=0.25)
+    plt.bar(X, exp2_solr_cpu_usage, bottom=exp2_driver_cpu_usage, color='y', width=0.25)
+    plt.bar(X, exp2_spark_cpu_usage, bottom=exp2_driver_cpu_usage + exp2_solr_cpu_usage, color='g', width=0.25)
 
     # exp3
-    plt.bar(X + 0.60, exp3_driver_cpu_usage, color='b', width=0.25)
-    plt3 = plt.bar(X + 0.60, exp3_spark_cpu_usage, bottom=exp3_driver_cpu_usage, color='g', width=0.25)
-    plt4 = plt.bar(X + 0.60, exp3_hdfs_cpu_usage, bottom=exp3_driver_cpu_usage + exp3_spark_cpu_usage, color='m', width=0.25)
+    plt.bar(X + 0.27, exp3_driver_cpu_usage, color='b', width=0.25)
+    plt3 = plt.bar(X + 0.27, exp3_spark_cpu_usage, bottom=exp3_driver_cpu_usage, color='g', width=0.25)
+    plt4 = plt.bar(X + 0.27, exp3_hdfs_cpu_usage, bottom=exp3_driver_cpu_usage + exp3_spark_cpu_usage, color='m', width=0.25)
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
     plt.ylabel('Total Driver CPU Usage %')
     plt.legend((plt1[0], plt2[0], plt3[0], plt4[0]), ('Driver %', 'Solr %', 'Spark %', 'HDFS %'))
 
-    # plt.savefig(os.path.join(graphs_dir, "cpu_selectivity.png"))
-    plt.show()
+    plt.savefig(os.path.join(graphs_dir, "cpu_selectivity.png"))
 
     # memory
     plt.title("Total Mem Usage % vs Selectivity")
 
     # exp1
-    plt1 = plt.bar(X, exp1_driver_mem_usage, color='b', width=0.25)
-    plt2 = plt.bar(X, exp1_solr_mem_usage, bottom=exp1_driver_mem_usage, color='y', width=0.25)
+    plt1 = plt.bar(X - 0.27, exp1_driver_mem_usage, color='b', width=0.25)
+    plt2 = plt.bar(X - 0.27, exp1_solr_mem_usage, bottom=exp1_driver_mem_usage, color='y', width=0.25)
 
     # exp2
-    plt.bar(X + 0.30, exp2_driver_mem_usage, color='b', width=0.25)
-    plt.bar(X + 0.30, exp2_solr_mem_usage, bottom=exp2_driver_mem_usage, color='y', width=0.25)
-    plt.bar(X + 0.30, exp2_spark_mem_usage, bottom=exp2_driver_mem_usage + exp2_solr_mem_usage, color='g', width=0.25)
+    plt.bar(X, exp2_driver_mem_usage, color='b', width=0.25)
+    plt.bar(X, exp2_solr_mem_usage, bottom=exp2_driver_mem_usage, color='y', width=0.25)
+    plt.bar(X, exp2_spark_mem_usage, bottom=exp2_driver_mem_usage + exp2_solr_mem_usage, color='g', width=0.25)
 
     # exp3
-    plt.bar(X + 0.60, exp3_driver_mem_usage, color='b', width=0.25)
-    plt3 = plt.bar(X + 0.60, exp3_spark_mem_usage, bottom=exp3_driver_mem_usage, color='g', width=0.25)
-    plt4 = plt.bar(X + 0.60, exp3_hdfs_mem_usage, bottom=exp3_driver_mem_usage + exp3_spark_mem_usage, color='m', width=0.25)
+    plt.bar(X + 0.27, exp3_driver_mem_usage, color='b', width=0.25)
+    plt3 = plt.bar(X + 0.27, exp3_spark_mem_usage, bottom=exp3_driver_mem_usage, color='g', width=0.25)
+    plt4 = plt.bar(X + 0.27, exp3_hdfs_mem_usage, bottom=exp3_driver_mem_usage + exp3_spark_mem_usage, color='m', width=0.25)
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
     plt.ylabel('Total Driver Memory Usag %')
     plt.legend((plt1[0], plt2[0], plt3[0], plt4[0]), ('Driver %', 'Solr %', 'Spark %', 'HDFS %'))
 
-    # plt.savefig(os.path.join(graphs_dir, "mem_selectivity.png"))
-    plt.show()
+    plt.savefig(os.path.join(graphs_dir, "mem_selectivity.png"))
 
 def draw_runtime():
     # plot bar graph for driver runtime for each experiment
