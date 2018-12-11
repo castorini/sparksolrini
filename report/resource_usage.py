@@ -296,93 +296,110 @@ def draw_bar_terms():
                 term_exps[term][exp_type]['cpu_usage'] = np.pad(term_exps[term][exp_type]['cpu_usage'], (0, pad_size), 'constant')
                 term_exps[term][exp_type]['mem_usage'] = np.pad(term_exps[term][exp_type]['mem_usage'], (0, pad_size), 'constant')
 
-            # spark_log_length = len(term_exps[term][exp_type]['spark_cpu_usage'])
-            #
-            # if spark_log_length < max_driver_cpu_usage_len:
-            #     # pad remaining indices with zero
-            #     pad_size = max_driver_cpu_usage_len - spark_log_length
-            #     term_exps[term][exp_type]['spark_cpu_usage'] = np.pad(term_exps[term][exp_type]['spark_cpu_usage'], (0, pad_size), 'constant')
-            #     term_exps[term][exp_type]['spark_mem_usage'] = np.pad(term_exps[term][exp_type]['spark_mem_usage'], (0, pad_size), 'constant')
-            #
-            # solr_log_length = len(term_exps[term][exp_type]['solr_cpu_usage'])
-            #
-            # if solr_log_length < max_driver_cpu_usage_len:
-            #     # center align and pad with first/last value
-            #     pad_size = max_driver_cpu_usage_len - solr_log_length
-            #
-            #     left_pad = math.ceil(pad_size/2)
-            #     right_pad = pad_size - left_pad
-            #
-            #     term_exps[term][exp_type]['solr_cpu_usage'] = np.pad(term_exps[term][exp_type]['solr_cpu_usage'], (left_pad, right_pad), 'edge')
-            #     term_exps[term][exp_type]['solr_mem_usage'] = np.pad(term_exps[term][exp_type]['solr_mem_usage'], (left_pad, right_pad), 'edge')
-            #
-            # hdfs_log_length = len(term_exps[term][exp_type]['hdfs_cpu_usage'])
-            #
-            # if hdfs_log_length < max_driver_cpu_usage_len:
-            #     # center align and pad with first/last value
-            #     pad_size = max_driver_cpu_usage_len - hdfs_log_length
-            #
-            #     left_pad = math.ceil(pad_size/2)
-            #     right_pad = pad_size - left_pad
-            #
-            #     term_exps[term][exp_type]['hdfs_cpu_usage'] = np.pad(term_exps[term][exp_type]['hdfs_cpu_usage'], (left_pad, right_pad), 'edge')
-            #     term_exps[term][exp_type]['hdfs_mem_usage'] = np.pad(term_exps[term][exp_type]['hdfs_mem_usage'], (left_pad, right_pad), 'edge')
+            spark_log_length = len(term_exps[term][exp_type]['spark_cpu_usage'])
+
+            if spark_log_length < max_driver_cpu_usage_len:
+                # pad remaining indices with zero
+                pad_size = max_driver_cpu_usage_len - spark_log_length
+                term_exps[term][exp_type]['spark_cpu_usage'] = np.pad(term_exps[term][exp_type]['spark_cpu_usage'], (0, pad_size), 'constant')
+                term_exps[term][exp_type]['spark_mem_usage'] = np.pad(term_exps[term][exp_type]['spark_mem_usage'], (0, pad_size), 'constant')
+
+            solr_log_length = len(term_exps[term][exp_type]['solr_cpu_usage'])
+
+            if solr_log_length < max_driver_cpu_usage_len:
+                # center align and pad with first/last value
+                pad_size = max_driver_cpu_usage_len - solr_log_length
+
+                left_pad = math.ceil(pad_size/2)
+                right_pad = pad_size - left_pad
+
+                term_exps[term][exp_type]['solr_cpu_usage'] = np.pad(term_exps[term][exp_type]['solr_cpu_usage'], (left_pad, right_pad), 'edge')
+                term_exps[term][exp_type]['solr_mem_usage'] = np.pad(term_exps[term][exp_type]['solr_mem_usage'], (left_pad, right_pad), 'edge')
+
+            hdfs_log_length = len(term_exps[term][exp_type]['hdfs_cpu_usage'])
+
+            if hdfs_log_length < max_driver_cpu_usage_len:
+                # center align and pad with first/last value
+                pad_size = max_driver_cpu_usage_len - hdfs_log_length
+
+                left_pad = math.ceil(pad_size/2)
+                right_pad = pad_size - left_pad
+
+                term_exps[term][exp_type]['hdfs_cpu_usage'] = np.pad(term_exps[term][exp_type]['hdfs_cpu_usage'], (left_pad, right_pad), 'edge')
+                term_exps[term][exp_type]['hdfs_mem_usage'] = np.pad(term_exps[term][exp_type]['hdfs_mem_usage'], (left_pad, right_pad), 'edge')
 
     # cpu
     exp1_driver_cpu_usage = np.sum([term_exps[term]['solr']['cpu_usage'] for term in terms], axis=1)
-    exp2_driver_cpu_usage = np.sum([term_exps[term]['spark_solr']['cpu_usage'] for term in terms], axis=1)
-    exp3_driver_cpu_usage = np.sum([term_exps[term]['hdfs_spark']['cpu_usage'] for term in terms], axis=1)
+    exp1_solr_cpu_usage = np.sum([term_exps[term]['solr']['solr_cpu_usage'] for term in terms], axis=1)
 
-    exp1_driver_cpu_usage = exp1_driver_cpu_usage / np.sum(exp1_driver_cpu_usage) * 100
-    exp2_driver_cpu_usage = exp2_driver_cpu_usage / np.sum(exp2_driver_cpu_usage) * 100
-    exp3_driver_cpu_usage = exp3_driver_cpu_usage / np.sum(exp3_driver_cpu_usage) * 100
+    exp2_driver_cpu_usage = np.sum([term_exps[term]['spark_solr']['cpu_usage'] for term in terms], axis=1)
+    exp2_solr_cpu_usage = np.sum([term_exps[term]['spark_solr']['solr_cpu_usage'] for term in terms], axis=1)
+    exp2_spark_cpu_usage = np.sum([term_exps[term]['spark_solr']['spark_cpu_usage'] for term in terms], axis=1)
+
+    exp3_driver_cpu_usage = np.sum([term_exps[term]['hdfs_spark']['cpu_usage'] for term in terms], axis=1)
+    exp3_spark_cpu_usage = np.sum([term_exps[term]['hdfs_spark']['spark_cpu_usage'] for term in terms], axis=1)
+    exp3_hdfs_cpu_usage = np.sum([term_exps[term]['hdfs_spark']['hdfs_cpu_usage'] for term in terms], axis=1)
+
+    ###
+
+    # memory
+    exp1_driver_mem_usage = np.sum([term_exps[term]['solr']['mem_usage'] for term in terms], axis=1)
+    exp1_solr_mem_usage = np.sum([term_exps[term]['solr']['solr_mem_usage'] for term in terms], axis=1)
+
+    exp2_driver_mem_usage = np.sum([term_exps[term]['spark_solr']['mem_usage'] for term in terms], axis=1)
+    exp2_solr_mem_usage = np.sum([term_exps[term]['spark_solr']['solr_mem_usage'] for term in terms], axis=1)
+    exp2_spark_mem_usage = np.sum([term_exps[term]['spark_solr']['spark_mem_usage'] for term in terms], axis=1)
+
+    exp3_driver_mem_usage = np.sum([term_exps[term]['hdfs_spark']['mem_usage'] for term in terms], axis=1)
+    exp3_spark_mem_usage = np.sum([term_exps[term]['hdfs_spark']['spark_mem_usage'] for term in terms], axis=1)
+    exp3_hdfs_mem_usage = np.sum([term_exps[term]['hdfs_spark']['hdfs_mem_usage'] for term in terms], axis=1)
 
     X = np.arange(len(terms))
 
-    plt.title("Total CPU Usage vs Selectivity")
+    plt.title("Total CPU Usage % vs Selectivity")
 
-    # driver totals
-    plt.bar(X, exp1_driver_cpu_usage, color='b', width=0.25)
+    # exp1
+    plt1 = plt.bar(X, exp1_driver_cpu_usage, color='b', width=0.25)
+    plt2 = plt.bar(X, exp1_solr_cpu_usage, bottom=exp1_driver_cpu_usage, color='y', width=0.25)
 
-    # solr totals
-    plt.bar(X + 0.25, exp2_driver_cpu_usage, color='g', width=0.25)
+    # exp2
+    plt.bar(X + 0.30, exp2_driver_cpu_usage, color='g', width=0.25)
+    plt.bar(X + 0.30, exp2_solr_cpu_usage, bottom=exp2_driver_cpu_usage, color='y', width=0.25)
+    plt.bar(X + 0.30, exp2_spark_cpu_usage, bottom=exp2_driver_cpu_usage + exp2_solr_cpu_usage, color='m', width=0.25)
 
-    # spark totals
-    plt.bar(X + 0.50, exp3_driver_cpu_usage, color='r', width=0.25)
+    # exp3
+    plt.bar(X + 0.60, exp3_driver_cpu_usage, color='r', width=0.25)
+    plt3 = plt.bar(X + 0.60, exp3_spark_cpu_usage, bottom=exp3_driver_cpu_usage, color='m', width=0.25)
+    plt4 = plt.bar(X + 0.60, exp3_hdfs_cpu_usage, bottom=exp3_driver_cpu_usage + exp3_spark_cpu_usage, color='c', width=0.25)
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
-    plt.ylabel('Total Driver CPU Usage')
-    plt.legend(['Solr', 'SolrSpark', 'HdfsSpark'], loc='upper right')
+    plt.ylabel('Total Driver CPU Usage %')
+    plt.legend((plt1[0], plt2[0], plt3[0], plt4[0]), ('Driver %', 'Solr %', 'Spark %', 'HDFS %'))
 
     plt.savefig(os.path.join(graphs_dir, "cpu_selectivity.png"))
 
     # memory
-    exp1_driver_mem_usage = np.sum([term_exps[term]['solr']['mem_usage'] for term in terms], axis=1)
-    exp2_driver_mem_usage = np.sum([term_exps[term]['spark_solr']['mem_usage'] for term in terms], axis=1)
-    exp3_driver_mem_usage = np.sum([term_exps[term]['hdfs_spark']['mem_usage'] for term in terms], axis=1)
+    plt.title("Total Mem Usage % vs Selectivity")
 
-    exp1_driver_mem_usage = exp1_driver_mem_usage / np.sum(exp1_driver_mem_usage) * 100
-    exp2_driver_mem_usage = exp2_driver_mem_usage / np.sum(exp2_driver_mem_usage) * 100
-    exp3_driver_mem_usage = exp3_driver_mem_usage / np.sum(exp3_driver_mem_usage) * 100
+    # exp1
+    plt1 = plt.bar(X, exp1_driver_mem_usage, color='b', width=0.25)
+    plt2 = plt.bar(X, exp1_solr_mem_usage, bottom=exp1_driver_mem_usage, color='y', width=0.25)
 
-    X = np.arange(len(terms))
+    # exp2
+    plt.bar(X + 0.30, exp2_driver_mem_usage, color='g', width=0.25)
+    plt.bar(X + 0.30, exp2_solr_mem_usage, bottom=exp2_driver_mem_usage, color='y', width=0.25)
+    plt.bar(X + 0.30, exp2_spark_mem_usage, bottom=exp2_driver_mem_usage + exp2_solr_mem_usage, color='m', width=0.25)
 
-    plt.title("Total Memory Usage vs Selectivity")
-
-    # driver totals
-    plt.bar(X, exp1_driver_mem_usage, color='b', width=0.25)
-
-    # solr totals
-    plt.bar(X + 0.25, exp2_driver_mem_usage, color='g', width=0.25)
-
-    # spark totals
-    plt.bar(X + 0.50, exp3_driver_mem_usage, color='r', width=0.25)
+    # exp3
+    plt.bar(X + 0.60, exp3_driver_mem_usage, color='r', width=0.25)
+    plt3 = plt.bar(X + 0.60, exp3_spark_mem_usage, bottom=exp3_driver_mem_usage, color='m', width=0.25)
+    plt4 = plt.bar(X + 0.60, exp3_hdfs_mem_usage, bottom=exp3_driver_mem_usage + exp3_spark_mem_usage, color='c', width=0.25)
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
-    plt.ylabel('Total Driver Memory Usage')
-    plt.legend(['Solr', 'SolrSpark', 'HdfsSpark'], loc='upper right')
+    plt.ylabel('Total Driver Memory Usag %')
+    plt.legend((plt1[0], plt2[0], plt3[0], plt4[0]), ('Driver %', 'Solr %', 'Spark %', 'HDFS %'))
 
     plt.savefig(os.path.join(graphs_dir, "mem_selectivity.png"))
 
