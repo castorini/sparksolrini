@@ -148,7 +148,6 @@ def get_pod_metrics(exp_type, term, log_length):
                 if log_time > last_log_time:
                     # flush the last group
 
-                    # TODO: convert to percentage?
                     total_spark_cpu = np.sum(spark_cpu_group)
                     total_hdfs_cpu = np.sum(hdfs_cpu_group)
                     total_solr_cpu = np.sum(solr_cpu_group)
@@ -398,7 +397,7 @@ def draw_bar_terms():
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
-    plt.ylabel('Total Driver Memory Usag %')
+    plt.ylabel('Total Driver Memory Usage %')
     plt.legend((plt1[0], plt2[0], plt3[0], plt4[0]), ('Driver %', 'Solr %', 'Spark %', 'HDFS %'))
 
     plt.savefig(os.path.join(graphs_dir, "mem_selectivity.png"))
