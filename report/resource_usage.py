@@ -363,21 +363,22 @@ def draw_bar_terms():
     plt2 = plt.bar(X, exp1_solr_cpu_usage, bottom=exp1_driver_cpu_usage, color='y', width=0.25)
 
     # exp2
-    plt.bar(X + 0.30, exp2_driver_cpu_usage, color='g', width=0.25)
+    plt.bar(X + 0.30, exp2_driver_cpu_usage, color='b', width=0.25)
     plt.bar(X + 0.30, exp2_solr_cpu_usage, bottom=exp2_driver_cpu_usage, color='y', width=0.25)
-    plt.bar(X + 0.30, exp2_spark_cpu_usage, bottom=exp2_driver_cpu_usage + exp2_solr_cpu_usage, color='m', width=0.25)
+    plt.bar(X + 0.30, exp2_spark_cpu_usage, bottom=exp2_driver_cpu_usage + exp2_solr_cpu_usage, color='g', width=0.25)
 
     # exp3
-    plt.bar(X + 0.60, exp3_driver_cpu_usage, color='r', width=0.25)
-    plt3 = plt.bar(X + 0.60, exp3_spark_cpu_usage, bottom=exp3_driver_cpu_usage, color='m', width=0.25)
-    plt4 = plt.bar(X + 0.60, exp3_hdfs_cpu_usage, bottom=exp3_driver_cpu_usage + exp3_spark_cpu_usage, color='c', width=0.25)
+    plt.bar(X + 0.60, exp3_driver_cpu_usage, color='b', width=0.25)
+    plt3 = plt.bar(X + 0.60, exp3_spark_cpu_usage, bottom=exp3_driver_cpu_usage, color='g', width=0.25)
+    plt4 = plt.bar(X + 0.60, exp3_hdfs_cpu_usage, bottom=exp3_driver_cpu_usage + exp3_spark_cpu_usage, color='m', width=0.25)
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
     plt.ylabel('Total Driver CPU Usage %')
     plt.legend((plt1[0], plt2[0], plt3[0], plt4[0]), ('Driver %', 'Solr %', 'Spark %', 'HDFS %'))
 
-    plt.savefig(os.path.join(graphs_dir, "cpu_selectivity.png"))
+    # plt.savefig(os.path.join(graphs_dir, "cpu_selectivity.png"))
+    plt.show()
 
     # memory
     plt.title("Total Mem Usage % vs Selectivity")
@@ -387,21 +388,22 @@ def draw_bar_terms():
     plt2 = plt.bar(X, exp1_solr_mem_usage, bottom=exp1_driver_mem_usage, color='y', width=0.25)
 
     # exp2
-    plt.bar(X + 0.30, exp2_driver_mem_usage, color='g', width=0.25)
+    plt.bar(X + 0.30, exp2_driver_mem_usage, color='b', width=0.25)
     plt.bar(X + 0.30, exp2_solr_mem_usage, bottom=exp2_driver_mem_usage, color='y', width=0.25)
-    plt.bar(X + 0.30, exp2_spark_mem_usage, bottom=exp2_driver_mem_usage + exp2_solr_mem_usage, color='m', width=0.25)
+    plt.bar(X + 0.30, exp2_spark_mem_usage, bottom=exp2_driver_mem_usage + exp2_solr_mem_usage, color='g', width=0.25)
 
     # exp3
-    plt.bar(X + 0.60, exp3_driver_mem_usage, color='r', width=0.25)
-    plt3 = plt.bar(X + 0.60, exp3_spark_mem_usage, bottom=exp3_driver_mem_usage, color='m', width=0.25)
-    plt4 = plt.bar(X + 0.60, exp3_hdfs_mem_usage, bottom=exp3_driver_mem_usage + exp3_spark_mem_usage, color='c', width=0.25)
+    plt.bar(X + 0.60, exp3_driver_mem_usage, color='b', width=0.25)
+    plt3 = plt.bar(X + 0.60, exp3_spark_mem_usage, bottom=exp3_driver_mem_usage, color='g', width=0.25)
+    plt4 = plt.bar(X + 0.60, exp3_hdfs_mem_usage, bottom=exp3_driver_mem_usage + exp3_spark_mem_usage, color='m', width=0.25)
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
     plt.ylabel('Total Driver Memory Usag %')
     plt.legend((plt1[0], plt2[0], plt3[0], plt4[0]), ('Driver %', 'Solr %', 'Spark %', 'HDFS %'))
 
-    plt.savefig(os.path.join(graphs_dir, "mem_selectivity.png"))
+    # plt.savefig(os.path.join(graphs_dir, "mem_selectivity.png"))
+    plt.show()
 
 def draw_runtime():
     # plot bar graph for driver runtime for each experiment
