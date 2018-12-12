@@ -28,7 +28,11 @@ object SolrSpark {
     val rdd = new SelectSolrRDD(solr, index, sc)
       .rows(rows)
       .query(field + ":" + term)
-      .count()
+      .foreachPartition(part => {
+        var counter = 0
+        part.foreach(_ => counter += 1)
+        log.info(s"$counter docs in partition")
+      })
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
 

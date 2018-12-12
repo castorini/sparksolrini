@@ -1,7 +1,7 @@
 package ca.uwaterloo.cs848
 
 import ca.uwaterloo.cs848.conf.HdfsConf
-import ca.uwaterloo.cs848.util.{SentenceDetector, Stemmer}
+import ca.uwaterloo.cs848.util.Stemmer
 import com.databricks.spark.xml.XmlInputFormat
 import org.apache.hadoop.io.{LongWritable, Text}
 import org.apache.log4j.{Logger, PropertyConfigurator}
@@ -29,9 +29,14 @@ object HdfsSpark {
     // Start timing the experiment
     val start = System.currentTimeMillis
 
+
     val rdd = sc.newAPIHadoopFile(args.path(), classOf[XmlInputFormat], classOf[LongWritable], classOf[Text])
       .filter(doc => Stemmer.stem(doc._2.toString).contains(Stemmer.stem(term))) // Stemming to match Solr results
-      .count()
+      .foreachPartition(part => {
+        var counter = 0
+        part.foreach(_ => counter += 1)
+        log.info(s"$counter docs in partition")
+      })
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
 
