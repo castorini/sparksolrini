@@ -276,7 +276,7 @@ def draw_line_exp():
                 legend.append(exp_type + ' - Spark Memory Usage')
             if "hdfs" in exp_type:
                 plt.plot(total_hdfs_mem_usage)
-                legend.append(exp_type + ' - Hdfs Memory Usage')
+                legend.append(exp_type + ' - HDFS Memory Usage')
 
             plt.legend(legend, loc='upper right')
 
@@ -343,6 +343,17 @@ def draw_bar_terms():
     exp3_spark_cpu_usage = avg_percentage([term_exps[term]['hdfs_spark']['spark_cpu_usage'] for term in terms])
     exp3_hdfs_cpu_usage = avg_percentage([term_exps[term]['hdfs_spark']['hdfs_cpu_usage'] for term in terms])
 
+    # exp1_driver_cpu_usage = np.percentile([term_exps[term]['solr']['cpu_usage'] for term in terms], 90)
+    # exp1_solr_cpu_usage = np.percentile([term_exps[term]['solr']['solr_cpu_usage'] for term in terms], 90)
+    #
+    # exp2_driver_cpu_usage = np.percentile([term_exps[term]['spark_solr']['cpu_usage'] for term in terms], 90)
+    # exp2_solr_cpu_usage = np.percentile([term_exps[term]['spark_solr']['solr_cpu_usage'] for term in terms], 90)
+    # exp2_spark_cpu_usage = np.percentile([term_exps[term]['spark_solr']['spark_cpu_usage'] for term in terms], 90)
+    #
+    # exp3_driver_cpu_usage = np.percentile([term_exps[term]['hdfs_spark']['cpu_usage'] for term in terms], 90)
+    # exp3_spark_cpu_usage = np.percentile([term_exps[term]['hdfs_spark']['spark_cpu_usage'] for term in terms], 90)
+    # exp3_hdfs_cpu_usage = np.percentile([term_exps[term]['hdfs_spark']['hdfs_cpu_usage'] for term in terms], 90)
+
     ###
 
     # memory
@@ -361,90 +372,92 @@ def draw_bar_terms():
 
     ### driver
 
-    plt.title("Average Driver CPU Usage % vs Selectivity")
+    # plt.title("Average Driver CPU Usage % vs Selectivity")
 
     # exp1
     plt.bar(X - 0.27, exp1_driver_cpu_usage, color='r', width=0.25)
 
     # exp2
-    plt.bar(X, exp2_driver_cpu_usage, color='b', width=0.25)
+    plt.bar(X, exp2_driver_cpu_usage, color='g', width=0.25)
 
     # exp3
-    plt.bar(X + 0.27, exp3_driver_cpu_usage, color='g', width=0.25)
+    plt.bar(X + 0.27, exp3_driver_cpu_usage, color='b', width=0.25)
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
     plt.ylabel('CPU Usage %')
-    plt.legend(['Solr', 'SolrSpark', 'HdfsSpark'], loc='upper right')
+    plt.legend(['ThreadedSolr', 'SparkSolr', 'SparkHDFS'], loc='upper left')
 
     plt.savefig(os.path.join(graphs_dir, "driver_cpu_selectivity.png"))
+    plt.show()
 
     ### cluster
 
     plt.clf()
-    plt.title("Average Cluster CPU Usage % vs Selectivity")
+    # plt.title("Average Cluster CPU Usage % vs Selectivity")
 
     # exp1
     plt1 = plt.bar(X - 0.27, exp1_solr_cpu_usage, color='y', width=0.25)
 
     # exp2
     plt.bar(X, exp2_solr_cpu_usage, color='y', width=0.25)
-    plt.bar(X, exp2_spark_cpu_usage, bottom=exp2_solr_cpu_usage, color='g', width=0.25)
+    plt.bar(X, exp2_spark_cpu_usage, bottom=exp2_solr_cpu_usage, color='c', width=0.25)
 
     # exp3
     plt2 = plt.bar(X + 0.27, exp3_hdfs_cpu_usage, bottom=exp3_spark_cpu_usage, color='m', width=0.25)
-    plt3 = plt.bar(X + 0.27, exp3_spark_cpu_usage, color='g', width=0.25)
+    plt3 = plt.bar(X + 0.27, exp3_spark_cpu_usage, color='c', width=0.25)
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
     plt.ylabel('CPU Usage %')
-    plt.legend((plt1[0], plt2[0], plt3[0]), ('Solr %', 'HDFS %', 'Spark %'))
+    plt.legend((plt1[0], plt2[0], plt3[0]), ('Solr %', 'HDFS %', 'Spark %'), loc='upper left')
 
     plt.savefig(os.path.join(graphs_dir, "cluster_cpu_selectivity.png"))
+    plt.show()
 
     ###
 
     ### driver
 
     plt.clf()
-    plt.title("Average Driver Memory Usage % vs Selectivity")
+    # plt.title("Average Driver Memory Usage % vs Selectivity")
 
     # exp1
     plt.bar(X - 0.27, exp1_driver_mem_usage, color='r', width=0.25)
 
     # exp2
-    plt.bar(X, exp2_driver_mem_usage, color='b', width=0.25)
+    plt.bar(X, exp2_driver_mem_usage, color='g', width=0.25)
 
     # exp3
-    plt.bar(X + 0.27, exp3_driver_mem_usage, color='g', width=0.25)
+    plt.bar(X + 0.27, exp3_driver_mem_usage, color='b', width=0.25)
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
     plt.ylabel('Memory Usage %')
-    plt.legend(['Solr', 'SolrSpark', 'HdfsSpark'], loc='upper right')
+    plt.legend(['ThreadedSolr', 'SparkSolr', 'SparkHDFS'], loc='upper left')
 
     plt.savefig(os.path.join(graphs_dir, "driver_mem_selectivity.png"))
 
     ### cluster
 
     plt.clf()
-    plt.title("Average Cluster Memory Usage % vs Selectivity")
+    # plt.title("Average Cluster Memory Usage % vs Selectivity")
 
     # exp1
     plt1 = plt.bar(X - 0.27, exp1_solr_mem_usage, color='y', width=0.25)
 
     # exp2
     plt.bar(X, exp2_solr_mem_usage, color='y', width=0.25)
-    plt.bar(X, exp2_spark_mem_usage, bottom=exp2_solr_mem_usage, color='g', width=0.25)
+    plt.bar(X, exp2_spark_mem_usage, bottom=exp2_solr_mem_usage, color='c', width=0.25)
 
     # exp3
     plt2 = plt.bar(X + 0.27, exp3_hdfs_mem_usage, bottom=exp3_spark_mem_usage, color='m', width=0.25)
-    plt3 = plt.bar(X + 0.27, exp3_spark_mem_usage, color='g', width=0.25)
+    plt3 = plt.bar(X + 0.27, exp3_spark_mem_usage, color='c', width=0.25)
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
     plt.ylabel('CPU Usage %')
-    plt.legend((plt1[0], plt2[0], plt3[0]), ('Solr %', 'HDFS %', 'Spark %'))
+    plt.legend((plt1[0], plt2[0], plt3[0]), ('Solr %', 'HDFS %', 'Spark %'), loc='upper left')
 
     plt.savefig(os.path.join(graphs_dir, "cluster_mem_selectivity.png"))
 
@@ -458,21 +471,19 @@ def draw_runtime():
 
     X = np.arange(len(terms))
 
-    plt.title("Execution Time vs Selectivity")
-
     # driver totals
-    plt.bar(X, exp1_runtime, color='b', width=0.25)
+    plt.bar(X - 0.27, exp1_runtime, color='r', width=0.25)
 
     # solr totals
-    plt.bar(X + 0.25, exp2_runtime, color='g', width=0.25)
+    plt.bar(X, exp2_runtime, color='g', width=0.25)
 
     # spark totals
-    plt.bar(X + 0.50, exp3_runtime, color='r', width=0.25)
+    plt.bar(X + 0.27, exp3_runtime, color='b', width=0.25)
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
     plt.ylabel('Execution Time (s)')
-    plt.legend(['Solr', 'SolrSpark', 'HdfsSpark'], loc='upper right')
+    plt.legend(['ThreadedSolr', 'SparkSolr', 'SparkHDFS'], loc='upper left')
 
     plt.savefig(os.path.join(graphs_dir, "runtime_selectivity.png"))
 
@@ -518,28 +529,30 @@ for term in terms:
 draw_bar_terms()
 
 # mapping = {}
-
+#
 # graph_freq = 20
 # x = []
 # y = []
-
-# with open("dist.txt") as f:
+#
+# with open(os.path.join(root_dir, "report", "dist.txt")) as f:
 #     for line in f.readlines():
 #         splits = line.split("\t")
 #         freq = int(splits[0])
 #         count = int(splits[1])
 #         if count > 150 and freq > 10:
-#             x.append(freq)
-#             y.append(count)
-
+#             x.append(math.log(freq))
+#             y.append(math.log(count))
+#
 # delta = math.floor(len(x) / graph_freq)
-
+#
 # x = x[0::delta]
 # y = y[0::delta]
-
+#
+# print(max(y))
+#
 # plt.subplots_adjust(left=0.2)
 # plt.plot(x, y)
-# plt.xlabel('Document frequency', fontsize='large')
-# plt.ylabel('Number of words', fontsize='large')
-# plt.savefig("Document_distribution.pdf")
+# plt.xlabel('Document frequency (log)', fontsize='large')
+# plt.ylabel('Number of words (log)', fontsize='large')
+# plt.savefig(os.path.join(graphs_dir, "zipfian_document_distribution.png"))
 # plt.show()
