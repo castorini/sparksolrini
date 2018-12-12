@@ -13,9 +13,6 @@ total_mem = 32  # single node memory in Ki
 num_nodes = 5  # number of machines
 num_cores = 12 # number of cores
 
-# terms = ["napoleon", "interpol", "belt", "kind", "idea", "current", "other", "public"]
-
-# TODO : misspelled napoleon for one of the experiments, need to rerun
 terms = ["interpol", "belt", "kind", "idea", "current", "other", "public"]
 
 doc_freq = {
@@ -133,7 +130,7 @@ def get_pod_metrics(exp_type, term, log_length):
                 CPU = int(match_result.group(3))  # milliCPU
                 MEM = int(match_result.group(4))  # mem
                 MEM_UNIT = match_result.group(5)  # Gi - GB, Mi - MB, Ki - KB
-                # node = int(match_result.group(6))  # node num
+                node = int(match_result.group(6))  # node num
 
                 if last_log_time == 0 and log_time != 60:
                     # target pod was not started until current log_time
@@ -151,7 +148,8 @@ def get_pod_metrics(exp_type, term, log_length):
                     total_spark_cpu = np.sum(spark_cpu_group)
                     total_hdfs_cpu = np.sum(hdfs_cpu_group)
                     total_solr_cpu = np.sum(solr_cpu_group)
-                    total_cpu = total_spark_cpu + total_hdfs_cpu + total_solr_cpu
+                    # total_cpu = total_spark_cpu + total_hdfs_cpu + total_solr_cpu
+                    total_cpu = 120
 
                     spark_cpu_usage.append(total_spark_cpu / total_cpu * 100)
                     hdfs_cpu_usage.append(total_hdfs_cpu / total_cpu * 100)
@@ -160,7 +158,8 @@ def get_pod_metrics(exp_type, term, log_length):
                     total_spark_mem = np.sum(spark_mem_group)
                     total_hdfs_mem = np.sum(hdfs_mem_group)
                     total_solr_mem = np.sum(solr_mem_group)
-                    total_mem = total_spark_mem + total_hdfs_mem + total_solr_mem
+                    # total_mem = total_spark_mem + total_hdfs_mem + total_solr_mem
+                    total_mem = 32 * 5
 
                     spark_mem_usage.append(total_spark_mem / total_mem * 100)
                     hdfs_mem_usage.append(total_hdfs_mem / total_mem * 100)
@@ -179,7 +178,7 @@ def get_pod_metrics(exp_type, term, log_length):
                     last_log_time = log_time
 
                 # convert milliCPU to CPU
-                CPU /= (1000 * num_cores)
+                CPU /= 1000
 
                 # convert all memory to Gi
                 converted = MEM
@@ -343,17 +342,6 @@ def draw_bar_terms():
     exp3_spark_cpu_usage = avg_percentage([term_exps[term]['hdfs_spark']['spark_cpu_usage'] for term in terms])
     exp3_hdfs_cpu_usage = avg_percentage([term_exps[term]['hdfs_spark']['hdfs_cpu_usage'] for term in terms])
 
-    # exp1_driver_cpu_usage = np.percentile([term_exps[term]['solr']['cpu_usage'] for term in terms], 90)
-    # exp1_solr_cpu_usage = np.percentile([term_exps[term]['solr']['solr_cpu_usage'] for term in terms], 90)
-    #
-    # exp2_driver_cpu_usage = np.percentile([term_exps[term]['spark_solr']['cpu_usage'] for term in terms], 90)
-    # exp2_solr_cpu_usage = np.percentile([term_exps[term]['spark_solr']['solr_cpu_usage'] for term in terms], 90)
-    # exp2_spark_cpu_usage = np.percentile([term_exps[term]['spark_solr']['spark_cpu_usage'] for term in terms], 90)
-    #
-    # exp3_driver_cpu_usage = np.percentile([term_exps[term]['hdfs_spark']['cpu_usage'] for term in terms], 90)
-    # exp3_spark_cpu_usage = np.percentile([term_exps[term]['hdfs_spark']['spark_cpu_usage'] for term in terms], 90)
-    # exp3_hdfs_cpu_usage = np.percentile([term_exps[term]['hdfs_spark']['hdfs_cpu_usage'] for term in terms], 90)
-
     ###
 
     # memory
@@ -372,8 +360,6 @@ def draw_bar_terms():
 
     ### driver
 
-    # plt.title("Average Driver CPU Usage % vs Selectivity")
-
     # exp1
     plt.bar(X - 0.27, exp1_driver_cpu_usage, color='r', width=0.25)
 
@@ -389,12 +375,10 @@ def draw_bar_terms():
     plt.legend(['ThreadedSolr', 'SparkSolr', 'SparkHDFS'], loc='upper left')
 
     plt.savefig(os.path.join(graphs_dir, "driver_cpu_selectivity.png"))
-    plt.show()
 
     ### cluster
 
     plt.clf()
-    # plt.title("Average Cluster CPU Usage % vs Selectivity")
 
     # exp1
     plt1 = plt.bar(X - 0.27, exp1_solr_cpu_usage, color='y', width=0.25)
@@ -413,14 +397,12 @@ def draw_bar_terms():
     plt.legend((plt1[0], plt2[0], plt3[0]), ('Solr %', 'HDFS %', 'Spark %'), loc='upper left')
 
     plt.savefig(os.path.join(graphs_dir, "cluster_cpu_selectivity.png"))
-    plt.show()
 
     ###
 
     ### driver
 
     plt.clf()
-    # plt.title("Average Driver Memory Usage % vs Selectivity")
 
     # exp1
     plt.bar(X - 0.27, exp1_driver_mem_usage, color='r', width=0.25)
@@ -441,8 +423,7 @@ def draw_bar_terms():
     ### cluster
 
     plt.clf()
-    # plt.title("Average Cluster Memory Usage % vs Selectivity")
-
+    
     # exp1
     plt1 = plt.bar(X - 0.27, exp1_solr_mem_usage, color='y', width=0.25)
 
@@ -456,11 +437,10 @@ def draw_bar_terms():
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
-    plt.ylabel('CPU Usage %')
+    plt.ylabel('Memory Usage %')
     plt.legend((plt1[0], plt2[0], plt3[0]), ('Solr %', 'HDFS %', 'Spark %'), loc='upper left')
 
     plt.savefig(os.path.join(graphs_dir, "cluster_mem_selectivity.png"))
-
 
 def draw_runtime():
     # plot bar graph for driver runtime for each experiment
