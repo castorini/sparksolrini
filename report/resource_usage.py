@@ -371,7 +371,7 @@ def draw_bar_terms():
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
-    plt.ylabel('CPU Usage %')
+    plt.ylabel('CPU Usage (%)')
     plt.legend(['ThreadedSolr', 'SparkSolr', 'SparkHDFS'], loc='upper left')
 
     plt.savefig(os.path.join(graphs_dir, "driver_cpu_selectivity.png"))
@@ -393,8 +393,8 @@ def draw_bar_terms():
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
-    plt.ylabel('CPU Usage %')
-    plt.legend((plt1[0], plt2[0], plt3[0]), ('Solr %', 'HDFS %', 'Spark %'), loc='upper left')
+    plt.ylabel('CPU Usage (%)')
+    plt.legend((plt1[0], plt2[0], plt3[0]), ('Solr', 'HDFS', 'Spark'), loc='upper left')
 
     plt.savefig(os.path.join(graphs_dir, "cluster_cpu_selectivity.png"))
 
@@ -415,7 +415,7 @@ def draw_bar_terms():
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
-    plt.ylabel('Memory Usage %')
+    plt.ylabel('Memory Usage (%)')
     plt.legend(['ThreadedSolr', 'SparkSolr', 'SparkHDFS'], loc='upper left')
 
     plt.savefig(os.path.join(graphs_dir, "driver_mem_selectivity.png"))
@@ -423,7 +423,7 @@ def draw_bar_terms():
     ### cluster
 
     plt.clf()
-    
+
     # exp1
     plt1 = plt.bar(X - 0.27, exp1_solr_mem_usage, color='y', width=0.25)
 
@@ -437,8 +437,8 @@ def draw_bar_terms():
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
-    plt.ylabel('Memory Usage %')
-    plt.legend((plt1[0], plt2[0], plt3[0]), ('Solr %', 'HDFS %', 'Spark %'), loc='upper left')
+    plt.ylabel('Memory Usage (%)')
+    plt.legend((plt1[0], plt2[0], plt3[0]), ('Solr', 'HDFS', 'Spark'), loc='upper left')
 
     plt.savefig(os.path.join(graphs_dir, "cluster_mem_selectivity.png"))
 
