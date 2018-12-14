@@ -6,22 +6,22 @@
 
 ### Submitting Spark job
 
-1) download spark from http://apache.forsale.plus/spark/spark-2.4.0/spark-2.4.0-bin-hadoop2.7.tgz and unzip
+1) Download spark from http://apache.forsale.plus/spark/spark-2.4.0/spark-2.4.0-bin-hadoop2.7.tgz and unzip
 
-2) build jar by running `mvn clean package` under `CS848-project`
+2) Build jar by running `mvn clean package` under `CS848-project`
 
-3) add your jar to `spark-2.4.0-bin-hadoop2.7/examples/jars`
+3) Add your jar to `spark-2.4.0-bin-hadoop2.7/examples/jars`
 
-4) build docker image of spark using `./bin/docker-image-tool.sh -r <docker_hub_id> -t <tag_name> build`
+4) Build docker image of spark using `./bin/docker-image-tool.sh -r <docker_hub_id> -t <tag_name> build`
 
-5) push docker image of spark using `./bin/docker-image-tool.sh -r <docker_hub_id> -t <tag_name> push`
+5) Push docker image of spark using `./bin/docker-image-tool.sh -r <docker_hub_id> -t <tag_name> push`
 
-6) ssh into tem101 (or tem102)
+6) `ssh` into tem127
 
-7) download spark from http://apache.forsale.plus/spark/spark-2.4.0/spark-2.4.0-bin-hadoop2.7.tgz and unzip on tembo
+7) Download spark from http://apache.forsale.plus/spark/spark-2.4.0/spark-2.4.0-bin-hadoop2.7.tgz and unzip on tembo
 
-8) run job with following command format
-&nbsp;&nbsp;&nbsp;&nbsp; from tem101 (cluster mode)
+8) Run job with following command format
+&nbsp;&nbsp;&nbsp;&nbsp; from tem127 (cluster mode)
 ```
 bin/spark-submit \
     --master k8s://http://192.168.152.201:8080 \
@@ -35,22 +35,9 @@ bin/spark-submit \
     local:///opt/spark/examples/jars/<jar_name>.jar <input>
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp; note that class_name, image_name, image_tag, jar_name must be correctly provided. `/opt/spark/examples/jars/<jar_name>.jar` is location of target jar in the docker image
+&nbsp;&nbsp;&nbsp;&nbsp; Note that class_name, image_name, image_tag, jar_name must be correctly provided. `/opt/spark/examples/jars/<jar_name>.jar` is location of target jar in the docker image
 
-&nbsp;&nbsp;&nbsp;&nbsp; to run WordCount example,
-```
-bin/spark-submit \
-    --master k8s://http://192.168.152.201:8080 \
-    --deploy-mode cluster \
-    --name word-count \
-    --class cs848.wordcount.WordCount \
-    --conf spark.executor.instances=5 \
-    --conf spark.kubernetes.container.image=ljj7975/spark:ip \
-    --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
-    local:///opt/spark/examples/jars/cs848-project-1.0-SNAPSHOT.jar \
-```
-
-&nbsp;&nbsp;&nbsp;&nbsp; `192.168.152.202` can also be used
+&nbsp;&nbsp;&nbsp;&nbsp; `192.168.152.202` can also be used as the master
 
 8) Once driver status has changed to Completed, `kubectl logs <spark_driver_pod_id>` to see logs
 
@@ -105,80 +92,4 @@ each file will have start timestamp as part of its name.
 Similarly, to collect resource usage of driver running on tem127,
 ```
 python3 collect_driver_metrics.py <seq/solr/spark> <search term> <sleep time in sec>
-```
-
-## OpenNLP
-
-### Gov2
-
-Run ```sudo docker pull zeynepakkalyoncu/spark:cs848-nlp13``` to get the latest image
-
-Navigate to the Spark root directory
-
-Make sure ```log4j.properties``` is in the current directory
-
-#### Experiment #1: Solr
-
-```
-java -Xms24g -Xmx30g -cp target/cs848-project-1.0-SNAPSHOT.jar \
-    ca.uwaterloo.cs848.Solr \
-    --term <search-term> \
-    --field raw \
-    --solr http://192.168.152.201:8983/solr,http://192.168.152.202:8983/solr,http://192.168.152.203:8983/solr,http://192.168.152.204:8983/solr,http://192.168.152.205:8983/solr \
-    --index gov2 \
-    [--debug] \
-    [&> solr-seq-output.log]
-```
-
-#### Experiment #2: SolrSpark
-
-```
-bin/spark-submit \
-    --master k8s://http://192.168.152.201:8080 \
-    --deploy-mode client \
-    --name sent-detector-solr-spark \
-    --class ca.uwaterloo.cs848.SolrSpark \
-    --conf spark.driver.memory=16g \
-    --conf spark.executor.memory=8g \
-    --conf spark.executor.instances=5 \
-    --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp13 \
-    --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
-    --conf spark.kubernetes.executor.limit.cores=12 \
-    --conf spark.kubernetes.executor.request.cores=11 \
-    --conf spark.executor.cores=11 \
-    <path_to_jar_on_tem127> \
-    --term <search-term> \
-    --field raw \
-    --solr 192.168.152.201:32181 \
-    --index gov2 \
-    [--debug] \
-    [&> solr-spark-output.log]
-```
-
-#### Experiment #3: HdfsSpark
-
-```
-bin/spark-submit \
-    --master k8s://http://192.168.152.201:8080 \
-    --deploy-mode client \
-    --name sent-detector-hdfs-spark \
-    --class ca.uwaterloo.cs848.HdfsSpark \
-    --conf spark.driver.memory=16g \
-    --conf spark.executor.memory=8g \
-    --conf spark.executor.instances=5 \
-    --conf spark.kubernetes.container.image=zeynepakkalyoncu/spark:cs848-nlp13 \
-    --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
-    --conf spark.kubernetes.executor.limit.cores=12 \
-    --conf spark.kubernetes.executor.request.cores=11 \
-    --conf spark.executor.cores=11 \
-    <path_to_jar_on_tem127> \
-    --path hdfs://192.168.152.203/gov2/gov2-corpus \
-    --term <search-term> \
-    [&> hdfs-spark-output.log]
-```
-
-Count number of records:
-
-```
-cat <output-file>.log | grep "ID: " | wc -l
 ```
