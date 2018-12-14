@@ -1,5 +1,9 @@
 # CS848-project
 
+This repo is for the course project for CS 848 - Data Infrastructure. We evaluate the performance of performing filter and search over terms of differing selectivity with a large scale document collection.
+
+This repo contains the Kubernetes, Kubespray, and Helm charts used to deloy Kubernetes and setup the required services. It also contains the source code for our Scala programs, the results (including logs, tables), and the required Python files to generate our graphs.
+
 ---
 
 ## Spark
@@ -93,3 +97,8 @@ Similarly, to collect resource usage of driver running on tem127,
 ```
 python3 collect_driver_metrics.py <seq/solr/spark> <search term> <sleep time in sec>
 ```
+
+## Useful links
+
+- Installing Kubernetes via Kubespray: https://github.com/kubernetes-sigs/kubespray
+- HDFS on Kubernetes: https://github.com/apache-spark-on-k8s/kubernetes-HDFS
