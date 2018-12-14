@@ -86,7 +86,7 @@ Noe that providing machine name like `node3` does not work.
 ---
 ## Running metric collector
 
-To collect CPU and RAM usage on kubernete run following command on tem 101.
+To collect CPU and RAM usage on Kubernetes run following command on tem101.
 ```
 python3 collect_metrics.py <seq/solr/spark> <search term> <sleep time in sec>
 ```
