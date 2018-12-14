@@ -42,7 +42,7 @@ exp_results = {
         "napoleon": 18403,
         "interpol": 152145,
         "belt": 182208,
-        "kind": 261689,
+        "kind": 625000,
         "idea": 1720868,
         "current": 9797357,
         "other": 19737940,
@@ -359,21 +359,24 @@ def draw_bar_terms():
 
     X = np.arange(len(terms))
 
-    solr_legend = mpatches.Patch(facecolor='#D3D3D3', alpha=0.6, hatch='xx', label='Solr')
-    hdfs_legend = mpatches.Patch(facecolor='#D3D3D3', alpha=0.6, hatch=r'//', label='HDFS')
-    spark_legend = mpatches.Patch(facecolor='#D3D3D3', alpha=0.6, hatch='oo', label='Spark')
-    legend_lst = [solr_legend, hdfs_legend, spark_legend]
+    solr_legend = mpatches.Patch(facecolor='#D3D3D3', alpha=0.7, hatch='xx', label='Solr')
+    hdfs_legend = mpatches.Patch(facecolor='#D3D3D3', alpha=0.7, hatch=r'//', label='HDFS')
+    spark_legend = mpatches.Patch(facecolor='#D3D3D3', alpha=0.7, hatch='..', label='Spark')
+    exp1_legend = mpatches.Patch(facecolor='y', alpha=0.7, label='ThreadedSolr')
+    exp2_legend = mpatches.Patch(facecolor='g', alpha=0.7, label='SparkSolr')
+    exp3_legend = mpatches.Patch(facecolor='b', alpha=0.7, label='SparkHDFS')
+    legend_lst = [solr_legend, hdfs_legend, spark_legend, exp1_legend, exp2_legend, exp3_legend]
 
     ### driver
 
     # exp1
-    plt.bar(X - 0.27, exp1_driver_cpu_usage, color='r', alpha=0.3, width=0.25)
+    plt.bar(X - 0.27, exp1_driver_cpu_usage, color='y', width=0.25)
 
     # exp2
-    plt.bar(X, exp2_driver_cpu_usage, color='g', alpha=0.3, width=0.25)
+    plt.bar(X, exp2_driver_cpu_usage, color='g', width=0.25)
 
     # exp3
-    plt.bar(X + 0.27, exp3_driver_cpu_usage, color='b', alpha=0.3, width=0.25)
+    plt.bar(X + 0.27, exp3_driver_cpu_usage, color='b', width=0.25)
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
@@ -387,15 +390,15 @@ def draw_bar_terms():
     plt.clf()
 
     # exp1
-    plt1 = plt.bar(X - 0.27, exp1_solr_cpu_usage, color='r', alpha=0.3, width=0.25, hatch='xx')
+    plt1 = plt.bar(X - 0.27, exp1_solr_cpu_usage, color='y', alpha=0.7, width=0.25, hatch='xx')
 
     # exp2
-    plt2 = plt.bar(X, exp2_solr_cpu_usage, color='g', alpha=0.3, width=0.25, hatch='xx')
-    plt.bar(X, exp2_spark_cpu_usage, bottom=exp2_solr_cpu_usage, color='g', alpha=0.3, width=0.25, hatch='oo')
+    plt2 = plt.bar(X, exp2_solr_cpu_usage, color='g', alpha=0.7, width=0.25, hatch='xx')
+    plt.bar(X, exp2_spark_cpu_usage, bottom=exp2_solr_cpu_usage, color='g', alpha=0.7, width=0.25, hatch='..')
 
     # exp3
-    plt2 = plt.bar(X + 0.27, exp3_hdfs_cpu_usage, bottom=exp3_spark_cpu_usage, color='b', alpha=0.3, width=0.25, hatch='//')
-    plt3 = plt.bar(X + 0.27, exp3_spark_cpu_usage, color='b', alpha=0.3, width=0.25, hatch='oo')
+    plt2 = plt.bar(X + 0.27, exp3_hdfs_cpu_usage, bottom=exp3_spark_cpu_usage, color='b', alpha=0.7, width=0.25, hatch='//')
+    plt3 = plt.bar(X + 0.27, exp3_spark_cpu_usage, color='b', alpha=0.7, width=0.25, hatch='..')
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
@@ -412,13 +415,13 @@ def draw_bar_terms():
     plt.clf()
 
     # exp1
-    plt.bar(X - 0.27, exp1_driver_mem_usage, color='r', alpha=0.3, width=0.25)
+    plt.bar(X - 0.27, exp1_driver_mem_usage, color='y', width=0.25)
 
     # exp2
-    plt.bar(X, exp2_driver_mem_usage, color='g', alpha=0.3, width=0.25)
+    plt.bar(X, exp2_driver_mem_usage, color='g', width=0.25)
 
     # exp3
-    plt.bar(X + 0.27, exp3_driver_mem_usage, color='b', alpha=0.3, width=0.25)
+    plt.bar(X + 0.27, exp3_driver_mem_usage, color='b', width=0.25)
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
@@ -432,15 +435,15 @@ def draw_bar_terms():
     plt.clf()
 
     # exp1
-    plt1 = plt.bar(X - 0.27, exp1_solr_mem_usage, color='r', alpha=0.3, width=0.25, hatch='xx')
+    plt1 = plt.bar(X - 0.27, exp1_solr_mem_usage, color='y', alpha=0.7, width=0.25, hatch='xx')
 
     # exp2
-    plt.bar(X, exp2_solr_mem_usage, color='g', alpha=0.3, width=0.25, hatch='xx')
-    plt.bar(X, exp2_spark_mem_usage, bottom=exp2_solr_mem_usage, color='g', alpha=0.3, width=0.25, hatch='oo')
+    plt.bar(X, exp2_solr_mem_usage, color='g', alpha=0.7, width=0.25, hatch='xx')
+    plt.bar(X, exp2_spark_mem_usage, bottom=exp2_solr_mem_usage, color='g', alpha=0.7, width=0.25, hatch='..')
 
     # exp3
-    plt2 = plt.bar(X + 0.27, exp3_hdfs_mem_usage, bottom=exp3_spark_mem_usage, color='b', alpha=0.3, width=0.25, hatch='**')
-    plt3 = plt.bar(X + 0.27, exp3_spark_mem_usage, color='b', alpha=0.3, width=0.25, hatch='oo')
+    plt2 = plt.bar(X + 0.27, exp3_hdfs_mem_usage, bottom=exp3_spark_mem_usage, color='b', alpha=0.7, width=0.25, hatch=r'//')
+    plt3 = plt.bar(X + 0.27, exp3_spark_mem_usage, color='b', alpha=0.7, width=0.25, hatch='..')
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
@@ -459,13 +462,13 @@ def draw_runtime():
     X = np.arange(len(terms))
 
     # driver totals
-    plt.bar(X - 0.27, exp1_runtime, color='r', alpha=0.3, width=0.25)
+    plt.bar(X - 0.27, exp1_runtime, color='y', width=0.25)
 
     # solr totals
-    plt.bar(X, exp2_runtime, color='g', alpha=0.3, width=0.25)
+    plt.bar(X, exp2_runtime, color='g', width=0.25)
 
     # spark totals
-    plt.bar(X + 0.27, exp3_runtime, color='b', alpha=0.3, width=0.25)
+    plt.bar(X + 0.27, exp3_runtime, color='b',width=0.25)
 
     plt.xticks(X, terms)
     plt.xlabel('Search Term')
