@@ -8,7 +8,7 @@ This repo contains the Kubernetes, Kubespray, and Helm charts used to deloy Kube
 
 ## Spark
 
-### Submitting Spark job
+### Submitting Spark Job (Cluster Mode)
 
 1) Download spark from http://apache.forsale.plus/spark/spark-2.4.0/spark-2.4.0-bin-hadoop2.7.tgz and unzip
 
@@ -51,13 +51,13 @@ Refer following links for detail
 - https://weidongzhou.wordpress.com/2018/04/29/running-spark-on-kubernetes/
 
 ---
-### Client mode
+### Submitting Spark Job (Client Mode)
 
 To use client mode, jar must be distributed by driver using `setJars` with location of jars inside docker image as following
 
 ```
 val conf = new SparkConf()
-  .setAppName("WordCount")
+  .setAppName(<app_name>)
   .setJars(Array("/opt/spark/examples/jars/<jar_name>.jar"))
 ```
 
