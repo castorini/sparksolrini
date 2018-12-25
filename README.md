@@ -1,4 +1,4 @@
-# Solr performance evaluation
+# Solr Performance Evaluation on Terms of Differing Selectivity
 
 This repo is for the course project for University of Waterloo CS 848 - Data Infrastructure.
 
