@@ -6,15 +6,15 @@ import time
 
 
 if len(sys.argv) < 4:
-    print("usage: python3 collect_metrics.py <seq/solr/spark> <search term> <sleep time in sec>")
+    print("usage: python3 collect_metrics.py <seq/solr/hdfs> <search term> <sleep time in sec>")
     sys.exit()
 
 DIR_NAME = 'metrics'
 EX_TYPE = sys.argv[1]
 SEARCH_TERM = sys.argv[2]
 
-if EX_TYPE != "seq" and EX_TYPE != "solr" and EX_TYPE != "spark":
-    print("usage: python3 collect_metrics.py <seq/solr/spark> <search term> <sleep time in sec>")
+if EX_TYPE != "seq" and EX_TYPE != "solr" and EX_TYPE != "hdfs":
+    print("usage: python3 collect_metrics.py <seq/solr/hdfs> <search term> <sleep time in sec>")
     sys.exit()
 
 pathlib.Path(DIR_NAME).mkdir(parents=True, exist_ok=True)
@@ -47,4 +47,6 @@ while True:
             splits = line.split()
             pods_metrics_file.write(str(time_elapsed)+"\t"+line+"\t" + mapping[splits[0]] + "\n")
 
+    pods_metrics_file.flush()
+    nodes_metrics_file.flush()
     time.sleep(int(sys.argv[3]))

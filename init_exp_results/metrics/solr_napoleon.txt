@@ -1,0 +1,8 @@
+0	root     23593  119  0.5 36707280 192180 pts/5 Sl+  22:51   0:02 java -Xms24g -Xmx30g -cp target/cs848-project-1.0-SNAPSHOT.jar ca.uwaterloo.cs848.Solr --term napoleon --field raw --solr http://192.168.152.201:8983/solr,http://192.168.152.202:8983/solr,http://192.168.152.203:8983/solr,http://192.168.152.204:8983/solr,http://192.168.152.205:8983/solr --index gov2
+60	root     23634  0.0  0.0  30508 11240 pts/6    S+   22:51   0:00 python3 collect_driver_metrics.py seq napoleon 60
+120	root     23634  0.0  0.0  30508 11292 pts/6    S+   22:51   0:00 python3 collect_driver_metrics.py seq napoleon 60
+180	root     23634  0.0  0.0  30508 11296 pts/6    S+   22:51   0:00 python3 collect_driver_metrics.py seq napoleon 60
+240	root     23634  0.0  0.0  30508 11296 pts/6    S+   22:51   0:00 python3 collect_driver_metrics.py seq napoleon 60
+300	root     23634  0.0  0.0  30508 11296 pts/6    S+   22:51   0:00 python3 collect_driver_metrics.py seq napoleon 60
+360	root     23634  0.0  0.0  30508 11296 pts/6    S+   22:51   0:00 python3 collect_driver_metrics.py seq napoleon 60
+421	root     23634  0.0  0.0  30508 11296 pts/6    S+   22:51   0:00 python3 collect_driver_metrics.py seq napoleon 60

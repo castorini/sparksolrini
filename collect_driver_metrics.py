@@ -5,15 +5,15 @@ import sys
 import time
 
 if len(sys.argv) < 4:
-    print("usage: python3 collect_driver_metrics.py <seq/solr/spark> <search term> <sleep time in sec>")
+    print("usage: python3 collect_driver_metrics.py <seq/solr/hdfs> <search term> <sleep time in sec>")
     sys.exit()
 
 DIR_NAME = 'metrics'
 EX_TYPE = sys.argv[1]
 SEARCH_TERM = sys.argv[2]
 
-if EX_TYPE != "seq" and EX_TYPE != "solr" and EX_TYPE != "spark":
-    print("usage: python3 collect_driver_metrics.py <seq/solr/spark> <search term> <sleep time in sec>")
+if EX_TYPE != "seq" and EX_TYPE != "solr" and EX_TYPE != "hdfs":
+    print("usage: python3 collect_driver_metrics.py <seq/solr/hdfs> <search term> <sleep time in sec>")
     sys.exit()
 
 pathlib.Path(DIR_NAME).mkdir(parents=True, exist_ok=True)
@@ -28,8 +28,9 @@ while True:
     usage = subprocess.check_output(["ps", "aux"]).decode("utf-8").split('\n')
 
     for process in usage:
-        if SEARCH_TERM in process:
+        if "term "+SEARCH_TERM in process:
             metrics_file.write(str(time_elapsed)+"\t"+process+"\n")
             break
 
+    metrics_file.flush()
     time.sleep(int(sys.argv[3]))
