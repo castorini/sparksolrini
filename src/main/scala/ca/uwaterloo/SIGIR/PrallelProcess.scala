@@ -12,7 +12,9 @@ import org.apache.solr.common.SolrDocumentList
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.solr.common.params.CursorMarkParams
 import org.apache.spark.{SparkConf, SparkContext}
+
 import scala.collection.mutable.ArrayBuffer
+import scala.collection.JavaConverters._
 
 
 object SolrSpark {
@@ -49,7 +51,9 @@ object SolrSpark {
     solrClient.setDefaultCollection(args.index())
 
     // Retrieve Doc Ids
-    val query = new SolrQuery("*:*")
+    // val query = new SolrQuery("*:*") // query all documents
+    val query = new SolrQuery(args.field() + ":" + args.term())
+    query.setRows(args.rows())
 
     // make sure id is the correct field name
     query.addField("id")
@@ -69,10 +73,9 @@ object SolrSpark {
       return
     }
 
-    val docIds: ArrayBuffer[Int] = ArrayBuffer()
-
+    val docIds: ArrayBuffer[String] = ArrayBuffer()
     docs.asScala.foreach(doc => {
-      docIds += doc.get("id")
+      docIds += doc.get("id").toString()
     })
 
     val distDocIds = sc.parallelize(docIds)
@@ -83,7 +86,7 @@ object SolrSpark {
       // contact solr client running local
       val localSolrUrl = "localhost"
 
-      // Build the SolrClient.
+      // Build the SolrClient
       val solrClient = new CloudSolrClient.Builder(localSolrUrl)
         .withConnectionTimeout(MILLIS_IN_DAY)
         .build()
@@ -103,7 +106,7 @@ object SolrSpark {
       var docIdValues = Array()
 
       while (iter.hasNext) {
-        docIdValues += iter.next().toString()
+        docIdValues += iter.next()
       }
 
       val docIdValuesStr = docIdValues.mkString(" OR ")
