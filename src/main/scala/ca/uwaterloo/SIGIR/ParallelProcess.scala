@@ -13,11 +13,12 @@ import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.solr.common.params.CursorMarkParams
 import org.apache.spark.{SparkConf, SparkContext}
 
+import java.util.ArrayList
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.JavaConverters._
 
 
-object SolrSpark {
+object ParallelProcess {
 
   val log = Logger.getLogger(getClass.getName)
   PropertyConfigurator.configure("/hdd1/CS848-project/log4j.properties")
@@ -70,21 +71,24 @@ object SolrSpark {
     if (docs.isEmpty) {
       log.error("Search Result is Empty")
       sc.stop()
-      return
+
+      sys.exit(0)
     }
 
-    val docIds: ArrayBuffer[String] = ArrayBuffer()
+    val docIds = List[String]()
     docs.asScala.foreach(doc => {
-      docIds += doc.get("id").toString()
+      docIds ++ doc.get("id").toString()
     })
 
     val distDocIds = sc.parallelize(docIds)
 
     // Step 3 : Retrieve individual partitions
 
-    distDocIds.mapPartitions(iter => {
+    distDocIds.foreachPartition(iter => {
+
       // contact solr client running local
-      val localSolrUrl = "localhost"
+      val localSolrUrl = new ArrayList[String]()
+      localSolrUrl.add("localhost")
 
       // Build the SolrClient
       val solrClient = new CloudSolrClient.Builder(localSolrUrl)
@@ -103,10 +107,10 @@ object SolrSpark {
       var cursorMark = CursorMarkParams.CURSOR_MARK_START
 
       // Create OR clause containing every doc id in this partition
-      var docIdValues = Array()
+      var docIdValues = List[String]()
 
       while (iter.hasNext) {
-        docIdValues += iter.next()
+        docIdValues ++ iter.next()
       }
 
       val docIdValuesStr = docIdValues.mkString(" OR ")
@@ -157,8 +161,7 @@ object SolrSpark {
         log.info("Waiting for sentence detection to finish...")
       }
 
-      return
-    }).collect()
+    })
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
 
