@@ -67,7 +67,7 @@ object ParallelDocIdSpark {
       sc.stop()
 
       sys.exit(0)
-    }
+    }d
 
     val docIds = List[String]()
     docs.asScala.foreach(doc => {
