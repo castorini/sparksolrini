@@ -1,25 +1,22 @@
 package ca.uwaterloo.cs848
 
-import java.util.concurrent.{Executors, TimeUnit}
 
-import ca.uwaterloo.cs848.Solr.{MILLIS_IN_DAY, SentenceDetectionTask, log}
+import ca.uwaterloo.cs848.Solr.MILLIS_IN_DAY
 import ca.uwaterloo.cs848.conf.SolrConf
 import ca.uwaterloo.cs848.util.SentenceDetector
 import com.google.common.base.Splitter
 import org.apache.solr.client.solrj.SolrQuery
-import org.apache.solr.client.solrj.impl.{CloudSolrClient, HttpSolrClient}
-import org.apache.solr.common.SolrDocumentList
+import org.apache.solr.client.solrj.impl.CloudSolrClient
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.solr.common.params.CursorMarkParams
 import org.apache.spark.{SparkConf, SparkContext}
-import java.util.ArrayList
 import scala.collection.JavaConverters._
 
 
-object ParallelProcess {
+object ParallelDocIdSpark {
 
   val log = Logger.getLogger(getClass.getName)
-  PropertyConfigurator.configure("/hdd1/CS848-project/log4j.properties")
+  PropertyConfigurator.configure("/localdisk0/etc/log4j.properties")
 
   def main(argv: Array[String]) = {
 
@@ -50,7 +47,6 @@ object ParallelProcess {
     solrClient.setDefaultCollection(args.index())
 
     // Retrieve Doc Ids
-    // val query = new SolrQuery("*:*") // query all documents
     val query = new SolrQuery(args.field() + ":" + args.term())
     query.setRows(args.rows())
 
@@ -84,18 +80,14 @@ object ParallelProcess {
 
     distDocIds.foreachPartition(iter => {
 
-      // contact solr client running local
-      val localSolrUrl = new ArrayList[String]()
-      localSolrUrl.add("localhost")
+      // Parse Solr URLs
+      val solrUrls = Splitter.on(',').splitToList(args.solr())
 
-      // Build the SolrClient
-      val solrClient = new HttpSolrClient.Builder("localhost:8983/solr/"+args.index())
+      // Build the SolrClient.
+      val solrClient = new CloudSolrClient.Builder(solrUrls)
         .withConnectionTimeout(MILLIS_IN_DAY)
         .build()
 
-      // TODO :: check if we still want to keep this
-      // # of executors = # of cores
-      val executorService = Executors.newFixedThreadPool(args.parallelism())
 
       // SolrJ cursor setup
       var done = false
@@ -113,6 +105,8 @@ object ParallelProcess {
       log.info(s"Querying Solr for doc ids = $docIdValuesStr")
 
       val query = new SolrQuery("id:( " + docIdValuesStr + ")")
+
+      val sentenceDetector = new SentenceDetector()
 
       while (!done) {
         // Update cursor
@@ -132,7 +126,16 @@ object ParallelProcess {
 
         // Do sentence detection in a new Thread
         if (!docs.isEmpty) {
-          executorService.submit(new SentenceDetectionTask(docs, args.field(), args.debug()))
+
+          log.info("Sentence detection starting...")
+
+          docs.asScala.foreach(doc => {
+            val sentences = sentenceDetector.inference(doc.get(args.field()).toString)
+            if (args.debug()) {
+              log.info("ID: " + doc.get("id"))
+              sentences.foreach(println)
+            }
+          })
         }
 
         // End of results
@@ -147,15 +150,6 @@ object ParallelProcess {
 
       // Clean-up
       solrClient.close
-
-      // TODO :: see if this is necessary
-      executorService.shutdown
-
-      // Wait for any remaining sentence detection tasks to finish
-      while (!executorService.awaitTermination(10, TimeUnit.SECONDS)) {
-        log.info("Waiting for sentence detection to finish...")
-      }
-
     })
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
@@ -163,27 +157,5 @@ object ParallelProcess {
     // Need to manually call stop()
     sc.stop()
 
-  }
-
-  // Wrap a Runnable so we can pass in some params
-  class SentenceDetectionTask(docs: SolrDocumentList, searchField: String, debug: Boolean) extends Runnable {
-
-    val sentenceDetector = new SentenceDetector()
-
-    override def run(): Unit = {
-
-      log.info("Sentence detection starting...")
-
-      docs.asScala.foreach(doc => {
-        val sentences = sentenceDetector.inference(doc.get(searchField).toString)
-        if (debug) {
-          log.info("ID: " + doc.get("id"))
-          sentences.foreach(println)
-        }
-      })
-
-      log.info("Sentence detection done...")
-
-    }
   }
 }
