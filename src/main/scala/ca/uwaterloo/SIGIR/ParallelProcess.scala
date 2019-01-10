@@ -7,14 +7,12 @@ import ca.uwaterloo.cs848.conf.SolrConf
 import ca.uwaterloo.cs848.util.SentenceDetector
 import com.google.common.base.Splitter
 import org.apache.solr.client.solrj.SolrQuery
-import org.apache.solr.client.solrj.impl.CloudSolrClient
+import org.apache.solr.client.solrj.impl.{CloudSolrClient, HttpSolrClient}
 import org.apache.solr.common.SolrDocumentList
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.solr.common.params.CursorMarkParams
 import org.apache.spark.{SparkConf, SparkContext}
-
 import java.util.ArrayList
-import scala.collection.mutable.ArrayBuffer
 import scala.collection.JavaConverters._
 
 
@@ -91,12 +89,9 @@ object ParallelProcess {
       localSolrUrl.add("localhost")
 
       // Build the SolrClient
-      val solrClient = new CloudSolrClient.Builder(localSolrUrl)
+      val solrClient = new HttpSolrClient.Builder("localhost:8983/solr/"+args.index())
         .withConnectionTimeout(MILLIS_IN_DAY)
         .build()
-
-      // Set the default collection
-      solrClient.setDefaultCollection(args.index())
 
       // TODO :: check if we still want to keep this
       // # of executors = # of cores
