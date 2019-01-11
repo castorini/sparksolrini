@@ -1,20 +1,18 @@
 package ca.uwaterloo.SIGIR
 
-
-import java.util
-
 import ca.uwaterloo.cs848.Solr.MILLIS_IN_DAY
 import ca.uwaterloo.cs848.conf.SolrConf
 import ca.uwaterloo.cs848.util.SentenceDetector
-import com.google.common.base.Splitter
 import org.apache.solr.client.solrj.SolrQuery
 import org.apache.solr.client.solrj.impl.CloudSolrClient
 import org.apache.log4j.{Logger, PropertyConfigurator}
-import org.apache.solr.common.params.CursorMarkParams
+import org.apache.solr.common.params.{CursorMarkParams, MapSolrParams, SolrParams}
 import org.apache.spark.{SparkConf, SparkContext}
 import java.util.Optional
-
+import org.apache.solr.client.solrj.SolrRequest.METHOD
+import org.apache.solr.client.solrj.SolrQuery.SortClause
 import scala.collection.JavaConverters._
+import scala.collection.mutable.ListBuffer
 
 
 object ParallelDocIdSpark {
@@ -49,10 +47,8 @@ object ParallelDocIdSpark {
       .withConnectionTimeout(MILLIS_IN_DAY)
       .build()
 
-    log.info(s"\tSolr connection successfully made to ${solr}ms")
-
     // Set the default collection
-    solrClient.setDefaultCollection(args.index())
+    solrClient.setDefaultCollection(index)
 
     log.info(s"\tfield : ${field}, term : ${term}")
 
@@ -70,23 +66,21 @@ object ParallelDocIdSpark {
 
     // Parallelize Doc ids
     val docs = response.getResults
-    log.info(s"\tNum docs: ${docs.size}")
+    solrClient.close
 
     if (docs.isEmpty) {
-      log.error("Search Result is Empty")
-      sc.stop()
-
+      log.error("\tSearch Result is Empty")
       sys.exit(0)
     }
 
-    val docIds = List[String]()
+    val docIds = ListBuffer[String]()
     docs.asScala.foreach(doc => {
-      docIds ++ doc.get("id").toString()
+      docIds += doc.get("id").toString()
     })
 
     val distDocIds = sc.parallelize(docIds)
 
-    solrClient.close
+    log.info("\t Number of Docs : " + docIds.size + ", Number of Partition : " + distDocIds.getNumPartitions)
 
     // Step 3 : Retrieve individual partitions
 
@@ -97,23 +91,25 @@ object ParallelDocIdSpark {
         .withConnectionTimeout(MILLIS_IN_DAY)
         .build()
 
+      // Set the default collection
+      solrClient.setDefaultCollection(index)
 
       // SolrJ cursor setup
       var done = false
       var cursorMark = CursorMarkParams.CURSOR_MARK_START
 
       // Create OR clause containing every doc id in this partition
-      var docIdValues = List[String]()
+      var docIdValues = ListBuffer[String]()
 
-      while (iter.hasNext) {
-        docIdValues ++ iter.next()
+      while(iter.hasNext) {
+        docIdValues += iter.next()
       }
 
       val docIdValuesStr = docIdValues.mkString(" OR ")
 
-      log.info(s"Querying Solr for doc ids = ${docIdValuesStr}")
+      log.info("\tQuerying Solr for " + docIdValuesStr.size + " doc ids")
 
-      val query = new SolrQuery("id:( " + docIdValuesStr + ")")
+      val query = new SolrQuery("id:( " + docIdValuesStr + ")").setSort(SortClause.asc("id"))
 
       val sentenceDetector = new SentenceDetector()
 
@@ -121,29 +117,23 @@ object ParallelDocIdSpark {
         // Update cursor
         query.set(CursorMarkParams.CURSOR_MARK_PARAM, cursorMark)
 
-        log.info(s"Querying Solr w/ cursorMark=${cursorMark}")
+        log.info("\tQuerying Solr w/ cursorMark=${cursorMark}")
 
         // Do query
-        val response = solrClient.query(query)
+        val response = solrClient.query(query, METHOD.POST)
 
         // Get new cursor from response
         val nextCursorMark = response.getNextCursorMark
 
         // The documents
         val docs = response.getResults
-        log.info(s"Num docs: ${docs.size}")
+        log.info("\tNum docs retrieved: ${docs.size}")
 
         // Do sentence detection in a new Thread
         if (!docs.isEmpty) {
-
-          log.info("Sentence detection starting...")
-
           docs.asScala.foreach(doc => {
-            val sentences = sentenceDetector.inference(doc.get(args.field()).toString)
-            if (args.debug()) {
-              log.info("ID: " + doc.get("id"))
-              sentences.foreach(println)
-            }
+            val sentences = sentenceDetector.inference(doc.get(field).toString)
+            log.info("\tSentence Detection ran for doc : " + doc.get("id"))
           })
         }
 
@@ -154,17 +144,12 @@ object ParallelDocIdSpark {
 
         // Update prev cursor
         cursorMark = nextCursorMark
-
       }
 
       // Clean-up
       solrClient.close
     })
 
-    log.info(s"Took ${System.currentTimeMillis - start}ms")
-
-//    // Need to manually call stop()
-//    sc.stop()
-
+    log.info("\t Experiment Completed, Took ${System.currentTimeMillis - start}ms")
   }
 }
