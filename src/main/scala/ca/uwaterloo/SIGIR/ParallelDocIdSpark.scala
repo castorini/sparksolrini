@@ -72,8 +72,6 @@ object ParallelDocIdSpark {
     val docs = response.getResults
     log.info(s"\tNum docs: ${docs.size}")
 
-    /*
-
     if (docs.isEmpty) {
       log.error("Search Result is Empty")
       sc.stop()
@@ -94,11 +92,8 @@ object ParallelDocIdSpark {
 
     distDocIds.foreachPartition(iter => {
 
-      // Parse Solr URLs
-      val solrUrls = Splitter.on(',').splitToList(args.solr())
-
       // Build the SolrClient.
-      val solrClient = new CloudSolrClient.Builder(solrUrls)
+      val solrClient = new CloudSolrClient.Builder(solrList, Optional.of("/"))
         .withConnectionTimeout(MILLIS_IN_DAY)
         .build()
 
@@ -116,7 +111,7 @@ object ParallelDocIdSpark {
 
       val docIdValuesStr = docIdValues.mkString(" OR ")
 
-      log.info(s"Querying Solr for doc ids = $docIdValuesStr")
+      log.info(s"Querying Solr for doc ids = ${docIdValuesStr}")
 
       val query = new SolrQuery("id:( " + docIdValuesStr + ")")
 
@@ -126,7 +121,7 @@ object ParallelDocIdSpark {
         // Update cursor
         query.set(CursorMarkParams.CURSOR_MARK_PARAM, cursorMark)
 
-        log.info(s"Querying Solr w/ cursorMark=$cursorMark")
+        log.info(s"Querying Solr w/ cursorMark=${cursorMark}")
 
         // Do query
         val response = solrClient.query(query)
@@ -166,12 +161,10 @@ object ParallelDocIdSpark {
       solrClient.close
     })
 
-    */
-
     log.info(s"Took ${System.currentTimeMillis - start}ms")
 
-    // Need to manually call stop()
-    sc.stop()
+//    // Need to manually call stop()
+//    sc.stop()
 
   }
 }
