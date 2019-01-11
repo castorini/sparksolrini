@@ -19,7 +19,7 @@ object Solr {
   val MILLIS_IN_DAY = 1000 * 60 * 60 * 24
 
   val log = Logger.getLogger(getClass.getName)
-  PropertyConfigurator.configure("/hdd1/CS848-project/log4j.properties")
+  PropertyConfigurator.configure("/localdisk0/etc/log4j.properties")
 
   def main(argv: Array[String]) = {
 
