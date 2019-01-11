@@ -12,6 +12,7 @@ import org.apache.solr.client.solrj.impl.CloudSolrClient
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.solr.common.params.CursorMarkParams
 import org.apache.spark.{SparkConf, SparkContext}
+import java.util.Optional
 
 import scala.collection.JavaConverters._
 
@@ -44,7 +45,7 @@ object ParallelDocIdSpark {
     solrList.add(solr)
 
     // Build the SolrClient.
-    val solrClient = new CloudSolrClient.Builder(solrList)
+    val solrClient = new CloudSolrClient.Builder(solrList, Optional.of("/"))
       .withConnectionTimeout(MILLIS_IN_DAY)
       .build()
 
