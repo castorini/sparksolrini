@@ -1,6 +1,8 @@
 package ca.uwaterloo.SIGIR
 
 
+import java.util
+
 import ca.uwaterloo.cs848.Solr.MILLIS_IN_DAY
 import ca.uwaterloo.cs848.conf.SolrConf
 import ca.uwaterloo.cs848.util.SentenceDetector
@@ -10,6 +12,7 @@ import org.apache.solr.client.solrj.impl.CloudSolrClient
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.solr.common.params.CursorMarkParams
 import org.apache.spark.{SparkConf, SparkContext}
+
 import scala.collection.JavaConverters._
 
 
@@ -33,40 +36,42 @@ object ParallelDocIdSpark {
     // Start timing the experiment
     val start = System.currentTimeMillis
 
+    log.info(s"\tStart Time of the experiment ${start}ms")
+
     // Step 1 : Retrieve doc ids from Solr
 
-    // Parse Solr URLs
-    val solrUrls = Splitter.on(',').splitToList(args.solr())
-
-    log.info("building Solr Client with : " + solrUrls.toString())
+    val solrList = new java.util.ArrayList[String]()
+    solrList.add(solr)
 
     // Build the SolrClient.
-    val solrClient = new CloudSolrClient.Builder(solrUrls)
+    val solrClient = new CloudSolrClient.Builder(solrList)
       .withConnectionTimeout(MILLIS_IN_DAY)
       .build()
+
+    log.info(s"\tSolr connection successfully made to ${solr}ms")
 
     // Set the default collection
     solrClient.setDefaultCollection(args.index())
 
+    log.info(s"\tfield : ${field}, term : ${term}")
+
     // Retrieve Doc Ids
-    val query = new SolrQuery(args.field() + ":" + args.term())
-    query.setRows(args.rows())
+    val query = new SolrQuery(field + ":" + term)
+    query.setRows(rows)
 
     // make sure id is the correct field name
     query.addField("id")
 
-    log.info("get data")
-
     // Do query
     val response = solrClient.query(query)
-
-    /*
 
     // Step 2 : Parallelize Doc ids
 
     // Parallelize Doc ids
     val docs = response.getResults
-    log.info(s"Num docs: ${docs.size}")
+    log.info(s"\tNum docs: ${docs.size}")
+
+    /*
 
     if (docs.isEmpty) {
       log.error("Search Result is Empty")
@@ -81,6 +86,8 @@ object ParallelDocIdSpark {
     })
 
     val distDocIds = sc.parallelize(docIds)
+
+    solrClient.close
 
     // Step 3 : Retrieve individual partitions
 
@@ -159,8 +166,6 @@ object ParallelDocIdSpark {
     })
 
     */
-
-    solrClient.close
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
 
