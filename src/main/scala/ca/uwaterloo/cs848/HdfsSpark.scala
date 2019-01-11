@@ -1,4 +1,4 @@
-package ca.uwaterloo.cs848
+package ca.uwaterloo.SIGIR
 
 import ca.uwaterloo.cs848.conf.HdfsConf
 import ca.uwaterloo.cs848.util.{SentenceDetector, Stemmer}

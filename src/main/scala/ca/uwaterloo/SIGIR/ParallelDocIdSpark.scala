@@ -1,4 +1,4 @@
-package ca.uwaterloo.cs848
+package ca.uwaterloo.SIGIR
 
 
 import ca.uwaterloo.cs848.Solr.MILLIS_IN_DAY
@@ -38,6 +38,8 @@ object ParallelDocIdSpark {
     // Parse Solr URLs
     val solrUrls = Splitter.on(',').splitToList(args.solr())
 
+    log.info("building Solr Client with : " + solrUrls.toString())
+
     // Build the SolrClient.
     val solrClient = new CloudSolrClient.Builder(solrUrls)
       .withConnectionTimeout(MILLIS_IN_DAY)
@@ -53,8 +55,12 @@ object ParallelDocIdSpark {
     // make sure id is the correct field name
     query.addField("id")
 
+    log.info("get data")
+
     // Do query
     val response = solrClient.query(query)
+
+    /*
 
     // Step 2 : Parallelize Doc ids
 
@@ -67,7 +73,7 @@ object ParallelDocIdSpark {
       sc.stop()
 
       sys.exit(0)
-    }d
+    }
 
     val docIds = List[String]()
     docs.asScala.foreach(doc => {
@@ -151,6 +157,10 @@ object ParallelDocIdSpark {
       // Clean-up
       solrClient.close
     })
+
+    */
+
+    solrClient.close
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
 
