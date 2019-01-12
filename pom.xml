@@ -182,6 +182,7 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
               <createDependencyReducedPom>false</createDependencyReducedPom>
               <!-- This is an Mac OSX issue because the default filesystem is case-insensitive,
                    so multiple versions of files (w/ different cases) clash when Hadoop tries
