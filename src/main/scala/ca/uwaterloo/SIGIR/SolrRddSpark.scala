@@ -6,7 +6,7 @@ import com.lucidworks.spark.rdd.SelectSolrRDD
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.spark.{SparkConf, SparkContext}
 
-object SolrSpark {
+object SolrRddSpark {
 
   val log = Logger.getLogger(getClass.getName)
   PropertyConfigurator.configure("/localdisk0/etc/log4j.properties")
