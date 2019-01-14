@@ -35,7 +35,7 @@ object ParallelDocIdSpark {
     // Start timing the experiment
     val start = System.currentTimeMillis
 
-    log.info(s"\tStart Time of the experiment ${start}ms")
+    log.info(s"\tStart Time of the experiment ${start} ms")
 
     // Step 1 : Retrieve doc ids from Solr
 
@@ -66,8 +66,7 @@ object ParallelDocIdSpark {
 
     val docIdStartTimeElasped = System.currentTimeMillis - docIdStart
 
-    log.info(s"\tDocId Retreival Time : ${docIdStartTimeElasped}ms")
-
+    log.info(s"\tDocId Retreival Time : ${docIdStartTimeElasped} ms")
 
     // Step 2 : Parallelize Doc ids
 
