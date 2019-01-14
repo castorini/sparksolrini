@@ -1,4 +1,4 @@
-package ca.uwaterloo.cs848
+package ca.uwaterloo.SIGIR
 
 import ca.uwaterloo.cs848.conf.SolrConf
 import ca.uwaterloo.cs848.util.SentenceDetector
@@ -6,10 +6,10 @@ import com.lucidworks.spark.rdd.SelectSolrRDD
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.spark.{SparkConf, SparkContext}
 
-object SolrSpark {
+object SolrRddSpark {
 
   val log = Logger.getLogger(getClass.getName)
-  PropertyConfigurator.configure("/hdd1/CS848-project/log4j.properties")
+  PropertyConfigurator.configure("/localdisk0/etc/log4j.properties")
 
   def main(argv: Array[String]) = {
 
