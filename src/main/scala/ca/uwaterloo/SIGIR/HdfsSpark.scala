@@ -1,6 +1,5 @@
 package ca.uwaterloo.SIGIR
 
-import ca.uwaterloo.cs848.conf.HdfsConf
 import ca.uwaterloo.cs848.util.{SentenceDetector, Stemmer}
 import com.databricks.spark.xml.XmlInputFormat
 import org.apache.hadoop.io.{LongWritable, Text}
