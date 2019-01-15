@@ -2,8 +2,9 @@ package ca.uwaterloo.cs848
 
 import java.util.concurrent.{Executors, TimeUnit}
 
-import ca.uwaterloo.cs848.conf.SolrConf
-import ca.uwaterloo.cs848.util.SentenceDetector
+import ca.uwaterloo.Constants.{MILLIS_IN_DAY}
+import ca.uwaterloo.conf.SolrConf
+import ca.uwaterloo.util.SentenceDetector
 import com.google.common.base.Splitter
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.solr.client.solrj.SolrQuery
@@ -15,8 +16,6 @@ import org.apache.solr.common.params.CursorMarkParams
 import scala.collection.JavaConverters._
 
 object Solr {
-
-  val MILLIS_IN_DAY = 1000 * 60 * 60 * 24
 
   val log = Logger.getLogger(getClass.getName)
   PropertyConfigurator.configure("/hdd1/CS848-project/log4j.properties")
