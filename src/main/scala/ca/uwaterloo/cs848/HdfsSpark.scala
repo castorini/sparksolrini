@@ -1,7 +1,7 @@
 package ca.uwaterloo.cs848
 
-import ca.uwaterloo.conf.HdfsConf
-import ca.uwaterloo.util.{SentenceDetector, Stemmer}
+import ca.uwaterloo.cs848.conf.HdfsConf
+import ca.uwaterloo.cs848.util.{SentenceDetector, Stemmer}
 import com.databricks.spark.xml.XmlInputFormat
 import org.apache.hadoop.io.{LongWritable, Text}
 import org.apache.log4j.{Logger, PropertyConfigurator}

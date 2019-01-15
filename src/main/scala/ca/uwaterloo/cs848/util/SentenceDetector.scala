@@ -1,4 +1,4 @@
-package ca.uwaterloo.util
+package ca.uwaterloo.cs848.util
 
 import opennlp.tools.sentdetect.{SentenceDetectorME, SentenceModel}
 import org.jsoup.Jsoup
