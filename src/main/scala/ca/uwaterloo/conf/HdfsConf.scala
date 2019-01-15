@@ -1,4 +1,4 @@
-package ca.uwaterloo.SIGIR
+package ca.uwaterloo.conf
 
 import org.rogach.scallop.ScallopConf
 

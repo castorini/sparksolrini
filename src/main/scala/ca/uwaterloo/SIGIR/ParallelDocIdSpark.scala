@@ -1,8 +1,8 @@
 package ca.uwaterloo.SIGIR
 
-import ca.uwaterloo.cs848.Solr.MILLIS_IN_DAY
-import ca.uwaterloo.cs848.conf.SolrConf
-import ca.uwaterloo.cs848.util.SentenceDetector
+import ca.uwaterloo.Constants.MILLIS_IN_DAY
+import ca.uwaterloo.conf.SolrConf
+import ca.uwaterloo.util.SentenceDetector
 import org.apache.solr.client.solrj.SolrQuery
 import org.apache.solr.client.solrj.impl.CloudSolrClient
 import org.apache.log4j.{Logger, PropertyConfigurator}
@@ -150,6 +150,6 @@ object ParallelDocIdSpark {
       solrClient.close
     })
 
-    log.info("\t Experiment Completed, Took ${System.currentTimeMillis - start}ms")
+    log.info(s"Took ${System.currentTimeMillis - start}ms")
   }
 }
