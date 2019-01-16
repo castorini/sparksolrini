@@ -20,16 +20,15 @@ spark-submit \
     --index gov2
 '
 
-: '
 spark-submit \
     --name sent-detector-hdfs-spark \
     --class ca.uwaterloo.SIGIR.HdfsSpark \
-    --num-executors 9 --executor-cores 8 --executor-memory 48G --driver-memory 32G \
+    --num-executors 9 --executor-cores 1 --executor-memory 48G --driver-memory 32G \
     target/cs848-project-1.0-SNAPSHOT.jar \
     --term $1 \
     --path /collections/gov2
-'
 
+: '
 spark-submit \
     --name sent-detector-solr-spark \
     --class ca.uwaterloo.SIGIR.SolrRddSpark \
@@ -37,5 +36,7 @@ spark-submit \
     target/cs848-project-1.0-SNAPSHOT.jar \
     --field raw \
     --term $1 \
+    --row 1000 \
     --solr 192.168.1.111:9983 \
     --index gov2
+'
