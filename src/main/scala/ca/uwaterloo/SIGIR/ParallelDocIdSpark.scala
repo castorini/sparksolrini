@@ -54,7 +54,7 @@ object ParallelDocIdSpark {
 
     // Retrieve Doc Ids
     val query = new SolrQuery(field + ":" + term)
-    query.setRows(rows)
+    query.setRows(2147483647) // maximum integer value
 
     // make sure id is the correct field name
     query.addField("id")
