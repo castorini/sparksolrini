@@ -106,3 +106,56 @@ python3 collect_driver_metrics.py <seq/solr/spark> <search term> <sleep time in 
 
 - Installing Kubernetes via Kubespray: https://github.com/kubernetes-sigs/kubespray
 - HDFS on Kubernetes: https://github.com/apache-spark-on-k8s/kubernetes-HDFS
+
+--
+
+## Running on Himrod
+
+- Add necessary destinations to your path each time you start a session
+```
+export PATH="$PATH:/localdisk5/hadoop/hadoop/bin:/localdisk5/hadoop/hadoop/sbin"
+export PATH="$PATH:/localdisk5/hadoop/spark/bin"
+
+export JAVA_HOME=/usr/lib/jvm/java-8-oracle/jre
+export HADOOP_CONF_DIR=/localdisk5/hadoop/hadoop/etc/hadoop
+export SPARK_HOME=/localdisk5/hadoop/spark
+export LD_LIBRARY_PATH=/localdisk5/hadoop/hadoop/lib/native:$LD_LIBRARY_PATH
+```
+
+TODO: try changing number of executors for ParalellDocIdSpark and SolrRddSpark too
+
+- ParallelDocIdSpark
+```
+spark-submit \
+    --deploy-mode client \
+    --name sent-detector-solr-spark \
+    --class ca.uwaterloo.SIGIR.ParallelDocIdSpark \
+    target/cs848-project-1.0-SNAPSHOT.jar \
+    --term <term> \
+    --field raw \
+    --solr 192.168.1.111:9983 \
+    --index gov2
+```
+
+- HdfsSpark
+```
+spark-submit \
+    --deploy-mode client \
+    --name sent-detector-hdfs-spark \
+    --class ca.uwaterloo.SIGIR.HdfsSpark \
+   --conf spark.executor.instances=10 \
+    target/cs848-project-1.0-SNAPSHOT.jar \
+    --term <term> \
+    --path /collections/gov2
+```
+
+- HdfsSpark
+```
+spark-submit \
+    --deploy-mode client \
+    --name sent-detector-hdfs-spark \
+    --class ca.uwaterloo.SIGIR.HdfsSpark \
+    target/cs848-project-1.0-SNAPSHOT.jar \
+    --term Interpol \
+    --path /collections/gov2
+```

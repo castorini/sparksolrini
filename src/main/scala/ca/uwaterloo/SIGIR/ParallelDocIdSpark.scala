@@ -1,8 +1,8 @@
 package ca.uwaterloo.SIGIR
 
-import ca.uwaterloo.cs848.Solr.MILLIS_IN_DAY
-import ca.uwaterloo.cs848.conf.SolrConf
-import ca.uwaterloo.cs848.util.SentenceDetector
+import ca.uwaterloo.Constants.{MILLIS_IN_DAY}
+import ca.uwaterloo.conf.SolrConf
+import ca.uwaterloo.util.SentenceDetector
 import org.apache.solr.client.solrj.SolrQuery
 import org.apache.solr.client.solrj.impl.CloudSolrClient
 import org.apache.log4j.{Logger, PropertyConfigurator}
@@ -35,7 +35,7 @@ object ParallelDocIdSpark {
     // Start timing the experiment
     val start = System.currentTimeMillis
 
-    log.info(s"\tStart Time of the experiment ${start}ms")
+    log.info(s"\tStart Time of the experiment ${start} ms")
 
     // Step 1 : Retrieve doc ids from Solr
 
@@ -59,8 +59,14 @@ object ParallelDocIdSpark {
     // make sure id is the correct field name
     query.addField("id")
 
+    val docIdStart = System.currentTimeMillis
+
     // Do query
     val response = solrClient.query(query)
+
+    val docIdStartTimeElasped = System.currentTimeMillis - docIdStart
+
+    log.info(s"\tDocId Retreival Time : ${docIdStartTimeElasped} ms")
 
     // Step 2 : Parallelize Doc ids
 
@@ -84,7 +90,7 @@ object ParallelDocIdSpark {
 
     // Step 3 : Retrieve individual partitions
 
-    distDocIds.foreachPartition(iter => {
+    val latency = distDocIds.mapPartitions(iter => {
 
       // Build the SolrClient.
       val solrClient = new CloudSolrClient.Builder(solrList, Optional.of("/"))
@@ -113,14 +119,21 @@ object ParallelDocIdSpark {
 
       val sentenceDetector = new SentenceDetector()
 
+      var queryTime:Long = 0
+      var processTime:Long = 0
+
       while (!done) {
         // Update cursor
         query.set(CursorMarkParams.CURSOR_MARK_PARAM, cursorMark)
 
         log.info("\tQuerying Solr w/ cursorMark=${cursorMark}")
 
+        val queryStartTime = System.currentTimeMillis
+
         // Do query
         val response = solrClient.query(query, METHOD.POST)
+
+        queryTime += (System.currentTimeMillis - queryStartTime)
 
         // Get new cursor from response
         val nextCursorMark = response.getNextCursorMark
@@ -129,6 +142,8 @@ object ParallelDocIdSpark {
         val docs = response.getResults
         log.info("\tNum docs retrieved: ${docs.size}")
 
+        val processStartTime = System.currentTimeMillis
+
         // Do sentence detection in a new Thread
         if (!docs.isEmpty) {
           docs.asScala.foreach(doc => {
@@ -136,6 +151,8 @@ object ParallelDocIdSpark {
             log.info("\tSentence Detection ran for doc : " + doc.get("id"))
           })
         }
+
+        processTime += (System.currentTimeMillis - processStartTime)
 
         // End of results
         if (cursorMark.equals(nextCursorMark)) {
@@ -148,8 +165,18 @@ object ParallelDocIdSpark {
 
       // Clean-up
       solrClient.close
+
+      log.info(s"\tQuery Time : ${queryTime}ms")
+      log.info(s"\tProcess Time : ${processTime}ms")
+
+      val timeList = List((queryTime, processTime))
+      timeList.iterator
+    }).reduce((x,y) => {
+      (x._1 + y._1, x._2 + y._2)
     })
 
-    log.info("\t Experiment Completed, Took ${System.currentTimeMillis - start}ms")
+    log.info(s"\tSum of Query Time : ${latency._1} ms")
+    log.info(s"\tSum of Process Time : ${latency._2} ms")
+    log.info(s"\tExperiment Time : ${System.currentTimeMillis - start} ms")
   }
 }

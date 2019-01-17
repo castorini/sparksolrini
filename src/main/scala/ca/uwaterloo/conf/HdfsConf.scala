@@ -1,4 +1,4 @@
-package ca.uwaterloo.cs848.conf
+package ca.uwaterloo.conf
 
 import org.rogach.scallop.ScallopConf
 

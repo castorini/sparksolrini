@@ -1,4 +1,4 @@
-package ca.uwaterloo.cs848.util
+package ca.uwaterloo.util
 
 import org.apache.lucene.analysis.CharArraySet
 import org.apache.lucene.analysis.en.EnglishAnalyzer

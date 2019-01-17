@@ -1,12 +1,12 @@
-package ca.uwaterloo.SIGIR
+package ca.uwaterloo.cs848
 
-import ca.uwaterloo.cs848.conf.SolrConf
-import ca.uwaterloo.cs848.util.SentenceDetector
+import ca.uwaterloo.conf.SolrConf
+import ca.uwaterloo.util.SentenceDetector
 import com.lucidworks.spark.rdd.SelectSolrRDD
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.spark.{SparkConf, SparkContext}
 
-object SolrSpark {
+object SolrRddSpark {
 
   val log = Logger.getLogger(getClass.getName)
   PropertyConfigurator.configure("/hdd1/CS848-project/log4j.properties")
