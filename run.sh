@@ -8,7 +8,6 @@ export HADOOP_CONF_DIR=/localdisk5/hadoop/hadoop/etc/hadoop
 export SPARK_HOME=/localdisk5/hadoop/spark
 export LD_LIBRARY_PATH=/localdisk5/hadoop/hadoop/lib/native:$LD_LIBRARY_PATH
 
-: '
 spark-submit \
     --name sent-detector-parallel-spark \
     --class ca.uwaterloo.SIGIR.ParallelDocIdSpark \
@@ -17,16 +16,17 @@ spark-submit \
     --term $1 \
     --field raw \
     --solr 192.168.1.111:9983 \
-    --index gov2
-'
+    --index cw09b
 
+: '
 spark-submit \
     --name sent-detector-hdfs-spark \
     --class ca.uwaterloo.SIGIR.HdfsSpark \
-    --num-executors 9 --executor-cores 1 --executor-memory 48G --driver-memory 32G \
+    --num-executors 9 --executor-cores 8 --executor-memory 48G --driver-memory 32G \
     target/cs848-project-1.0-SNAPSHOT.jar \
     --term $1 \
-    --path /collections/gov2
+    --path /collections/cw09b
+'
 
 : '
 spark-submit \
@@ -36,7 +36,7 @@ spark-submit \
     target/cs848-project-1.0-SNAPSHOT.jar \
     --field raw \
     --term $1 \
-    --row 1000 \
+    --rows 1000 \
     --solr 192.168.1.111:9983 \
-    --index gov2
+    --index cw09b
 '
