@@ -122,6 +122,8 @@ export SPARK_HOME=/localdisk5/hadoop/spark
 export LD_LIBRARY_PATH=/localdisk5/hadoop/hadoop/lib/native:$LD_LIBRARY_PATH
 ```
 
+collections : `cb09b`
+
 TODO: try changing number of executors for ParalellDocIdSpark and SolrRddSpark too
 
 - ParallelDocIdSpark
@@ -134,7 +136,8 @@ spark-submit \
     --term <term> \
     --field raw \
     --solr 192.168.1.111:9983 \
-    --index gov2
+    --index <collection> \
+    --task <sleep|sd>
 ```
 
 - HdfsSpark
@@ -146,7 +149,8 @@ spark-submit \
    --conf spark.executor.instances=10 \
     target/cs848-project-1.0-SNAPSHOT.jar \
     --term <term> \
-    --path /collections/<collection>
+    --path /collections/<collection> \
+    --task <sleep|sd>
 ```
 
 - SolrRddSpark
@@ -159,5 +163,6 @@ spark-submit \
     --term <term> \
     --field raw \
     --solr 192.168.1.111:9983 \
-    --index gov2
+    --index gov2 \
+    --task <sleep|sd>
 ```

@@ -6,6 +6,6 @@ class SleepTask(log:Logger) extends Task(log) {
   log.info(s"\tSleep Task Constructed")
 
   def process(content:String): Unit = {
-    Thread.sleep(200)
+    Thread.sleep(50)
   }
 }
