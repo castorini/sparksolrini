@@ -1,11 +1,13 @@
 package ca.uwaterloo.SIGIR
 
 import ca.uwaterloo.conf.HdfsConf
-import ca.uwaterloo.util.{SentenceDetector, Stemmer}
+import ca.uwaterloo.util.Stemmer
 import com.databricks.spark.xml.XmlInputFormat
 import org.apache.hadoop.io.{LongWritable, Text}
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.spark.{SparkConf, SparkContext}
+
+import scala.ca.uwaterloo.SIGIR.task.{SentenceDetectionTask, SleepTask, Task}
 
 object HdfsSpark {
 
@@ -24,27 +26,26 @@ object HdfsSpark {
     sc.hadoopConfiguration.set(XmlInputFormat.START_TAG_KEY, "<DOC>")
     sc.hadoopConfiguration.set(XmlInputFormat.END_TAG_KEY, "</DOC>")
 
-    val (debug, term) = (args.debug(), args.term())
+    val (path, debug, term, taskType) = (args.path(), args.debug(), args.term(), args.task())
 
     // Start timing the experiment
     val start = System.currentTimeMillis
 
-    val rdd = sc.newAPIHadoopFile(args.path(), classOf[XmlInputFormat], classOf[LongWritable], classOf[Text])
+    val rdd = sc.newAPIHadoopFile(path, classOf[XmlInputFormat], classOf[LongWritable], classOf[Text])
       .filter(doc => Stemmer.stem(doc._2.toString).contains(Stemmer.stem(term))) // Stemming to match Solr results
       .foreachPartition(part => {
 
-      val sentenceDetector = new SentenceDetector()
+      var task:Task = null
+      log.info(s"\tCreating task : " + taskType)
+
+      taskType match {
+        case "sleep" => task = new SleepTask(log)
+        case "sd" => task = new SentenceDetectionTask(log)
+      }
 
       part.foreach(doc => {
-
-        val sentences = sentenceDetector.inference(doc._2.toString)
-
-        if (debug) {
-          sentences.foreach(println)
-        }
-
+        task.process(doc._2.toString)
       })
-
     })
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")

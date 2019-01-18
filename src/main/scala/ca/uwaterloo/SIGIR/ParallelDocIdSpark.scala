@@ -1,16 +1,18 @@
 package ca.uwaterloo.SIGIR
 
-import ca.uwaterloo.Constants.{MILLIS_IN_DAY}
+import ca.uwaterloo.Constants.MILLIS_IN_DAY
 import ca.uwaterloo.conf.SolrConf
-import ca.uwaterloo.util.SentenceDetector
 import org.apache.solr.client.solrj.SolrQuery
 import org.apache.solr.client.solrj.impl.CloudSolrClient
 import org.apache.log4j.{Logger, PropertyConfigurator}
-import org.apache.solr.common.params.{CursorMarkParams, MapSolrParams, SolrParams}
+import org.apache.solr.common.params.CursorMarkParams
 import org.apache.spark.{SparkConf, SparkContext}
 import java.util.Optional
+
 import org.apache.solr.client.solrj.SolrRequest.METHOD
 import org.apache.solr.client.solrj.SolrQuery.SortClause
+
+import scala.ca.uwaterloo.SIGIR.task.{SentenceDetectionTask, SleepTask, Task}
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ListBuffer
 
@@ -30,7 +32,8 @@ object ParallelDocIdSpark {
     val conf = new SparkConf().setAppName(getClass.getSimpleName)
     val sc = new SparkContext(conf)
 
-    val (solr, index, rows, field, term, debug) = (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.debug())
+    val (solr, index, rows, field, term, taskType, debug) =
+      (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.task(), args.debug())
 
     // Start timing the experiment
     val start = System.currentTimeMillis
@@ -54,7 +57,7 @@ object ParallelDocIdSpark {
 
     // Retrieve Doc Ids
     val query = new SolrQuery(field + ":" + term)
-    query.setRows(2147483647) // maximum integer value
+    query.setRows(2147483622) // maximum integer value
 
     // make sure id is the correct field name
     query.addField("id")
@@ -113,11 +116,17 @@ object ParallelDocIdSpark {
 
       val docIdValuesStr = docIdValues.mkString(" OR ")
 
-      log.info("\tQuerying Solr for " + docIdValuesStr.size + " doc ids")
+      log.info(s"\tQuerying Solr for " + docIdValuesStr.size + " doc ids")
 
       val query = new SolrQuery("id:( " + docIdValuesStr + ")").setSort(SortClause.asc("id"))
 
-      val sentenceDetector = new SentenceDetector()
+      var task:Task = null
+      log.info(s"\tCreating task : " + taskType)
+
+      taskType match {
+        case "sleep" => task = new SleepTask(log)
+        case "sd" => task = new SentenceDetectionTask(log)
+      }
 
       var queryTime:Long = 0
       var processTime:Long = 0
@@ -147,8 +156,8 @@ object ParallelDocIdSpark {
         // Do sentence detection in a new Thread
         if (!docs.isEmpty) {
           docs.asScala.foreach(doc => {
-            val sentences = sentenceDetector.inference(doc.get(field).toString)
-            log.info("\tSentence Detection ran for doc : " + doc.get("id"))
+            task.process(doc.get(field).toString)
+            if (debug) log.info("\tdoc " + doc.get("id") + " processed")
           })
         }
 
