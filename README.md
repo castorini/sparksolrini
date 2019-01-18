@@ -128,7 +128,7 @@ TODO: try changing number of executors for ParalellDocIdSpark and SolrRddSpark t
 ```
 spark-submit \
     --deploy-mode client \
-    --name sent-detector-solr-spark \
+    --name ParallelDocIdSpark \
     --class ca.uwaterloo.SIGIR.ParallelDocIdSpark \
     target/cs848-project-1.0-SNAPSHOT.jar \
     --term <term> \
@@ -141,21 +141,23 @@ spark-submit \
 ```
 spark-submit \
     --deploy-mode client \
-    --name sent-detector-hdfs-spark \
+    --name HdfsSpark \
     --class ca.uwaterloo.SIGIR.HdfsSpark \
    --conf spark.executor.instances=10 \
     target/cs848-project-1.0-SNAPSHOT.jar \
     --term <term> \
-    --path /collections/gov2
+    --path /collections/<collection>
 ```
 
-- HdfsSpark
+- SolrRddSpark
 ```
 spark-submit \
     --deploy-mode client \
-    --name sent-detector-hdfs-spark \
-    --class ca.uwaterloo.SIGIR.HdfsSpark \
+    --name SolrRddSpark \
+    --class ca.uwaterloo.SIGIR.SolrRddSpark \
     target/cs848-project-1.0-SNAPSHOT.jar \
-    --term Interpol \
-    --path /collections/gov2
+    --term <term> \
+    --field raw \
+    --solr 192.168.1.111:9983 \
+    --index gov2
 ```
