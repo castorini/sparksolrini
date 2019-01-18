@@ -1,6 +1,6 @@
 package ca.uwaterloo.SIGIR
 
-import ca.uwaterloo.Constants.MILLIS_IN_DAY
+import ca.uwaterloo.Constants.{MILLIS_IN_DAY, MAX_ROW_PER_QUERY}
 import ca.uwaterloo.conf.SolrConf
 import org.apache.solr.client.solrj.SolrQuery
 import org.apache.solr.client.solrj.impl.CloudSolrClient
@@ -57,7 +57,7 @@ object ParallelDocIdSpark {
 
     // Retrieve Doc Ids
     val query = new SolrQuery(field + ":" + term)
-    query.setRows(2147483622) // maximum number of rows solr supports
+    query.setRows(MAX_ROW_PER_QUERY) // maximum number of rows solr supports
 
     // make sure id is the correct field name
     query.addField("id")
