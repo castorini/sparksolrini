@@ -32,8 +32,8 @@ object ParallelDocIdSpark {
     val conf = new SparkConf().setAppName(getClass.getSimpleName)
     val sc = new SparkContext(conf)
 
-    val (solr, index, rows, field, term, taskType, debug) =
-      (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.task(), args.debug())
+    val (solr, index, rows, field, term, taskType) =
+      (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.task())
 
     // Start timing the experiment
     val start = System.currentTimeMillis
@@ -170,7 +170,6 @@ object ParallelDocIdSpark {
           if (!docs.isEmpty) {
             docs.asScala.foreach(doc => {
               task.process(doc.get(field).toString)
-              if (debug) log.info(s"\tdoc ${doc.get("id")} processed")
             })
           }
 

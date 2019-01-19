@@ -24,7 +24,7 @@ object HdfsSpark {
     sc.hadoopConfiguration.set(XmlInputFormat.START_TAG_KEY, "<DOC>")
     sc.hadoopConfiguration.set(XmlInputFormat.END_TAG_KEY, "</DOC>")
 
-    val (sleep, term) = (args.sleep(), args.term())
+    val (taskType, term) = (args.task(), args.term())
 
     // Start timing the experiment
     val start = System.currentTimeMillis
