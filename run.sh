@@ -39,4 +39,5 @@ spark-submit \
     --term $2 \
     --rows 1000 \
     --solr 192.168.1.111:9983 \
-    --index $1
+    --index $1 \
+    if [[ "$3" = "sleep" ]]; then --sleep; fi   

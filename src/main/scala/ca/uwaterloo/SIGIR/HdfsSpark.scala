@@ -24,7 +24,7 @@ object HdfsSpark {
     sc.hadoopConfiguration.set(XmlInputFormat.START_TAG_KEY, "<DOC>")
     sc.hadoopConfiguration.set(XmlInputFormat.END_TAG_KEY, "</DOC>")
 
-    val (debug, term) = (args.debug(), args.term())
+    val (sleep, term) = (args.sleep(), args.term())
 
     // Start timing the experiment
     val start = System.currentTimeMillis
@@ -36,13 +36,7 @@ object HdfsSpark {
       val sentenceDetector = new SentenceDetector()
 
       part.foreach(doc => {
-
         val sentences = sentenceDetector.inference(doc._2.toString)
-
-        if (debug) {
-          sentences.foreach(println)
-        }
-
       })
 
     })

@@ -30,7 +30,7 @@ object ParallelDocIdSpark {
     val conf = new SparkConf().setAppName(getClass.getSimpleName)
     val sc = new SparkContext(conf)
 
-    val (solr, index, rows, field, term, debug) = (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.debug())
+    val (solr, index, rows, field, term, sleep) = (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.sleep())
 
     // Start timing the experiment
     val start = System.currentTimeMillis
