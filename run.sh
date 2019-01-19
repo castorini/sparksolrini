@@ -41,5 +41,4 @@ spark-submit \
     --term $2 \
     --rows 1000 \
     --solr 192.168.1.111:9983 \
-    --index $1 \
-    --task $3
+    --index $1
