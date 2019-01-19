@@ -17,7 +17,8 @@ spark-submit \
     --term $2 \
     --field raw \
     --solr 192.168.1.111:9983 \
-    --index $1
+    --index $1 \
+    --task $3
 '
 
 : '
@@ -27,7 +28,8 @@ spark-submit \
     --num-executors 9 --executor-cores 8 --executor-memory 48G --driver-memory 32G \
     target/cs848-project-1.0-SNAPSHOT.jar \
     --term $2 \
-    --path "/collections" += $1
+    --path "/collections/" += $1 \
+    --task $3
 '
 
 spark-submit \
@@ -40,4 +42,4 @@ spark-submit \
     --rows 1000 \
     --solr 192.168.1.111:9983 \
     --index $1 \
-    if [[ "$3" = "sleep" ]]; then --sleep; fi   
+    --task $3
