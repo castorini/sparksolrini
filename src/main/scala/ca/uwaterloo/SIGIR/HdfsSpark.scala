@@ -45,7 +45,6 @@ object HdfsSpark {
 
       part.foreach(doc => {
         task.process(doc._2.toString)
-      })
     })
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")

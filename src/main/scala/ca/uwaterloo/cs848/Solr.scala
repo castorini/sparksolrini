@@ -69,7 +69,7 @@ object Solr {
 
       // Do sentence detection in a new Thread
       if (!docs.isEmpty) {
-        executorService.submit(new SentenceDetectionTask(docs, args.field(), args.debug()))
+        executorService.submit(new SentenceDetectionTask(docs, args.field()))
       }
 
       // End of results
@@ -97,7 +97,7 @@ object Solr {
   }
 
   // Wrap a Runnable so we can pass in some params
-  class SentenceDetectionTask(docs: SolrDocumentList, searchField: String, debug: Boolean) extends Runnable {
+  class SentenceDetectionTask(docs: SolrDocumentList, searchField: String) extends Runnable {
 
     val sentenceDetector = new SentenceDetector()
 
@@ -107,10 +107,6 @@ object Solr {
 
       docs.asScala.foreach(doc => {
         val sentences = sentenceDetector.inference(doc.get(searchField).toString)
-        if (debug) {
-          log.info("ID: " + doc.get("id"))
-          sentences.foreach(println)
-        }
       })
 
       log.info("Sentence detection done...")

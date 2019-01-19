@@ -31,7 +31,7 @@ object SolrRddSpark {
       .rows(rows)
       .query(field + ":" + term)
       .foreachPartition(partition => {
-
+        
         var task:Task = null
         log.info(s"\tCreating task : " + taskType)
 

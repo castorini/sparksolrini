@@ -111,6 +111,11 @@ python3 collect_driver_metrics.py <seq/solr/spark> <search term> <sleep time in 
 
 ## Running on Himrod
 
+
+```./run.sh <cw09b|gov2> <search-term> <<sleep|sd>```
+
+---
+
 - Add necessary destinations to your path each time you start a session
 ```
 export PATH="$PATH:/localdisk5/hadoop/hadoop/bin:/localdisk5/hadoop/hadoop/sbin"
@@ -123,8 +128,6 @@ export LD_LIBRARY_PATH=/localdisk5/hadoop/hadoop/lib/native:$LD_LIBRARY_PATH
 ```
 
 collections : `cb09b`
-
-TODO: try changing number of executors for ParalellDocIdSpark and SolrRddSpark too
 
 - ParallelDocIdSpark
 ```
