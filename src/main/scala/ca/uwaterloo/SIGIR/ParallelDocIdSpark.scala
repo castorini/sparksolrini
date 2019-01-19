@@ -1,16 +1,18 @@
 package ca.uwaterloo.SIGIR
 
-import ca.uwaterloo.Constants.{MILLIS_IN_DAY}
+import ca.uwaterloo.Constants.{MILLIS_IN_DAY, MAX_ROW_PER_QUERY}
 import ca.uwaterloo.conf.SolrConf
-import ca.uwaterloo.util.SentenceDetector
 import org.apache.solr.client.solrj.SolrQuery
 import org.apache.solr.client.solrj.impl.CloudSolrClient
 import org.apache.log4j.{Logger, PropertyConfigurator}
-import org.apache.solr.common.params.{CursorMarkParams, MapSolrParams, SolrParams}
+import org.apache.solr.common.params.CursorMarkParams
 import org.apache.spark.{SparkConf, SparkContext}
 import java.util.Optional
+
 import org.apache.solr.client.solrj.SolrRequest.METHOD
 import org.apache.solr.client.solrj.SolrQuery.SortClause
+
+import scala.ca.uwaterloo.SIGIR.task.{SentenceDetectionTask, SleepTask, Task}
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ListBuffer
 
@@ -30,7 +32,8 @@ object ParallelDocIdSpark {
     val conf = new SparkConf().setAppName(getClass.getSimpleName)
     val sc = new SparkContext(conf)
 
-    val (solr, index, rows, field, term, sleep) = (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.sleep())
+    val (solr, index, rows, field, term, taskType, debug) =
+      (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.task(), args.debug())
 
     // Start timing the experiment
     val start = System.currentTimeMillis
@@ -54,7 +57,7 @@ object ParallelDocIdSpark {
 
     // Retrieve Doc Ids
     val query = new SolrQuery(field + ":" + term)
-    query.setRows(2147483647) // maximum integer value
+    query.setRows(MAX_ROW_PER_QUERY) // maximum number of rows solr supports
 
     // make sure id is the correct field name
     query.addField("id")
@@ -90,6 +93,8 @@ object ParallelDocIdSpark {
 
     // Step 3 : Retrieve individual partitions
 
+    val querySize = 1000
+
     val latency = distDocIds.mapPartitions(iter => {
 
       // Build the SolrClient.
@@ -100,74 +105,92 @@ object ParallelDocIdSpark {
       // Set the default collection
       solrClient.setDefaultCollection(index)
 
-      // SolrJ cursor setup
-      var done = false
-      var cursorMark = CursorMarkParams.CURSOR_MARK_START
-
-      // Create OR clause containing every doc id in this partition
-      var docIdValues = ListBuffer[String]()
+      // group doc ids into smaller group
+      val groupedDocIds = ListBuffer[ListBuffer[String]]()
+      var docIds = ListBuffer[String]()
 
       while(iter.hasNext) {
-        docIdValues += iter.next()
+        if (docIds.size == querySize) {
+          groupedDocIds += docIds
+          docIds = ListBuffer[String]()
+        }
+        docIds += iter.next()
       }
+      groupedDocIds += docIds
 
-      val docIdValuesStr = docIdValues.mkString(" OR ")
-
-      log.info("\tQuerying Solr for " + docIdValuesStr.size + " doc ids")
-
-      val query = new SolrQuery("id:( " + docIdValuesStr + ")").setSort(SortClause.asc("id"))
-
-      val sentenceDetector = new SentenceDetector()
+      log.info(s"\t Number of grouped doc - " + groupedDocIds.size)
 
       var queryTime:Long = 0
       var processTime:Long = 0
 
-      while (!done) {
-        // Update cursor
-        query.set(CursorMarkParams.CURSOR_MARK_PARAM, cursorMark)
+      var task:Task = null
+      log.info(s"\tCreating task : " + taskType)
 
-        log.info("\tQuerying Solr w/ cursorMark=${cursorMark}")
-
-        val queryStartTime = System.currentTimeMillis
-
-        // Do query
-        val response = solrClient.query(query, METHOD.POST)
-
-        queryTime += (System.currentTimeMillis - queryStartTime)
-
-        // Get new cursor from response
-        val nextCursorMark = response.getNextCursorMark
-
-        // The documents
-        val docs = response.getResults
-        log.info("\tNum docs retrieved: ${docs.size}")
-
-        val processStartTime = System.currentTimeMillis
-
-        // Do sentence detection in a new Thread
-        if (!docs.isEmpty) {
-          docs.asScala.foreach(doc => {
-            val sentences = sentenceDetector.inference(doc.get(field).toString)
-            log.info("\tSentence Detection ran for doc : " + doc.get("id"))
-          })
-        }
-
-        processTime += (System.currentTimeMillis - processStartTime)
-
-        // End of results
-        if (cursorMark.equals(nextCursorMark)) {
-          done = true
-        }
-
-        // Update prev cursor
-        cursorMark = nextCursorMark
+      taskType match {
+        case "sleep" => task = new SleepTask(log)
+        case "sd" => task = new SentenceDetectionTask(log)
       }
+
+      groupedDocIds.zipWithIndex.foreach{ case(docIdValues, index) => {
+        // SolrJ cursor setup
+        var done = false
+        var cursorMark = CursorMarkParams.CURSOR_MARK_START
+
+        val docIdValuesStr = docIdValues.mkString(" OR ")
+
+        log.info(s"\n\tQuerying Solr for doc id group index ${index}")
+
+        // Create OR clause containing doc ids in the group
+        val query = new SolrQuery("id:( " + docIdValuesStr + ")").setSort(SortClause.asc("id"))
+        query.setRows(querySize) // same as querySize
+
+        while (!done) {
+          // Update cursor
+          query.set(CursorMarkParams.CURSOR_MARK_PARAM, cursorMark)
+
+          log.info(s"\tReading in next batch w/ cursorMark=${cursorMark}")
+
+          val queryStartTime = System.currentTimeMillis
+
+          // Do query
+          val response = solrClient.query(query, METHOD.POST)
+
+          queryTime += (System.currentTimeMillis - queryStartTime)
+
+          // Get new cursor from response
+          val nextCursorMark = response.getNextCursorMark
+
+          // The documents
+          val docs = response.getResults
+          log.info(s"\tNum docs retrieved: ${docs.size}")
+
+          val processStartTime = System.currentTimeMillis
+
+          // Do sentence detection in a new Thread
+          if (!docs.isEmpty) {
+            docs.asScala.foreach(doc => {
+              task.process(doc.get(field).toString)
+              if (debug) log.info(s"\tdoc ${doc.get("id")} processed")
+            })
+          }
+
+          processTime += (System.currentTimeMillis - processStartTime)
+
+          // End of results
+          if (cursorMark.equals(nextCursorMark)) {
+            done = true
+          }
+
+          // Update prev cursor
+          cursorMark = nextCursorMark
+        }
+      }}
 
       // Clean-up
       solrClient.close
 
-      log.info(s"\tQuery Time : ${queryTime}ms")
-      log.info(s"\tProcess Time : ${processTime}ms")
+      log.info(s"\tQuery Time : ${queryTime} ms")
+      log.info(s"\tProcess Time : ${processTime} ms")
 
       val timeList = List((queryTime, processTime))
       timeList.iterator

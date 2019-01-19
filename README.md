@@ -111,4 +111,61 @@ python3 collect_driver_metrics.py <seq/solr/spark> <search term> <sleep time in 
 
 ## Running on Himrod
 
-```./run.sh <collection> <term>```
+
+```./run.sh <cw09b|gov2> <search-term> <<sleep|sd>```
+
+---
+
+- Add necessary destinations to your path each time you start a session
+```
+export PATH="$PATH:/localdisk5/hadoop/hadoop/bin:/localdisk5/hadoop/hadoop/sbin"
+export PATH="$PATH:/localdisk5/hadoop/spark/bin"
+
+export JAVA_HOME=/usr/lib/jvm/java-8-oracle/jre
+export HADOOP_CONF_DIR=/localdisk5/hadoop/hadoop/etc/hadoop
+export SPARK_HOME=/localdisk5/hadoop/spark
+export LD_LIBRARY_PATH=/localdisk5/hadoop/hadoop/lib/native:$LD_LIBRARY_PATH
+```
+
+collections : `cb09b`
+
+- ParallelDocIdSpark
+```
+spark-submit \
+    --deploy-mode client \
+    --name ParallelDocIdSpark \
+    --class ca.uwaterloo.SIGIR.ParallelDocIdSpark \
+    target/cs848-project-1.0-SNAPSHOT.jar \
+    --term <term> \
+    --field raw \
+    --solr 192.168.1.111:9983 \
+    --index <collection> \
+    --task <sleep|sd>
+```
+
+- HdfsSpark
+```
+spark-submit \
+    --deploy-mode client \
+    --name HdfsSpark \
+    --class ca.uwaterloo.SIGIR.HdfsSpark \
+   --conf spark.executor.instances=10 \
+    target/cs848-project-1.0-SNAPSHOT.jar \
+    --term <term> \
+    --path /collections/<collection> \
+    --task <sleep|sd>
+```
+
+- SolrRddSpark
+```
+spark-submit \
+    --deploy-mode client \
+    --name SolrRddSpark \
+    --class ca.uwaterloo.SIGIR.SolrRddSpark \
+    target/cs848-project-1.0-SNAPSHOT.jar \
+    --term <term> \
+    --field raw \
+    --solr 192.168.1.111:9983 \
+    --index gov2 \
+    --task <sleep|sd>
+```

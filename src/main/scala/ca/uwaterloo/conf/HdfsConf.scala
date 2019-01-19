@@ -8,7 +8,8 @@ class HdfsConf(args: Seq[String]) extends ScallopConf(args) {
 
   val term = opt[String](descr = "search term", required = true)
   val path = opt[String](descr = "hdfs path", required = true)
-  val sleep  = opt[Boolean](descr = "sleep after each doc")
+  val task = opt[String](descr = "type of processing task to run", default = Some("sleep"))
+  val debug = opt[Boolean](descr = "debug / print")
 
   verify()
 

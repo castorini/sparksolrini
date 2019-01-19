@@ -1,10 +1,10 @@
 package ca.uwaterloo.SIGIR
 
 import ca.uwaterloo.conf.SolrConf
-import ca.uwaterloo.util.SentenceDetector
 import com.lucidworks.spark.rdd.SelectSolrRDD
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.spark.{SparkConf, SparkContext}
+import scala.ca.uwaterloo.SIGIR.task.{SentenceDetectionTask, SleepTask, Task}
 
 object SolrRddSpark {
 
@@ -21,7 +21,8 @@ object SolrRddSpark {
     val conf = new SparkConf().setAppName(getClass.getSimpleName)
     val sc = new SparkContext(conf)
 
-    val (solr, index, rows, field, term, sleep) = (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.sleep())
+    val (solr, index, rows, field, term, taskType, debug) =
+      (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.task(), args.debug())
 
     // Start timing the experiment
     val start = System.currentTimeMillis
@@ -30,11 +31,19 @@ object SolrRddSpark {
       .rows(rows)
       .query(field + ":" + term)
       .foreachPartition(partition => {
-           if (sleep) { partition.foreach(doc => Thread.sleep(100)) }
-           else {
-               val sentenceDetector = new SentenceDetector()
-               partition.foreach(doc => sentenceDetector.inference(doc.get(field).toString))
-           } 
+        
+        var task:Task = null
+        log.info(s"\tCreating task : " + taskType)
+
+        taskType match {
+          case "sleep" => task = new SleepTask(log)
+          case "sd" => task = new SentenceDetectionTask(log)
+        }
+
+        partition.foreach(doc => {
+          task.process(doc.get(field).toString)
+          if (debug) log.info("\tdoc " + doc.get("id") + " processed")
+        })
       })
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
