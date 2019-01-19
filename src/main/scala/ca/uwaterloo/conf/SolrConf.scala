@@ -18,7 +18,6 @@ class SolrConf(args: Seq[String]) extends ScallopConf(args) {
 
   val sleep = opt[Boolean](descr = "sleep after each doc")
 
-
   codependent(field, term, solr, index)
 
   verify()

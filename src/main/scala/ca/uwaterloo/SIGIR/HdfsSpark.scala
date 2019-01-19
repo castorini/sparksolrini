@@ -26,10 +26,10 @@ object HdfsSpark {
     sc.hadoopConfiguration.set(XmlInputFormat.START_TAG_KEY, "<DOC>")
     sc.hadoopConfiguration.set(XmlInputFormat.END_TAG_KEY, "</DOC>")
 
-    val (path, debug, term, taskType) = (args.path(), args.debug(), args.term(), args.task())
+    val (path, term, taskType) = (args.path(), args.term(), args.task())
 
     // Start timing the experiment
-    val start = System.currentTimeMillis
+    val start = System.currentTimeMillis 
 
     val rdd = sc.newAPIHadoopFile(path, classOf[XmlInputFormat], classOf[LongWritable], classOf[Text])
       .filter(doc => Stemmer.stem(doc._2.toString).contains(Stemmer.stem(term))) // Stemming to match Solr results
@@ -45,6 +45,7 @@ object HdfsSpark {
 
       part.foreach(doc => {
         task.process(doc._2.toString)
+     })
     })
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
