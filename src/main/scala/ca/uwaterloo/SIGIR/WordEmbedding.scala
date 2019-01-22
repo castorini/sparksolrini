@@ -56,6 +56,5 @@ object WordEmbedding {
 
     // Need to manually call stop()
     sc.stop()
-
   }
 }
