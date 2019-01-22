@@ -4,7 +4,7 @@ import ca.uwaterloo.conf.SolrConf
 import com.lucidworks.spark.rdd.SelectSolrRDD
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.spark.{SparkConf, SparkContext}
-import scala.ca.uwaterloo.SIGIR.task.{SentenceDetectionTask, SleepTask, Task, ClusteringTask}
+import scala.ca.uwaterloo.SIGIR.task.{SentenceDetectionTask, SleepTask, Task}
 
 object SolrRddSpark {
 
@@ -38,7 +38,6 @@ object SolrRddSpark {
         taskType match {
           case "sleep" => task = new SleepTask(log)
           case "sd" => task = new SentenceDetectionTask(log)
-          case "clustering" => task = new ClusteringTask(log)
         }
 
         partition.foreach(doc => {

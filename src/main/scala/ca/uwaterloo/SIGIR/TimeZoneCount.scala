@@ -1,14 +1,12 @@
 package ca.uwaterloo.SIGIR
 
 import ca.uwaterloo.conf.SolrConf
-import ca.uwaterloo.util.Stemmer
 import com.lucidworks.spark.rdd.SelectSolrRDD
 import org.apache.log4j.{Logger, PropertyConfigurator}
-import org.apache.spark.mllib.feature.Word2Vec
 import org.apache.spark.{SparkConf, SparkContext}
 import play.api.libs.json._
 
-object WordEmbedding {
+object TimeZoneCount {
 
   val log = Logger.getLogger(getClass.getName)
   PropertyConfigurator.configure("/localdisk0/etc/log4j.properties")
@@ -29,33 +27,30 @@ object WordEmbedding {
     // Start timing the experiment
     val start = System.currentTimeMillis
 
-    val word2vec = new Word2Vec()
     val rdd = new SelectSolrRDD(solr, index, sc)
       .rows(rows)
       .query(field + ":" + term)
-      .map(doc => {
+      .flatMap(doc => {
         val parsedJson = Json.parse(doc.get(field).toString)
-        val contents = Stemmer.stem(parsedJson("text").toString)
-        contents.toString.split(" ").toSeq
-      })
+        var timeZone:List[Tuple2[String, Int]] = List()
+        try {
+          val pair:Tuple2[String, Int] = ((parsedJson \ "user" \ "time_zone").as[String], 1)
+          timeZone = List(pair)
+        } catch {
+          case e : Exception => {
+            System.out.println("field time_zone unavailble for the following tweet")
+            println(Json.prettyPrint(parsedJson))
+          }
+        }
+        timeZone
+      }).reduceByKey(_+_).sortBy(_._2, false)
 
-    val model = word2vec.fit(rdd)
+    val topTimeZones = rdd.take(10)
 
-    val synonyms = model.findSynonyms(term, 10)
-
-    println(s"top 10 similar words")
-    for((synonym, cosineSimilarity) <- synonyms) {
-      println(s"$synonym ---- $cosineSimilarity")
-    }
-
-    println(s"vector mappings")
-    val vectors = model.getVectors
-    vectors foreach ( (t2) => println (t2._1 + "-->" + t2._2.mkString(" ")))
+    println(s"top 10 cities with the most tweets")
+    topTimeZones.foreach(item => println(s"${item._1} --> ${item._2}"))
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
-
-    // Need to manually call stop()
     sc.stop()
-
   }
 }
