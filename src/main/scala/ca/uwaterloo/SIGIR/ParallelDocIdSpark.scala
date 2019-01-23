@@ -124,11 +124,11 @@ object ParallelDocIdSpark {
       var processTime:Long = 0
 
       var task:Task = null
-      log.info(s"\tCreating task : " + taskType)
+      log.info(s"Creating task: ${taskType}")
 
       taskType match {
-        case "sleep" => task = new SleepTask(log)
-        case "sd" => task = new SentenceDetectionTask(log)
+        case "sleep" => task = new SleepTask(50)
+        case "sd" => task = new SentenceDetectionTask()
       }
 
       groupedDocIds.zipWithIndex.foreach{ case(docIdValues, index) => {
