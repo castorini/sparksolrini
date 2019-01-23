@@ -10,6 +10,17 @@ This repo contains the Kubernetes, Kubespray, and Helm charts used to deloy Kube
 
 ---
 
+## Setup - Maven
+
+`HdfsSpark` requires [warcutils](https://github.com/norvigaward/warcutils) to work, but unfortunately it's not available in Maven Central (and their repo appears to be down). We need to build it ourself and install it to our local Maven repo.
+
+```bash
+git clone https://github.com/norvigaward/warcutils.git
+cd warcutils
+mvn clean package
+mvn install:install-file -Dfile=target/warcutils-1.2.jar -DpomFile=pom.xml
+```
+
 ## Spark
 
 ### Submitting Spark Job (Cluster Mode)
