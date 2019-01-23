@@ -1,11 +1,15 @@
 package ca.uwaterloo.SIGIR
 
+import java.nio.charset.StandardCharsets
+
 import ca.uwaterloo.conf.HdfsConf
 import ca.uwaterloo.util.Stemmer
-import com.databricks.spark.xml.XmlInputFormat
-import org.apache.hadoop.io.{LongWritable, Text}
+import nl.surfsara.warcutils.WarcInputFormat
+import org.apache.commons.io.IOUtils
+import org.apache.hadoop.io.LongWritable
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.spark.{SparkConf, SparkContext}
+import org.jwat.warc.WarcRecord
 
 import scala.ca.uwaterloo.SIGIR.task.{SentenceDetectionTask, SleepTask, Task}
 
@@ -23,29 +27,30 @@ object HdfsSpark {
 
     val sc = new SparkContext(conf)
     sc.hadoopConfiguration.set("mapreduce.input.fileinputformat.input.dir.recursive", "true")
-    sc.hadoopConfiguration.set(XmlInputFormat.START_TAG_KEY, "<DOC>")
-    sc.hadoopConfiguration.set(XmlInputFormat.END_TAG_KEY, "</DOC>")
 
     val (path, term, taskType) = (args.path(), args.term(), args.task())
 
     // Start timing the experiment
-    val start = System.currentTimeMillis 
+    val start = System.currentTimeMillis
 
-    val rdd = sc.newAPIHadoopFile(path, classOf[XmlInputFormat], classOf[LongWritable], classOf[Text])
-      .filter(doc => Stemmer.stem(doc._2.toString).contains(Stemmer.stem(term))) // Stemming to match Solr results
+    val rdd = sc.newAPIHadoopFile(path, classOf[WarcInputFormat], classOf[LongWritable], classOf[WarcRecord])
+      .filter(_._2.header.contentTypeStr.equals("application/http;msgtype=response")) // Keep webpages
+      .map(pair => IOUtils.toString(pair._2.getPayloadContent, StandardCharsets.UTF_8)) // Get the HTML as a String
+      .filter(doc => Stemmer.stem(doc).contains(Stemmer.stem(term))) // Stemming to match Solr results
       .foreachPartition(part => {
 
-      var task:Task = null
-      log.info(s"\tCreating task : " + taskType)
+        var task: Task = null
+        log.info(s"Creating task: ${taskType}")
 
-      taskType match {
-        case "sleep" => task = new SleepTask(log)
-        case "sd" => task = new SentenceDetectionTask(log)
-      }
+        taskType match {
+          case "sleep" => task = new SleepTask(50)
+          case "sd" => task = new SentenceDetectionTask()
+        }
 
-      part.foreach(doc => {
-        task.process(doc._2.toString)
-     })
+        part.foreach(doc => {
+          task.process(doc)
+        })
+
     })
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
