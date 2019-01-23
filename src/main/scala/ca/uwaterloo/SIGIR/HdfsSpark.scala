@@ -34,7 +34,9 @@ object HdfsSpark {
     val start = System.currentTimeMillis
 
     val rdd = sc.newAPIHadoopFile(path, classOf[WarcInputFormat], classOf[LongWritable], classOf[WarcRecord])
-      .filter(_._2.header.contentTypeStr.equals("application/http;msgtype=response")) // Keep webpages
+      .filter(pair => {
+        pair._2.header != null && pair._2.header.contentLengthStr != null && pair._2.header.contentTypeStr.equals("application/http;msgtype=response")
+      })
       .map(pair => IOUtils.toString(pair._2.getPayloadContent, StandardCharsets.UTF_8)) // Get the HTML as a String
       .filter(doc => Stemmer.stem(doc).contains(Stemmer.stem(term))) // Stemming to match Solr results
       .foreachPartition(part => {
