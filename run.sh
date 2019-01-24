@@ -28,10 +28,11 @@ spark-submit \
     --num-executors 9 --executor-cores 8 --executor-memory 48G --driver-memory 32G \
     target/cs848-project-1.0-SNAPSHOT.jar \
     --term $2 \
-    --path "/collections/" += $1 \
+    --path $1 \
     --task $3
 '
 
+: '
 spark-submit \
     --name sent-detector-solr-spark \
     --class ca.uwaterloo.SIGIR.SolrRddSpark \
@@ -43,3 +44,12 @@ spark-submit \
     --solr 192.168.1.111:9983 \
     --index $1 \
     --task $3
+'
+
+spark-submit \
+    --name term-count \
+    --class ca.uwaterloo.util.Count \
+    --num-executors 9 --executor-cores 8 --executor-memory 48G --driver-memory 32G \
+    target/cs848-project-1.0-SNAPSHOT.jar \
+    --input $1 \
+    --output $2
