@@ -34,12 +34,11 @@ object Count {
         pair._2.header != null && pair._2.header.contentLengthStr != null && pair._2.header.contentTypeStr.equals("application/http;msgtype=response")
       })
       .map(pair => IOUtils.toString(pair._2.getPayloadContent, StandardCharsets.UTF_8)) // Get the HTML as a String
-      .flatMap(line => line.split(" "))
-      .map(word => (Stemmer.stem(word), 1))
+      .flatMap(line => Stemmer.stem(line).split(" "))
+      .map(word => (word, 1))
       .reduceByKey(_ + _)
       .filter(_._2 > 100)
-      .sortBy(x => x._2)
-      .coalesce(1, shuffle = true)
+      .sortBy(_._2)
       .saveAsTextFile(outputDir)
   }
 }
