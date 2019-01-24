@@ -32,8 +32,8 @@ object ParallelDocIdSpark {
     val conf = new SparkConf().setAppName(getClass.getSimpleName)
     val sc = new SparkContext(conf)
 
-    val (solr, index, rows, field, term, taskType) =
-      (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.task())
+    val (solr, index, rows, field, term, taskType, duration) =
+      (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.task(), args.duration())
 
     // Start timing the experiment
     val start = System.currentTimeMillis
@@ -127,7 +127,7 @@ object ParallelDocIdSpark {
       log.info(s"Creating task: ${taskType}")
 
       taskType match {
-        case "sleep" => task = new SleepTask(50)
+        case "sleep" => task = new SleepTask(duration)
         case "sd" => task = new SentenceDetectionTask()
       }
 
