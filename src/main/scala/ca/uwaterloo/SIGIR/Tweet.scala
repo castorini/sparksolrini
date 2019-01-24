@@ -1,12 +1,13 @@
 package ca.uwaterloo.SIGIR
 
-import ca.uwaterloo.conf.SolrConf
+import ca.uwaterloo.Constants.MAX_ROW_PER_QUERY
+import ca.uwaterloo.conf.TweetConf
 import com.lucidworks.spark.rdd.SelectSolrRDD
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.spark.{SparkConf, SparkContext}
 import play.api.libs.json._
 
-object TimeZoneCount {
+object Tweet {
 
   val log = Logger.getLogger(getClass.getName)
   PropertyConfigurator.configure("/localdisk0/etc/log4j.properties")
@@ -14,21 +15,21 @@ object TimeZoneCount {
   def main(argv: Array[String]) = {
 
     // Parse command line args
-    val args = new SolrConf(argv)
+    val args = new TweetConf(argv)
     log.info(args.summary)
 
     // Setup Spark
     val conf = new SparkConf().setAppName(getClass.getSimpleName)
     val sc = new SparkContext(conf)
 
-    val (solr, index, rows, field, term) =
-      (args.solr(), args.index(), args.rows(), args.field(), args.term())
+    val (term, num, field, solr, index) =
+      (args.term(), args.num(), args.field(), args.solr(), args.index())
 
     // Start timing the experiment
     val start = System.currentTimeMillis
 
     val rdd = new SelectSolrRDD(solr, index, sc)
-      .rows(rows)
+      .rows(MAX_ROW_PER_QUERY)
       .query(field + ":" + term)
       .flatMap(doc => {
         val parsedJson = Json.parse(doc.get(field).toString)
@@ -45,7 +46,7 @@ object TimeZoneCount {
         timeZone
       }).reduceByKey(_+_).sortBy(_._2, false)
 
-    val topTimeZones = rdd.take(10)
+    val topTimeZones = rdd.take(num)
 
     println(s"top 10 cities with the most tweets")
     topTimeZones.foreach(item => println(s"${item._1} --> ${item._2}"))
