@@ -3,8 +3,8 @@ package ca.uwaterloo.util
 import java.nio.charset.StandardCharsets
 
 import ca.uwaterloo.conf.CountConf
-import ca.uwaterloo.util.Stemmer
 import nl.surfsara.warcutils.WarcInputFormat
+import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.commons.io.IOUtils
 import org.apache.hadoop.io.LongWritable
 import org.apache.log4j.{Logger, PropertyConfigurator}
@@ -26,15 +26,8 @@ object Count {
     val sc = new SparkContext(conf)
     sc.hadoopConfiguration.set("mapreduce.input.fileinputformat.input.dir.recursive", "true")
 
-    val inputDir = "hdfs://node-master:9000/collections/cw09b"
-    val outputFile = "count.txt"
-
-//    val inputDir = args.input()
-//    val outputFile = args.output()
-//    val (inputDir, outputFile) = (args(0), args(1))
-
-    log.info(inputDir)
-    log.info(outputFile)
+    val (inputDir, outputDir) = (args.input(), args.output())
+    FileSystem.get(sc.hadoopConfiguration).delete(new Path(outputDir), true)
 
     val rdd = sc.newAPIHadoopFile(inputDir, classOf[WarcInputFormat], classOf[LongWritable], classOf[WarcRecord])
       .filter(pair => {
@@ -44,7 +37,9 @@ object Count {
       .flatMap(line => line.split(" "))
       .map(word => (Stemmer.stem(word), 1))
       .reduceByKey(_ + _)
+      .filter(_._2 > 100)
       .sortBy(x => x._2)
-      .saveAsTextFile(outputFile)
+      .coalesce(1, shuffle = true)
+      .saveAsTextFile(outputDir)
   }
 }
