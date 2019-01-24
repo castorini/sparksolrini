@@ -39,7 +39,7 @@ object Tweet {
           timeZone = List(pair)
         } catch {
           case e : Exception => {
-            System.out.println("field time_zone unavailble for the following tweet")
+            System.out.println("field time_zone unavailable for the following tweet")
             println(Json.prettyPrint(parsedJson))
           }
         }
@@ -48,7 +48,7 @@ object Tweet {
 
     val topTimeZones = rdd.take(num)
 
-    println(s"top 10 cities with the most tweets")
+    println(s"top 10 time zones with the most tweets")
     topTimeZones.foreach(item => println(s"${item._1} --> ${item._2}"))
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")

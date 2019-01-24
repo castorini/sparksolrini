@@ -33,10 +33,10 @@ object TimeZone {
     val timeZones1 = getTopTimeZones(sc, solr, index, field, term1, num)
     val timeZones2 = getTopTimeZones(sc, solr, index, field, term2, num)
 
-    println(s"$term1 - top $num cities with the most tweets")
+    println(s"$term1 - top $num time zones with the most tweets")
     timeZones1.foreach(pair => println(s"\t${pair._1} --> ${pair._2}"))
 
-    println(s"$term2 - top $num cities with the most tweets")
+    println(s"$term2 - top $num time zones with the most tweets")
     timeZones2.foreach(pair => println(s"\t${pair._1} --> ${pair._2}"))
 
     val timeZones = ListBuffer[String]()
@@ -67,7 +67,7 @@ object TimeZone {
           timeZone = List(pair)
         } catch {
           case e : Exception => {
-            System.out.println("field time_zone unavailble for the following tweet")
+            System.out.println("field time_zone unavailable for the following tweet")
             println(Json.prettyPrint(parsedJson))
           }
         }
