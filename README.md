@@ -206,3 +206,8 @@ spark-submit \
     --solr 192.168.1.111:9983 \
     --index mb11
 ```
+
+- Count
+```
+nohup ./run.sh hdfs://node-master:9000/collections/cw09b term_count &
+```
