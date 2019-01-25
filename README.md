@@ -183,5 +183,5 @@ spark-submit \
 
 - Count
 ```
-nohup ./run.sh hdfs://node-master:9000/collections/cw09b term_count &
+nohup ./run.sh hdfs://node-master:9000/collections/cw09b term-count &
 ```

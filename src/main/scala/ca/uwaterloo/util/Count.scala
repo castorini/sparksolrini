@@ -34,7 +34,7 @@ object Count {
         pair._2.header != null && pair._2.header.contentLengthStr != null && pair._2.header.contentTypeStr.equals("application/http;msgtype=response")
       })
       .map(pair => IOUtils.toString(pair._2.getPayloadContent, StandardCharsets.UTF_8)) // Get the HTML as a String
-      .flatMap(line => Stemmer.stem(line).split(" "))
+      .flatMap(line => Stemmer.stem(line).split("\\s+"))
       .map(word => (word, 1))
       .reduceByKey(_ + _)
       .filter(_._2 > 100)
