@@ -277,3 +277,8 @@ spark-submit \
   "requested_id" : 31716724621447168
 }
 ```
+
+- Count
+```
+nohup ./run.sh hdfs://node-master:9000/collections/cw09b term-count &
+```
