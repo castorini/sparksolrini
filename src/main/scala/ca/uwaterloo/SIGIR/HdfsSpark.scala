@@ -28,7 +28,7 @@ object HdfsSpark {
     val sc = new SparkContext(conf)
     sc.hadoopConfiguration.set("mapreduce.input.fileinputformat.input.dir.recursive", "true")
 
-    val (path, term, taskType) = (args.path(), args.term(), args.task())
+    val (path, term, taskType, duration) = (args.path(), args.term(), args.task(), args.duration())
 
     // Start timing the experiment
     val start = System.currentTimeMillis
@@ -41,17 +41,17 @@ object HdfsSpark {
       .filter(doc => Stemmer.stem(doc).contains(Stemmer.stem(term))) // Stemming to match Solr results
       .foreachPartition(part => {
 
-        var task: Task = null
-        log.info(s"Creating task: ${taskType}")
+      var task: Task = null
+      log.info(s"Creating task: ${taskType}")
 
-        taskType match {
-          case "sleep" => task = new SleepTask(50)
-          case "sd" => task = new SentenceDetectionTask()
-        }
+      taskType match {
+        case "sleep" => task = new SleepTask(duration)
+        case "sd" => task = new SentenceDetectionTask()
+      }
 
-        part.foreach(doc => {
-          task.process(doc)
-        })
+      part.foreach(doc => {
+        task.process(doc)
+      })
 
     })
 

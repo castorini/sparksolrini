@@ -177,8 +177,34 @@ spark-submit \
     --term <term> \
     --field raw \
     --solr 192.168.1.111:9983 \
-    --index gov2 \
+    --index <collection> \
     --task <sleep|sd>
+```
+
+- WordEmbedding
+```
+spark-submit \
+    --deploy-mode client \
+    --name WordEmbedding \
+    --class ca.uwaterloo.SIGIR.WordEmbedding \
+    target/cs848-project-1.0-SNAPSHOT.jar \
+    --term <term> \
+    --field raw \
+    --solr 192.168.1.111:9983 \
+    --index mb11
+```
+
+- TimeZoneCount
+```
+spark-submit \
+    --deploy-mode client \
+    --name TimeZoneCount \
+    --class ca.uwaterloo.SIGIR.TimeZoneCount \
+    target/cs848-project-1.0-SNAPSHOT.jar \
+    --term <term> \
+    --field raw \
+    --solr 192.168.1.111:9983 \
+    --index mb11
 ```
 
 - Count
