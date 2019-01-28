@@ -19,7 +19,7 @@ do
     for t in "${terms[@]}"
     do
         # Task 1
-        spark-submit \
+        (spark-submit \
         --deploy-mode client \
         --name "parallel-docid-spark-${t}-${d}"  \
         --class ca.uwaterloo.SIGIR.ParallelDocIdSpark \
@@ -34,12 +34,11 @@ do
         --index $1 \
         --task $2 \
         --duration ${d} \
+        && sleep 5m) \
         &> "parallel-docid-spark-${t}-${d}.txt"
-
-       sleep 5m
-      
+     
        # Task 2
-       spark-submit \
+       (spark-submit \
        --deploy-mode client \
        --name "hdfs-spark-${t}-${d}" \
        --class ca.uwaterloo.SIGIR.HdfsSpark \
@@ -52,12 +51,11 @@ do
        --path "/collections/$1" \
        --task $2 \
        --duration ${d} \
+       && sleep) \
        &> "hdfs-spark-${t}-${d}.txt"
 
-       sleep 5m
-
        # Task 3
-       spark-submit \
+       (spark-submit \
        --deploy-mode client \
        --name "solr-rdd-spark-${t}-${d}" \
        --conf spark.network.timeout=10000001s \
@@ -73,9 +71,8 @@ do
        --index $1 \
        --task $2 \
        --duration ${d} \
+       && sleep 5m) \
        &> "solr-rdd-spark-${t}-${d}.txt"
-
-       sleep 5m
 
        done
 done
