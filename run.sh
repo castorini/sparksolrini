@@ -9,7 +9,7 @@ export SPARK_HOME=/localdisk5/hadoop/spark
 export LD_LIBRARY_PATH=/localdisk5/hadoop/hadoop/lib/native:$LD_LIBRARY_PATH
 
 # Term list
-terms=("idea") # "good" "intern" "event" "start" "end")
+terms=("idea" "good" "intern" "event" "start" "end")
 
 # Sleep duration list
 duration=(3)
@@ -51,7 +51,7 @@ do
        --task $2 \
        --duration ${d} \
        &> "hdfs-spark-${t}-${d}.txt"
-       
+      
        # Task 3
        spark-submit \
        --deploy-mode client \
