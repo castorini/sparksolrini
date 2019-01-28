@@ -34,7 +34,9 @@ do
         --index $1 \
         --task $2 \
         --duration ${d} \
-       &> "parallel-docid-spark-${t}-${d}.txt"
+        &> "parallel-docid-spark-${t}-${d}.txt"
+
+       sleep 5m
       
        # Task 2
        spark-submit \
@@ -51,6 +53,8 @@ do
        --task $2 \
        --duration ${d} \
        &> "hdfs-spark-${t}-${d}.txt"
+
+       sleep 5m
 
        # Task 3
        spark-submit \
@@ -70,6 +74,8 @@ do
        --task $2 \
        --duration ${d} \
        &> "solr-rdd-spark-${t}-${d}.txt"
+
+       sleep 5m
 
        done
 done
