@@ -9,52 +9,65 @@ export SPARK_HOME=/localdisk5/hadoop/spark
 export LD_LIBRARY_PATH=/localdisk5/hadoop/hadoop/lib/native:$LD_LIBRARY_PATH
 
 # Term list
-declare -a terms=("dog") # "cat" "horse" "goose")
+terms=("idea" "good" "intern" "event" "start" "end")
 
-for d in 3 # 9 27
+# Sleep duration list
+duration=(3)
+
+for d in ${duration[@]}
 do
-    for t in terms
+    for t in ${terms[@]}
     do
         # Task 1
         spark-submit \
-        --name parallel-docid-spark \
+        --name "parallel-docid-spark-${t}-${d}"  \
         --class ca.uwaterloo.SIGIR.ParallelDocIdSpark \
+        --conf spark.network.timeout=10000001s \
+        --conf spark.executor.heartbeatInterval=10000000s \
+        --conf spark.rpc.message.maxSize=500 \
         --num-executors 9 --executor-cores 16 --executor-memory 48G --driver-memory 32G \
         target/cs848-project-1.0-SNAPSHOT.jar \
-        --term $2 \
+        --term ${t} \
         --field raw \
         --solr 192.168.1.111:9983 \
         --index $1 \
-        --task $3 \
-        --duration d \
-        &> "parallel-docid-spark-" + t + "-" + d
-    done
+        --task $2 \
+        --duration ${d} \
+       &> "parallel-docid-spark-${t}-${d}.txt"
+
+       spark-submit \
+       --name "hdfs-spark-${t}-${d}" \
+       --class ca.uwaterloo.SIGIR.HdfsSpark \
+       --conf spark.network.timeout=10000001s \
+       --conf spark.executor.heartbeatInterval=10000000s \
+       --conf spark.rpc.message.maxSize=500 \       
+       --num-executors 9 --executor-cores 16 --executor-memory 48G --driver-memory 32G \
+       target/cs848-project-1.0-SNAPSHOT.jar \
+       --term ${t} \
+       --path "/collections/$1" \
+       --task $2 \
+       --duration ${d} \
+       &> "hdfs-spark-${t}-${d}.txt"
+
+       spark-submit \
+       --name "solr-rdd-spark-${t}-${d}" \
+       --conf spark.network.timeout=10000001s \
+       --conf spark.executor.heartbeatInterval=10000000s \
+       --conf spark.rpc.message.maxSize=500 \
+       --class ca.uwaterloo.SIGIR.SolrRddSpark \
+       --num-executors 9 --executor-cores 16 --executor-memory 48G --driver-memory 32G \
+       target/cs848-project-1.0-SNAPSHOT.jar \
+       --field raw \
+       --term ${t} \
+       --rows 1000 \
+       --solr 192.168.1.111:9983 \
+       --index $1 \
+       --task $2 \
+       --duration ${d} \
+       &> "solr-rdd-spark-${t}-${d}.txt"
+     
+       done
 done
-
-: '
-spark-submit \
-    --name hdfs-spark \
-    --class ca.uwaterloo.SIGIR.HdfsSpark \
-    --num-executors 9 --executor-cores 16 --executor-memory 48G --driver-memory 32G \
-    target/cs848-project-1.0-SNAPSHOT.jar \
-    --term $2 \
-    --path $1 \
-    --task $3
-'
-
-: '
-spark-submit \
-    --name solr-rdd-spark \
-    --class ca.uwaterloo.SIGIR.SolrRddSpark \
-    --num-executors 9 --executor-cores 16 --executor-memory 48G --driver-memory 32G \
-    target/cs848-project-1.0-SNAPSHOT.jar \
-    --field raw \
-    --term $2 \
-    --rows 1000 \
-    --solr 192.168.1.111:9983 \
-    --index $1 \
-    --task $3
-'
 
 : '
 spark-submit \
