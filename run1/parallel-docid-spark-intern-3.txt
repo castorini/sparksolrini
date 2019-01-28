@@ -1,0 +1,571 @@
+[2019-01-27 22:12:54] [main] INFO  ParallelDocIdSpark$:29 - Scallop(--term, intern, --field, raw, --solr, 192.168.1.111:9983, --index, cw09b, --task, sleep, --duration, 3)
+ *  term => intern
+ *  task => sleep
+ *  duration => 3
+    debug => false
+ *  solr => 192.168.1.111:9983
+ *  index => cw09b
+ *  field => raw
+    rows => 1000
+    parallelism => 12
+
+[2019-01-27 22:12:54] [main] INFO  SparkContext:54 - Running Spark version 2.4.0
+[2019-01-27 22:12:54] [main] INFO  SparkContext:54 - Submitted application: ParallelDocIdSpark$
+[2019-01-27 22:12:54] [main] INFO  SecurityManager:54 - Changing view acls to: zakkalyo
+[2019-01-27 22:12:54] [main] INFO  SecurityManager:54 - Changing modify acls to: zakkalyo
+[2019-01-27 22:12:54] [main] INFO  SecurityManager:54 - Changing view acls groups to: 
+[2019-01-27 22:12:54] [main] INFO  SecurityManager:54 - Changing modify acls groups to: 
+[2019-01-27 22:12:54] [main] INFO  SecurityManager:54 - SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(zakkalyo); groups with view permissions: Set(); users  with modify permissions: Set(zakkalyo); groups with modify permissions: Set()
+[2019-01-27 22:12:54] [main] INFO  Utils:54 - Successfully started service 'sparkDriver' on port 42313.
+[2019-01-27 22:12:54] [main] INFO  SparkEnv:54 - Registering MapOutputTracker
+[2019-01-27 22:12:54] [main] INFO  SparkEnv:54 - Registering BlockManagerMaster
+[2019-01-27 22:12:54] [main] INFO  BlockManagerMasterEndpoint:54 - Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+[2019-01-27 22:12:54] [main] INFO  BlockManagerMasterEndpoint:54 - BlockManagerMasterEndpoint up
+[2019-01-27 22:12:54] [main] INFO  DiskBlockManager:54 - Created local directory at /tmp/blockmgr-44c6ab26-3e43-4e11-aeab-7fce9b845003
+[2019-01-27 22:12:54] [main] INFO  MemoryStore:54 - MemoryStore started with capacity 16.9 GB
+[2019-01-27 22:12:54] [main] INFO  SparkEnv:54 - Registering OutputCommitCoordinator
+[2019-01-27 22:12:55] [main] INFO  log:192 - Logging initialized @3434ms
+[2019-01-27 22:12:55] [main] INFO  Server:351 - jetty-9.3.z-SNAPSHOT, build timestamp: unknown, git hash: unknown
+[2019-01-27 22:12:55] [main] INFO  Server:419 - Started @3603ms
+[2019-01-27 22:12:55] [main] INFO  AbstractConnector:278 - Started ServerConnector@6f815e7f{HTTP/1.1,[http/1.1]}{0.0.0.0:4040}
+[2019-01-27 22:12:55] [main] INFO  Utils:54 - Successfully started service 'SparkUI' on port 4040.
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@697446d4{/jobs,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@6813a331{/jobs/json,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@1bd81830{/jobs/job,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@64e92d61{/jobs/job/json,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@111610e6{/stages,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@4ad4936c{/stages/json,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@29d37757{/stages/stage,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@4beddc56{/stages/stage/json,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@79b663b3{/stages/pool,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@1b812421{/stages/pool/json,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@5d28bcd5{/storage,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@7882c44a{/storage/json,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@32639b12{/storage/rdd,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@20d11153{/storage/rdd/json,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@3887cf88{/environment,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@5649ec46{/environment/json,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@78dc4696{/executors,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@502f8b57{/executors/json,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@5652f555{/executors/threadDump,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@4fe01805{/executors/threadDump/json,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@55120f99{/static,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@547c04c4{/,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@30e92cb9{/api,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@46baf579{/jobs/job/kill,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@4bf324f9{/stages/stage/kill,null,AVAILABLE,@Spark}
+[2019-01-27 22:12:55] [main] INFO  SparkUI:54 - Bound SparkUI to 0.0.0.0, and started at http://himrod-10:4040
+[2019-01-27 22:12:55] [main] INFO  SparkContext:54 - Added JAR file:/home/zakkalyo/solr-evaluation/target/cs848-project-1.0-SNAPSHOT.jar at spark://himrod-10:42313/jars/cs848-project-1.0-SNAPSHOT.jar with timestamp 1548645175474
+[2019-01-27 22:12:56] [main] INFO  RMProxy:98 - Connecting to ResourceManager at node-master/192.168.1.110:8032
+[2019-01-27 22:12:56] [main] INFO  Client:54 - Requesting a new application from cluster with 9 NodeManagers
+[2019-01-27 22:12:56] [main] INFO  Client:54 - Verifying our application has not requested more than the maximum memory capability of the cluster (65536 MB per container)
+[2019-01-27 22:12:56] [main] INFO  Client:54 - Will allocate AM container, with 9011 MB memory including 819 MB overhead
+[2019-01-27 22:12:56] [main] INFO  Client:54 - Setting up container launch context for our AM
+[2019-01-27 22:12:56] [main] INFO  Client:54 - Setting up the launch environment for our AM container
+[2019-01-27 22:12:56] [main] INFO  Client:54 - Preparing resources for our AM container
+[2019-01-27 22:12:56] [main] WARN  Client:66 - Neither spark.yarn.jars nor spark.yarn.archive is set, falling back to uploading libraries under SPARK_HOME.
+[2019-01-27 22:12:59] [main] INFO  Client:54 - Uploading resource file:/tmp/spark-93470595-31a0-4f5e-b64f-74db024b9205/__spark_libs__2538623948508237851.zip -> hdfs://node-master:9000/user/zakkalyo/.sparkStaging/application_1548538970268_0033/__spark_libs__2538623948508237851.zip
+[2019-01-27 22:13:02] [main] INFO  Client:54 - Uploading resource file:/tmp/spark-93470595-31a0-4f5e-b64f-74db024b9205/__spark_conf__6447221868475507074.zip -> hdfs://node-master:9000/user/zakkalyo/.sparkStaging/application_1548538970268_0033/__spark_conf__.zip
+[2019-01-27 22:13:02] [main] INFO  SecurityManager:54 - Changing view acls to: zakkalyo
+[2019-01-27 22:13:02] [main] INFO  SecurityManager:54 - Changing modify acls to: zakkalyo
+[2019-01-27 22:13:02] [main] INFO  SecurityManager:54 - Changing view acls groups to: 
+[2019-01-27 22:13:02] [main] INFO  SecurityManager:54 - Changing modify acls groups to: 
+[2019-01-27 22:13:02] [main] INFO  SecurityManager:54 - SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(zakkalyo); groups with view permissions: Set(); users  with modify permissions: Set(zakkalyo); groups with modify permissions: Set()
+[2019-01-27 22:13:04] [main] INFO  Client:54 - Submitting application application_1548538970268_0033 to ResourceManager
+[2019-01-27 22:13:04] [main] INFO  YarnClientImpl:273 - Submitted application application_1548538970268_0033
+[2019-01-27 22:13:04] [main] INFO  SchedulerExtensionServices:54 - Starting Yarn extension services with app application_1548538970268_0033 and attemptId None
+[2019-01-27 22:13:05] [main] INFO  Client:54 - Application report for application_1548538970268_0033 (state: ACCEPTED)
+[2019-01-27 22:13:05] [main] INFO  Client:54 - 
+	 client token: N/A
+	 diagnostics: AM container is launched, waiting for AM container to Register with RM
+	 ApplicationMaster host: N/A
+	 ApplicationMaster RPC port: -1
+	 queue: default
+	 start time: 1548645184898
+	 final status: UNDEFINED
+	 tracking URL: http://node-master:8088/proxy/application_1548538970268_0033/
+	 user: zakkalyo
+[2019-01-27 22:13:06] [main] INFO  Client:54 - Application report for application_1548538970268_0033 (state: ACCEPTED)
+[2019-01-27 22:13:07] [main] INFO  Client:54 - Application report for application_1548538970268_0033 (state: ACCEPTED)
+[2019-01-27 22:13:08] [main] INFO  Client:54 - Application report for application_1548538970268_0033 (state: ACCEPTED)
+[2019-01-27 22:13:09] [main] INFO  Client:54 - Application report for application_1548538970268_0033 (state: ACCEPTED)
+[2019-01-27 22:13:10] [main] INFO  Client:54 - Application report for application_1548538970268_0033 (state: ACCEPTED)
+[2019-01-27 22:13:11] [main] INFO  Client:54 - Application report for application_1548538970268_0033 (state: RUNNING)
+[2019-01-27 22:13:11] [main] INFO  Client:54 - 
+	 client token: N/A
+	 diagnostics: N/A
+	 ApplicationMaster host: 192.168.1.119
+	 ApplicationMaster RPC port: -1
+	 queue: default
+	 start time: 1548645184898
+	 final status: UNDEFINED
+	 tracking URL: http://node-master:8088/proxy/application_1548538970268_0033/
+	 user: zakkalyo
+[2019-01-27 22:13:11] [main] INFO  YarnClientSchedulerBackend:54 - Application application_1548538970268_0033 has started running.
+[2019-01-27 22:13:12] [main] INFO  Utils:54 - Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 37906.
+[2019-01-27 22:13:12] [main] INFO  NettyBlockTransferService:54 - Server created on himrod-10:37906
+[2019-01-27 22:13:12] [main] INFO  BlockManager:54 - Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+[2019-01-27 22:13:12] [main] INFO  BlockManagerMaster:54 - Registering BlockManager BlockManagerId(driver, himrod-10, 37906, None)
+[2019-01-27 22:13:12] [dispatcher-event-loop-18] INFO  BlockManagerMasterEndpoint:54 - Registering block manager himrod-10:37906 with 16.9 GB RAM, BlockManagerId(driver, himrod-10, 37906, None)
+[2019-01-27 22:13:12] [main] INFO  BlockManagerMaster:54 - Registered BlockManager BlockManagerId(driver, himrod-10, 37906, None)
+[2019-01-27 22:13:12] [main] INFO  BlockManager:54 - Initialized BlockManager: BlockManagerId(driver, himrod-10, 37906, None)
+[2019-01-27 22:13:12] [dispatcher-event-loop-28] INFO  YarnClientSchedulerBackend:54 - Add WebUI Filter. org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter, Map(PROXY_HOSTS -> node-master, PROXY_URI_BASES -> http://node-master:8088/proxy/application_1548538970268_0033), /proxy/application_1548538970268_0033
+[2019-01-27 22:13:12] [dispatcher-event-loop-28] INFO  JettyUtils:54 - Adding filter org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter to /jobs, /jobs/json, /jobs/job, /jobs/job/json, /stages, /stages/json, /stages/stage, /stages/stage/json, /stages/pool, /stages/pool/json, /storage, /storage/json, /storage/rdd, /storage/rdd/json, /environment, /environment/json, /executors, /executors/json, /executors/threadDump, /executors/threadDump/json, /static, /, /api, /jobs/job/kill, /stages/stage/kill.
+[2019-01-27 22:13:12] [main] INFO  JettyUtils:54 - Adding filter org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter to /metrics/json.
+[2019-01-27 22:13:12] [main] INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@19fbc594{/metrics/json,null,AVAILABLE,@Spark}
+[2019-01-27 22:13:12] [dispatcher-event-loop-30] INFO  YarnSchedulerBackend$YarnSchedulerEndpoint:54 - ApplicationMaster registered as NettyRpcEndpointRef(spark-client://YarnAM)
+[2019-01-27 22:13:12] [main] INFO  EventLoggingListener:54 - Logging events to hdfs://node-master:9000/spark-logs/application_1548538970268_0033
+[2019-01-27 22:13:18] [dispatcher-event-loop-29] INFO  YarnSchedulerBackend$YarnDriverEndpoint:54 - Registered executor NettyRpcEndpointRef(spark-client://Executor) (192.168.1.119:49941) with ID 1
+[2019-01-27 22:13:18] [dispatcher-event-loop-21] INFO  BlockManagerMasterEndpoint:54 - Registering block manager himrod-19:36613 with 25.4 GB RAM, BlockManagerId(1, himrod-19, 36613, None)
+[2019-01-27 22:13:19] [dispatcher-event-loop-31] INFO  YarnSchedulerBackend$YarnDriverEndpoint:54 - Registered executor NettyRpcEndpointRef(spark-client://Executor) (192.168.1.112:34623) with ID 7
+[2019-01-27 22:13:19] [dispatcher-event-loop-12] INFO  YarnSchedulerBackend$YarnDriverEndpoint:54 - Registered executor NettyRpcEndpointRef(spark-client://Executor) (192.168.1.118:37618) with ID 8
+[2019-01-27 22:13:19] [dispatcher-event-loop-3] INFO  YarnSchedulerBackend$YarnDriverEndpoint:54 - Registered executor NettyRpcEndpointRef(spark-client://Executor) (192.168.1.113:50369) with ID 5
+[2019-01-27 22:13:19] [dispatcher-event-loop-11] INFO  YarnSchedulerBackend$YarnDriverEndpoint:54 - Registered executor NettyRpcEndpointRef(spark-client://Executor) (192.168.1.115:44065) with ID 6
+[2019-01-27 22:13:19] [dispatcher-event-loop-10] INFO  BlockManagerMasterEndpoint:54 - Registering block manager himrod-12:50871 with 25.4 GB RAM, BlockManagerId(7, himrod-12, 50871, None)
+[2019-01-27 22:13:19] [dispatcher-event-loop-22] INFO  BlockManagerMasterEndpoint:54 - Registering block manager himrod-18:48104 with 25.4 GB RAM, BlockManagerId(8, himrod-18, 48104, None)
+[2019-01-27 22:13:19] [dispatcher-event-loop-29] INFO  BlockManagerMasterEndpoint:54 - Registering block manager himrod-13:44657 with 25.4 GB RAM, BlockManagerId(5, himrod-13, 44657, None)
+[2019-01-27 22:13:19] [dispatcher-event-loop-5] INFO  YarnSchedulerBackend$YarnDriverEndpoint:54 - Registered executor NettyRpcEndpointRef(spark-client://Executor) (192.168.1.114:57640) with ID 3
+[2019-01-27 22:13:19] [dispatcher-event-loop-31] INFO  YarnSchedulerBackend$YarnDriverEndpoint:54 - Registered executor NettyRpcEndpointRef(spark-client://Executor) (192.168.1.111:53903) with ID 4
+[2019-01-27 22:13:19] [dispatcher-event-loop-1] INFO  BlockManagerMasterEndpoint:54 - Registering block manager himrod-15:43733 with 25.4 GB RAM, BlockManagerId(6, himrod-15, 43733, None)
+[2019-01-27 22:13:20] [dispatcher-event-loop-17] INFO  YarnSchedulerBackend$YarnDriverEndpoint:54 - Registered executor NettyRpcEndpointRef(spark-client://Executor) (192.168.1.116:35850) with ID 2
+[2019-01-27 22:13:20] [main] INFO  YarnClientSchedulerBackend:54 - SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.8
+[2019-01-27 22:13:20] [main] INFO  ParallelDocIdSpark$:41 - 	Start Time of the experiment 1548645200099 ms
+[2019-01-27 22:13:20] [dispatcher-event-loop-11] INFO  BlockManagerMasterEndpoint:54 - Registering block manager himrod-14:39771 with 25.4 GB RAM, BlockManagerId(3, himrod-14, 39771, None)
+[2019-01-27 22:13:20] [dispatcher-event-loop-16] INFO  BlockManagerMasterEndpoint:54 - Registering block manager himrod-11:55938 with 25.4 GB RAM, BlockManagerId(4, himrod-11, 55938, None)
+[2019-01-27 22:13:20] [dispatcher-event-loop-16] INFO  BlockManagerMasterEndpoint:54 - Registering block manager himrod-16:42095 with 25.4 GB RAM, BlockManagerId(2, himrod-16, 42095, None)
+[2019-01-27 22:13:20] [dispatcher-event-loop-14] INFO  YarnSchedulerBackend$YarnDriverEndpoint:54 - Registered executor NettyRpcEndpointRef(spark-client://Executor) (192.168.1.117:51143) with ID 9
+[2019-01-27 22:13:20] [dispatcher-event-loop-27] INFO  BlockManagerMasterEndpoint:54 - Registering block manager himrod-17:50570 with 25.4 GB RAM, BlockManagerId(9, himrod-17, 50570, None)
+[2019-01-27 22:13:21] [main] INFO  ParallelDocIdSpark$:56 - 	field : raw, term : intern
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:100 - Client environment:zookeeper.version=3.4.6-1569965, built on 02/20/2014 09:09 GMT
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:100 - Client environment:host.name=himrod-10
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:100 - Client environment:java.version=1.8.0_161
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:100 - Client environment:java.vendor=Oracle Corporation
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:100 - Client environment:java.home=/usr/lib/jvm/java-8-oracle/jre
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:100 - Client environment:java.class.path=/localdisk5/hadoop/spark/conf/:/localdisk5/hadoop/spark/jars/spark-unsafe_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/curator-framework-2.7.1.jar:/localdisk5/hadoop/spark/jars/jline-2.14.6.jar:/localdisk5/hadoop/spark/jars/json4s-core_2.11-3.5.3.jar:/localdisk5/hadoop/spark/jars/jdo-api-3.0.1.jar:/localdisk5/hadoop/spark/jars/spark-kubernetes_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/commons-compress-1.8.1.jar:/localdisk5/hadoop/spark/jars/jackson-annotations-2.6.7.jar:/localdisk5/hadoop/spark/jars/antlr-runtime-3.4.jar:/localdisk5/hadoop/spark/jars/jtransforms-2.4.0.jar:/localdisk5/hadoop/spark/jars/spark-network-common_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/paranamer-2.8.jar:/localdisk5/hadoop/spark/jars/jackson-mapper-asl-1.9.13.jar:/localdisk5/hadoop/spark/jars/hadoop-client-2.7.3.jar:/localdisk5/hadoop/spark/jars/jackson-core-2.6.7.jar:/localdisk5/hadoop/spark/jars/chill-java-0.9.3.jar:/localdisk5/hadoop/spark/jars/libfb303-0.9.3.jar:/localdisk5/hadoop/spark/jars/javax.ws.rs-api-2.0.1.jar:/localdisk5/hadoop/spark/jars/aopalliance-1.0.jar:/localdisk5/hadoop/spark/jars/curator-recipes-2.7.1.jar:/localdisk5/hadoop/spark/jars/spark-mllib-local_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/zjsonpatch-0.3.0.jar:/localdisk5/hadoop/spark/jars/activation-1.1.1.jar:/localdisk5/hadoop/spark/jars/stream-2.7.0.jar:/localdisk5/hadoop/spark/jars/spark-kvstore_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/lz4-java-1.4.0.jar:/localdisk5/hadoop/spark/jars/datanucleus-api-jdo-3.2.6.jar:/localdisk5/hadoop/spark/jars/commons-io-2.4.jar:/localdisk5/hadoop/spark/jars/kryo-shaded-4.0.2.jar:/localdisk5/hadoop/spark/jars/ST4-4.0.4.jar:/localdisk5/hadoop/spark/jars/spark-repl_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/scala-xml_2.11-1.0.5.jar:/localdisk5/hadoop/spark/jars/stax-api-1.0-2.jar:/localdisk5/hadoop/spark/jars/spark-core_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/kubernetes-client-3.0.0.jar:/localdisk5/hadoop/spark/jars/RoaringBitmap-0.5.11.jar:/localdisk5/hadoop/spark/jars/spire-macros_2.11-0.13.0.jar:/localdisk5/hadoop/spark/jars/hadoop-hdfs-2.7.3.jar:/localdisk5/hadoop/spark/jars/aopalliance-repackaged-2.4.0-b34.jar:/localdisk5/hadoop/spark/jars/commons-cli-1.2.jar:/localdisk5/hadoop/spark/jars/hadoop-auth-2.7.3.jar:/localdisk5/hadoop/spark/jars/jersey-client-2.22.2.jar:/localdisk5/hadoop/spark/jars/joda-time-2.9.3.jar:/localdisk5/hadoop/spark/jars/xmlenc-0.52.jar:/localdisk5/hadoop/spark/jars/json4s-scalap_2.11-3.5.3.jar:/localdisk5/hadoop/spark/jars/javassist-3.18.1-GA.jar:/localdisk5/hadoop/spark/jars/parquet-hadoop-1.10.0.jar:/localdisk5/hadoop/spark/jars/jackson-module-scala_2.11-2.6.7.1.jar:/localdisk5/hadoop/spark/jars/super-csv-2.2.0.jar:/localdisk5/hadoop/spark/jars/mesos-1.4.0-shaded-protobuf.jar:/localdisk5/hadoop/spark/jars/commons-collections-3.2.2.jar:/localdisk5/hadoop/spark/jars/snakeyaml-1.15.jar:/localdisk5/hadoop/spark/jars/jcl-over-slf4j-1.7.16.jar:/localdisk5/hadoop/spark/jars/hppc-0.7.2.jar:/localdisk5/hadoop/spark/jars/calcite-avatica-1.2.0-incubating.jar:/localdisk5/hadoop/spark/jars/curator-client-2.7.1.jar:/localdisk5/hadoop/spark/jars/jersey-media-jaxb-2.22.2.jar:/localdisk5/hadoop/spark/jars/logging-interceptor-3.8.1.jar:/localdisk5/hadoop/spark/jars/univocity-parsers-2.7.3.jar:/localdisk5/hadoop/spark/jars/snappy-java-1.1.7.1.jar:/localdisk5/hadoop/spark/jars/jackson-databind-2.6.7.1.jar:/localdisk5/hadoop/spark/jars/automaton-1.11-8.jar:/localdisk5/hadoop/spark/jars/gson-2.2.4.jar:/localdisk5/hadoop/spark/jars/derby-10.12.1.1.jar:/localdisk5/hadoop/spark/jars/jackson-jaxrs-1.9.13.jar:/localdisk5/hadoop/spark/jars/commons-math3-3.4.1.jar:/localdisk5/hadoop/spark/jars/jul-to-slf4j-1.7.16.jar:/localdisk5/hadoop/spark/jars/guice-3.0.jar:/localdisk5/hadoop/spark/jars/macro-compat_2.11-1.1.1.jar:/localdisk5/hadoop/spark/jars/minlog-1.3.0.jar:/localdisk5/hadoop/spark/jars/stringtemplate-3.2.1.jar:/localdisk5/hadoop/spark/jars/shapeless_2.11-2.3.2.jar:/localdisk5/hadoop/spark/jars/hive-cli-1.2.1.spark2.jar:/localdisk5/hadoop/spark/jars/commons-codec-1.10.jar:/localdisk5/hadoop/spark/jars/janino-3.0.9.jar:/localdisk5/hadoop/spark/jars/spark-sketch_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/commons-httpclient-3.1.jar:/localdisk5/hadoop/spark/jars/xercesImpl-2.9.1.jar:/localdisk5/hadoop/spark/jars/calcite-core-1.2.0-incubating.jar:/localdisk5/hadoop/spark/jars/parquet-hadoop-bundle-1.6.0.jar:/localdisk5/hadoop/spark/jars/validation-api-1.1.0.Final.jar:/localdisk5/hadoop/spark/jars/spark-hive-thriftserver_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/hive-beeline-1.2.1.spark2.jar:/localdisk5/hadoop/spark/jars/parquet-format-2.4.0.jar:/localdisk5/hadoop/spark/jars/jersey-container-servlet-2.22.2.jar:/localdisk5/hadoop/spark/jars/commons-beanutils-core-1.8.0.jar:/localdisk5/hadoop/spark/jars/jetty-util-6.1.26.jar:/localdisk5/hadoop/spark/jars/avro-1.8.2.jar:/localdisk5/hadoop/spark/jars/arpack_combined_all-0.1.jar:/localdisk5/hadoop/spark/jars/jsr305-1.3.9.jar:/localdisk5/hadoop/spark/jars/hadoop-yarn-server-common-2.7.3.jar:/localdisk5/hadoop/spark/jars/compress-lzf-1.0.3.jar:/localdisk5/hadoop/spark/jars/metrics-core-3.1.5.jar:/localdisk5/hadoop/spark/jars/guice-servlet-3.0.jar:/localdisk5/hadoop/spark/jars/metrics-jvm-3.1.5.jar:/localdisk5/hadoop/spark/jars/hk2-locator-2.4.0-b34.jar:/localdisk5/hadoop/spark/jars/api-util-1.0.0-M20.jar:/localdisk5/hadoop/spark/jars/hadoop-yarn-client-2.7.3.jar:/localdisk5/hadoop/spark/jars/jodd-core-3.5.2.jar:/localdisk5/hadoop/spark/jars/okio-1.13.0.jar:/localdisk5/hadoop/spark/jars/commons-lang3-3.5.jar:/localdisk5/hadoop/spark/jars/hadoop-yarn-server-web-proxy-2.7.3.jar:/localdisk5/hadoop/spark/jars/spark-catalyst_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/chill_2.11-0.9.3.jar:/localdisk5/hadoop/spark/jars/hive-exec-1.2.1.spark2.jar:/localdisk5/hadoop/spark/jars/hadoop-common-2.7.3.jar:/localdisk5/hadoop/spark/jars/jersey-container-servlet-core-2.22.2.jar:/localdisk5/hadoop/spark/jars/py4j-0.10.7.jar:/localdisk5/hadoop/spark/jars/hadoop-mapreduce-client-jobclient-2.7.3.jar:/localdisk5/hadoop/spark/jars/scala-library-2.11.12.jar:/localdisk5/hadoop/spark/jars/leveldbjni-all-1.8.jar:/localdisk5/hadoop/spark/jars/hadoop-mapreduce-client-shuffle-2.7.3.jar:/localdisk5/hadoop/spark/jars/htrace-core-3.1.0-incubating.jar:/localdisk5/hadoop/spark/jars/hive-metastore-1.2.1.spark2.jar:/localdisk5/hadoop/spark/jars/apacheds-i18n-2.0.0-M15.jar:/localdisk5/hadoop/spark/jars/jsp-api-2.1.jar:/localdisk5/hadoop/spark/jars/spark-yarn_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/slf4j-log4j12-1.7.16.jar:/localdisk5/hadoop/spark/jars/commons-dbcp-1.4.jar:/localdisk5/hadoop/spark/jars/spark-sql_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/jetty-6.1.26.jar:/localdisk5/hadoop/spark/jars/hk2-api-2.4.0-b34.jar:/localdisk5/hadoop/spark/jars/hadoop-yarn-api-2.7.3.jar:/localdisk5/hadoop/spark/jars/bonecp-0.8.0.RELEASE.jar:/localdisk5/hadoop/spark/jars/hadoop-mapreduce-client-common-2.7.3.jar:/localdisk5/hadoop/spark/jars/spire_2.11-0.13.0.jar:/localdisk5/hadoop/spark/jars/commons-digester-1.8.jar:/localdisk5/hadoop/spark/jars/pyrolite-4.13.jar:/localdisk5/hadoop/spark/jars/jpam-1.1.jar:/localdisk5/hadoop/spark/jars/objenesis-2.5.1.jar:/localdisk5/hadoop/spark/jars/guava-14.0.1.jar:/localdisk5/hadoop/spark/jars/commons-crypto-1.0.0.jar:/localdisk5/hadoop/spark/jars/javax.inject-1.jar:/localdisk5/hadoop/spark/jars/parquet-encoding-1.10.0.jar:/localdisk5/hadoop/spark/jars/jackson-module-paranamer-2.7.9.jar:/localdisk5/hadoop/spark/jars/orc-mapreduce-1.5.2-nohive.jar:/localdisk5/hadoop/spark/jars/arrow-format-0.10.0.jar:/localdisk5/hadoop/spark/jars/calcite-linq4j-1.2.0-incubating.jar:/localdisk5/hadoop/spark/jars/generex-1.0.1.jar:/localdisk5/hadoop/spark/jars/commons-lang-2.6.jar:/localdisk5/hadoop/spark/jars/httpclient-4.5.6.jar:/localdisk5/hadoop/spark/jars/scala-compiler-2.11.12.jar:/localdisk5/hadoop/spark/jars/jackson-dataformat-yaml-2.6.7.jar:/localdisk5/hadoop/spark/jars/metrics-graphite-3.1.5.jar:/localdisk5/hadoop/spark/jars/jackson-module-jaxb-annotations-2.6.7.jar:/localdisk5/hadoop/spark/jars/jta-1.1.jar:/localdisk5/hadoop/spark/jars/arrow-memory-0.10.0.jar:/localdisk5/hadoop/spark/jars/apacheds-kerberos-codec-2.0.0-M15.jar:/localdisk5/hadoop/spark/jars/avro-ipc-1.8.2.jar:/localdisk5/hadoop/spark/jars/oro-2.0.8.jar:/localdisk5/hadoop/spark/jars/hadoop-yarn-common-2.7.3.jar:/localdisk5/hadoop/spark/jars/parquet-jackson-1.10.0.jar:/localdisk5/hadoop/spark/jars/aircompressor-0.10.jar:/localdisk5/hadoop/spark/jars/spark-hive_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/spark-tags_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/breeze_2.11-0.13.2.jar:/localdisk5/hadoop/spark/jars/scala-parser-combinators_2.11-1.1.0.jar:/localdisk5/hadoop/spark/jars/machinist_2.11-0.6.1.jar:/localdisk5/hadoop/spark/jars/commons-configuration-1.6.jar:/localdisk5/hadoop/spark/jars/hadoop-mapreduce-client-core-2.7.3.jar:/localdisk5/hadoop/spark/jars/zookeeper-3.4.6.jar:/localdisk5/hadoop/spark/jars/protobuf-java-2.5.0.jar:/localdisk5/hadoop/spark/jars/commons-net-3.1.jar:/localdisk5/hadoop/spark/jars/hk2-utils-2.4.0-b34.jar:/localdisk5/hadoop/spark/jars/parquet-common-1.10.0.jar:/localdisk5/hadoop/spark/jars/osgi-resource-locator-1.0.1.jar:/localdisk5/hadoop/spark/jars/spark-mesos_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/datanucleus-rdbms-3.2.9.jar:/localdisk5/hadoop/spark/jars/avro-mapred-1.8.2-hadoop2.jar:/localdisk5/hadoop/spark/jars/api-asn1-api-1.0.0-M20.jar:/localdisk5/hadoop/spark/jars/snappy-0.2.jar:/localdisk5/hadoop/spark/jars/commons-pool-1.5.4.jar:/localdisk5/hadoop/spark/jars/parquet-column-1.10.0.jar:/localdisk5/hadoop/spark/jars/kubernetes-model-2.0.0.jar:/localdisk5/hadoop/spark/jars/hadoop-mapreduce-client-app-2.7.3.jar:/localdisk5/hadoop/spark/jars/stax-api-1.0.1.jar:/localdisk5/hadoop/spark/jars/libthrift-0.9.3.jar:/localdisk5/hadoop/spark/jars/json4s-ast_2.11-3.5.3.jar:/localdisk5/hadoop/spark/jars/commons-beanutils-1.7.0.jar:/localdisk5/hadoop/spark/jars/jersey-guava-2.22.2.jar:/localdisk5/hadoop/spark/jars/metrics-json-3.1.5.jar:/localdisk5/hadoop/spark/jars/jackson-xc-1.9.13.jar:/localdisk5/hadoop/spark/jars/log4j-1.2.17.jar:/localdisk5/hadoop/spark/jars/spark-streaming_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/core-1.1.2.jar:/localdisk5/hadoop/spark/jars/datanucleus-core-3.2.10.jar:/localdisk5/hadoop/spark/jars/jackson-core-asl-1.9.13.jar:/localdisk5/hadoop/spark/jars/jersey-server-2.22.2.jar:/localdisk5/hadoop/spark/jars/scala-reflect-2.11.12.jar:/localdisk5/hadoop/spark/jars/javax.servlet-api-3.1.0.jar:/localdisk5/hadoop/spark/jars/apache-log4j-extras-1.2.17.jar:/localdisk5/hadoop/spark/jars/xz-1.5.jar:/localdisk5/hadoop/spark/jars/xbean-asm6-shaded-4.8.jar:/localdisk5/hadoop/spark/jars/spark-tags_2.11-2.4.0-tests.jar:/localdisk5/hadoop/spark/jars/ivy-2.4.0.jar:/localdisk5/hadoop/spark/jars/zstd-jni-1.3.2-2.jar:/localdisk5/hadoop/spark/jars/antlr-2.7.7.jar:/localdisk5/hadoop/spark/jars/hive-jdbc-1.2.1.spark2.jar:/localdisk5/hadoop/spark/jars/breeze-macros_2.11-0.13.2.jar:/localdisk5/hadoop/spark/jars/okhttp-3.8.1.jar:/localdisk5/hadoop/spark/jars/spark-network-shuffle_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/opencsv-2.3.jar:/localdisk5/hadoop/spark/jars/JavaEWAH-0.3.2.jar:/localdisk5/hadoop/spark/jars/spark-launcher_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/netty-3.9.9.Final.jar:/localdisk5/hadoop/spark/jars/hadoop-annotations-2.7.3.jar:/localdisk5/hadoop/spark/jars/jersey-common-2.22.2.jar:/localdisk5/hadoop/spark/jars/slf4j-api-1.7.16.jar:/localdisk5/hadoop/spark/jars/json4s-jackson_2.11-3.5.3.jar:/localdisk5/hadoop/spark/jars/javax.inject-2.4.0-b34.jar:/localdisk5/hadoop/spark/jars/spark-mllib_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/commons-compiler-3.0.9.jar:/localdisk5/hadoop/spark/jars/javolution-5.5.1.jar:/localdisk5/hadoop/spark/jars/orc-shims-1.5.2.jar:/localdisk5/hadoop/spark/jars/antlr4-runtime-4.7.jar:/localdisk5/hadoop/spark/jars/httpcore-4.4.10.jar:/localdisk5/hadoop/spark/jars/eigenbase-properties-1.1.5.jar:/localdisk5/hadoop/spark/jars/javax.annotation-api-1.2.jar:/localdisk5/hadoop/spark/jars/orc-core-1.5.2-nohive.jar:/localdisk5/hadoop/spark/jars/flatbuffers-1.2.0-3f79e055.jar:/localdisk5/hadoop/spark/jars/arrow-vector-0.10.0.jar:/localdisk5/hadoop/spark/jars/netty-all-4.1.17.Final.jar:/localdisk5/hadoop/spark/jars/spark-graphx_2.11-2.4.0.jar:/localdisk5/hadoop/spark/jars/jaxb-api-2.2.2.jar:/localdisk5/hadoop/spark/jars/commons-logging-1.1.3.jar:/localdisk5/hadoop/hadoop/etc/hadoop/
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:100 - Client environment:java.library.path=/localdisk5/hadoop/hadoop/lib/native:/localdisk5/hadoop/hadoop/lib/native::/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:100 - Client environment:java.io.tmpdir=/tmp
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:100 - Client environment:java.compiler=<NA>
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:100 - Client environment:os.name=Linux
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:100 - Client environment:os.arch=amd64
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:100 - Client environment:os.version=3.13.0-147-generic
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:100 - Client environment:user.name=zakkalyo
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:100 - Client environment:user.home=/home/zakkalyo
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:100 - Client environment:user.dir=/home/zakkalyo/solr-evaluation
+[2019-01-27 22:13:21] [main] INFO  ZooKeeper:438 - Initiating client connection, connectString=192.168.1.111:9983/ sessionTimeout=10000 watcher=org.apache.solr.common.cloud.SolrZkClient$1@5a4c98d7
+[2019-01-27 22:13:21] [main-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:975 - Opening socket connection to server 192.168.1.111/192.168.1.111:9983. Will not attempt to authenticate using SASL (unknown error)
+[2019-01-27 22:13:21] [main-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:852 - Socket connection established to 192.168.1.111/192.168.1.111:9983, initiating session
+[2019-01-27 22:13:21] [main-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:1235 - Session establishment complete on server 192.168.1.111/192.168.1.111:9983, sessionid = 0x103388590d30633, negotiated timeout = 10000
+[2019-01-27 22:13:21] [zkConnectionManagerCallback-5-thread-1] INFO  ConnectionManager:119 - zkClient has connected
+[2019-01-27 22:13:21] [main] INFO  ZkStateReader:786 - Updated live nodes from ZooKeeper... (0) -> (9)
+[2019-01-27 22:13:21] [main] INFO  ZkClientClusterStateProvider:158 - Cluster at 192.168.1.111:9983/ ready
+[2019-01-27 22:14:48] [main-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:1096 - Client session timed out, have not heard from server in 12506ms for sessionid 0x103388590d30633, closing socket connection and attempting reconnect
+[2019-01-27 22:14:48] [zkConnectionManagerCallback-5-thread-1] WARN  ConnectionManager:106 - Watcher org.apache.solr.common.cloud.ConnectionManager@4ce698ec name: ZooKeeperConnection Watcher:192.168.1.111:9983/ got event WatchedEvent state:Disconnected type:None path:null path: null type: None
+[2019-01-27 22:14:48] [zkConnectionManagerCallback-5-thread-1] WARN  ConnectionManager:183 - zkClient has disconnected
+[2019-01-27 22:14:52] [main-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:975 - Opening socket connection to server 192.168.1.111/192.168.1.111:9983. Will not attempt to authenticate using SASL (unknown error)
+[2019-01-27 22:14:52] [main-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:852 - Socket connection established to 192.168.1.111/192.168.1.111:9983, initiating session
+[2019-01-27 22:14:52] [main-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:1094 - Unable to reconnect to ZooKeeper service, session 0x103388590d30633 has expired, closing socket connection
+[2019-01-27 22:14:52] [zkConnectionManagerCallback-5-thread-1] WARN  ConnectionManager:106 - Watcher org.apache.solr.common.cloud.ConnectionManager@4ce698ec name: ZooKeeperConnection Watcher:192.168.1.111:9983/ got event WatchedEvent state:Expired type:None path:null path: null type: None
+[2019-01-27 22:14:52] [zkConnectionManagerCallback-5-thread-1] WARN  ConnectionManager:127 - Our previous ZooKeeper session was expired. Attempting to reconnect to recover relationship with ZooKeeper...
+[2019-01-27 22:14:52] [main-EventThread] INFO  ClientCnxn:512 - EventThread shut down
+[2019-01-27 22:14:52] [zkConnectionManagerCallback-5-thread-1] WARN  DefaultConnectionStrategy:52 - Connection expired - starting a new one...
+[2019-01-27 22:14:52] [zkConnectionManagerCallback-5-thread-1] INFO  ZooKeeper:438 - Initiating client connection, connectString=192.168.1.111:9983/ sessionTimeout=10000 watcher=org.apache.solr.common.cloud.ConnectionManager@4ce698ec
+[2019-01-27 22:14:52] [zkConnectionManagerCallback-5-thread-1-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:975 - Opening socket connection to server 192.168.1.111/192.168.1.111:9983. Will not attempt to authenticate using SASL (unknown error)
+[2019-01-27 22:14:52] [zkConnectionManagerCallback-5-thread-1-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:852 - Socket connection established to 192.168.1.111/192.168.1.111:9983, initiating session
+[2019-01-27 22:14:52] [zkConnectionManagerCallback-5-thread-1-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:1235 - Session establishment complete on server 192.168.1.111/192.168.1.111:9983, sessionid = 0x103388590d30635, negotiated timeout = 10000
+[2019-01-27 22:14:52] [zkConnectionManagerCallback-5-thread-1-EventThread] INFO  ConnectionManager:119 - zkClient has connected
+[2019-01-27 22:14:52] [zkConnectionManagerCallback-5-thread-1] INFO  ConnectionManager:153 - Connection with ZooKeeper reestablished.
+[2019-01-27 22:14:52] [zkConnectionManagerCallback-5-thread-1] INFO  DefaultConnectionStrategy:59 - Reconnected to ZooKeeper
+[2019-01-27 22:14:52] [zkConnectionManagerCallback-5-thread-1] INFO  ConnectionManager:181 - zkClient Connected:true
+[2019-01-27 22:15:03] [zkConnectionManagerCallback-5-thread-1-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:1096 - Client session timed out, have not heard from server in 10809ms for sessionid 0x103388590d30635, closing socket connection and attempting reconnect
+[2019-01-27 22:15:03] [zkConnectionManagerCallback-5-thread-1-EventThread] WARN  ConnectionManager:106 - Watcher org.apache.solr.common.cloud.ConnectionManager@4ce698ec name: ZooKeeperConnection Watcher:192.168.1.111:9983/ got event WatchedEvent state:Disconnected type:None path:null path: null type: None
+[2019-01-27 22:15:03] [zkConnectionManagerCallback-5-thread-1-EventThread] WARN  ConnectionManager:183 - zkClient has disconnected
+[2019-01-27 22:15:05] [zkConnectionManagerCallback-5-thread-1-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:975 - Opening socket connection to server 192.168.1.111/192.168.1.111:9983. Will not attempt to authenticate using SASL (unknown error)
+[2019-01-27 22:15:05] [zkConnectionManagerCallback-5-thread-1-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:852 - Socket connection established to 192.168.1.111/192.168.1.111:9983, initiating session
+[2019-01-27 22:15:05] [zkConnectionManagerCallback-5-thread-1-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:1094 - Unable to reconnect to ZooKeeper service, session 0x103388590d30635 has expired, closing socket connection
+[2019-01-27 22:15:05] [zkConnectionManagerCallback-5-thread-1-EventThread] WARN  ConnectionManager:106 - Watcher org.apache.solr.common.cloud.ConnectionManager@4ce698ec name: ZooKeeperConnection Watcher:192.168.1.111:9983/ got event WatchedEvent state:Expired type:None path:null path: null type: None
+[2019-01-27 22:15:05] [zkConnectionManagerCallback-5-thread-1-EventThread] WARN  ConnectionManager:127 - Our previous ZooKeeper session was expired. Attempting to reconnect to recover relationship with ZooKeeper...
+[2019-01-27 22:15:05] [zkConnectionManagerCallback-5-thread-1-EventThread] WARN  DefaultConnectionStrategy:52 - Connection expired - starting a new one...
+[2019-01-27 22:15:05] [zkConnectionManagerCallback-5-thread-1-EventThread] INFO  ZooKeeper:438 - Initiating client connection, connectString=192.168.1.111:9983/ sessionTimeout=10000 watcher=org.apache.solr.common.cloud.ConnectionManager@4ce698ec
+[2019-01-27 22:15:05] [zkConnectionManagerCallback-5-thread-1-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:975 - Opening socket connection to server 192.168.1.111/192.168.1.111:9983. Will not attempt to authenticate using SASL (unknown error)
+[2019-01-27 22:15:05] [zkConnectionManagerCallback-5-thread-1-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:852 - Socket connection established to 192.168.1.111/192.168.1.111:9983, initiating session
+[2019-01-27 22:15:05] [zkConnectionManagerCallback-5-thread-1-SendThread(192.168.1.111:9983)] INFO  ClientCnxn:1235 - Session establishment complete on server 192.168.1.111/192.168.1.111:9983, sessionid = 0x103388590d30636, negotiated timeout = 10000
+[2019-01-27 22:15:05] [zkConnectionManagerCallback-5-thread-1-EventThread] INFO  ConnectionManager:119 - zkClient has connected
+[2019-01-27 22:15:05] [zkConnectionManagerCallback-5-thread-1-EventThread] INFO  ConnectionManager:153 - Connection with ZooKeeper reestablished.
+[2019-01-27 22:15:05] [main] INFO  ParallelDocIdSpark$:72 - 	DocId Retreival Time : 104112 ms
+[2019-01-27 22:15:05] [zkConnectionManagerCallback-5-thread-1-EventThread] INFO  ClientCnxn:512 - EventThread shut down
+[2019-01-27 22:15:05] [main] INFO  ZooKeeper:684 - Session: 0x103388590d30636 closed
+[2019-01-27 22:15:06] [zkConnectionManagerCallback-5-thread-1-EventThread] ERROR ZkStateReader:303 - A ZK error has occurred
+org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperErrorCode = Session expired for /live_nodes
+	at org.apache.zookeeper.KeeperException.create(KeeperException.java:127)
+	at org.apache.zookeeper.KeeperException.create(KeeperException.java:51)
+	at org.apache.zookeeper.ZooKeeper.getChildren(ZooKeeper.java:1472)
+	at org.apache.solr.common.cloud.SolrZkClient.lambda$getChildren$4(SolrZkClient.java:329)
+	at org.apache.solr.common.cloud.ZkCmdExecutor.retryOperation(ZkCmdExecutor.java:60)
+	at org.apache.solr.common.cloud.SolrZkClient.getChildren(SolrZkClient.java:329)
+	at org.apache.solr.common.cloud.ZkStateReader.refreshLiveNodes(ZkStateReader.java:762)
+	at org.apache.solr.common.cloud.ZkStateReader.createClusterStateWatchersAndUpdate(ZkStateReader.java:448)
+	at org.apache.solr.common.cloud.ZkStateReader$1.command(ZkStateReader.java:301)
+	at org.apache.solr.common.cloud.ConnectionManager$1.update(ConnectionManager.java:167)
+	at org.apache.solr.common.cloud.DefaultConnectionStrategy.reconnect(DefaultConnectionStrategy.java:57)
+	at org.apache.solr.common.cloud.ConnectionManager.process(ConnectionManager.java:141)
+	at org.apache.zookeeper.ClientCnxn$EventThread.processEvent(ClientCnxn.java:522)
+	at org.apache.zookeeper.ClientCnxn$EventThread.run(ClientCnxn.java:498)
+[2019-01-27 22:15:06] [zkConnectionManagerCallback-5-thread-1-EventThread] ERROR DefaultConnectionStrategy:159 - Reconnect to ZooKeeper failed:org.apache.solr.common.cloud.ZooKeeperException: A ZK error has occurred
+	at org.apache.solr.common.cloud.ZkStateReader$1.command(ZkStateReader.java:304)
+	at org.apache.solr.common.cloud.ConnectionManager$1.update(ConnectionManager.java:167)
+	at org.apache.solr.common.cloud.DefaultConnectionStrategy.reconnect(DefaultConnectionStrategy.java:57)
+	at org.apache.solr.common.cloud.ConnectionManager.process(ConnectionManager.java:141)
+	at org.apache.zookeeper.ClientCnxn$EventThread.processEvent(ClientCnxn.java:522)
+	at org.apache.zookeeper.ClientCnxn$EventThread.run(ClientCnxn.java:498)
+Caused by: org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperErrorCode = Session expired for /live_nodes
+	at org.apache.zookeeper.KeeperException.create(KeeperException.java:127)
+	at org.apache.zookeeper.KeeperException.create(KeeperException.java:51)
+	at org.apache.zookeeper.ZooKeeper.getChildren(ZooKeeper.java:1472)
+	at org.apache.solr.common.cloud.SolrZkClient.lambda$getChildren$4(SolrZkClient.java:329)
+	at org.apache.solr.common.cloud.ZkCmdExecutor.retryOperation(ZkCmdExecutor.java:60)
+	at org.apache.solr.common.cloud.SolrZkClient.getChildren(SolrZkClient.java:329)
+	at org.apache.solr.common.cloud.ZkStateReader.refreshLiveNodes(ZkStateReader.java:762)
+	at org.apache.solr.common.cloud.ZkStateReader.createClusterStateWatchersAndUpdate(ZkStateReader.java:448)
+	at org.apache.solr.common.cloud.ZkStateReader$1.command(ZkStateReader.java:301)
+	... 5 more
+
+[2019-01-27 22:15:06] [zkConnectionManagerCallback-5-thread-1-EventThread] WARN  DefaultConnectionStrategy:62 - Reconnect to ZooKeeper failed
+[2019-01-27 22:15:06] [zkConnectionManagerCallback-5-thread-1-EventThread] INFO  ConnectionManager:181 - zkClient Connected:true
+[2019-01-27 22:15:06] [zkConnectionManagerCallback-5-thread-1-EventThread] INFO  ClientCnxn:512 - EventThread shut down
+[2019-01-27 22:15:17] [main] INFO  ParallelDocIdSpark$:92 - 	 Number of Docs : 15318835, Number of Partition : 144
+[2019-01-27 22:15:17] [main] INFO  SparkContext:54 - Starting job: reduce at ParallelDocIdSpark.scala:196
+[2019-01-27 22:15:17] [dag-scheduler-event-loop] INFO  DAGScheduler:54 - Got job 0 (reduce at ParallelDocIdSpark.scala:196) with 144 output partitions
+[2019-01-27 22:15:17] [dag-scheduler-event-loop] INFO  DAGScheduler:54 - Final stage: ResultStage 0 (reduce at ParallelDocIdSpark.scala:196)
+[2019-01-27 22:15:17] [dag-scheduler-event-loop] INFO  DAGScheduler:54 - Parents of final stage: List()
+[2019-01-27 22:15:17] [dag-scheduler-event-loop] INFO  DAGScheduler:54 - Missing parents: List()
+[2019-01-27 22:15:17] [dag-scheduler-event-loop] INFO  DAGScheduler:54 - Submitting ResultStage 0 (MapPartitionsRDD[1] at mapPartitions at ParallelDocIdSpark.scala:98), which has no missing parents
+[2019-01-27 22:15:17] [dag-scheduler-event-loop] INFO  MemoryStore:54 - Block broadcast_0 stored as values in memory (estimated size 2.1 KB, free 16.9 GB)
+[2019-01-27 22:15:17] [dag-scheduler-event-loop] INFO  MemoryStore:54 - Block broadcast_0_piece0 stored as bytes in memory (estimated size 1506.0 B, free 16.9 GB)
+[2019-01-27 22:15:17] [dispatcher-event-loop-24] INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on himrod-10:37906 (size: 1506.0 B, free: 16.9 GB)
+[2019-01-27 22:15:17] [dag-scheduler-event-loop] INFO  SparkContext:54 - Created broadcast 0 from broadcast at DAGScheduler.scala:1161
+[2019-01-27 22:15:17] [dag-scheduler-event-loop] INFO  DAGScheduler:54 - Submitting 144 missing tasks from ResultStage 0 (MapPartitionsRDD[1] at mapPartitions at ParallelDocIdSpark.scala:98) (first 15 tasks are for partitions Vector(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14))
+[2019-01-27 22:15:17] [dag-scheduler-event-loop] INFO  YarnScheduler:54 - Adding task set 0.0 with 144 tasks
+[2019-01-27 22:15:18] [dispatcher-event-loop-31] WARN  TaskSetManager:66 - Stage 0 contains a task of very large size (2916 KB). The maximum recommended task size is 100 KB.
+[2019-01-27 22:15:18] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 0.0 in stage 0.0 (TID 0, himrod-16, executor 2, partition 0, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:18] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 1.0 in stage 0.0 (TID 1, himrod-13, executor 5, partition 1, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:18] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 2.0 in stage 0.0 (TID 2, himrod-15, executor 6, partition 2, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:18] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 3.0 in stage 0.0 (TID 3, himrod-18, executor 8, partition 3, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:18] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 4.0 in stage 0.0 (TID 4, himrod-17, executor 9, partition 4, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:18] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 5.0 in stage 0.0 (TID 5, himrod-14, executor 3, partition 5, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:18] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 6.0 in stage 0.0 (TID 6, himrod-12, executor 7, partition 6, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:18] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 7.0 in stage 0.0 (TID 7, himrod-19, executor 1, partition 7, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:18] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 8.0 in stage 0.0 (TID 8, himrod-11, executor 4, partition 8, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:18] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 9.0 in stage 0.0 (TID 9, himrod-16, executor 2, partition 9, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:18] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 10.0 in stage 0.0 (TID 10, himrod-13, executor 5, partition 10, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:18] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 11.0 in stage 0.0 (TID 11, himrod-15, executor 6, partition 11, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:19] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 12.0 in stage 0.0 (TID 12, himrod-18, executor 8, partition 12, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:19] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 13.0 in stage 0.0 (TID 13, himrod-17, executor 9, partition 13, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:19] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 14.0 in stage 0.0 (TID 14, himrod-14, executor 3, partition 14, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:19] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 15.0 in stage 0.0 (TID 15, himrod-12, executor 7, partition 15, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:19] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 16.0 in stage 0.0 (TID 16, himrod-19, executor 1, partition 16, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:19] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 17.0 in stage 0.0 (TID 17, himrod-11, executor 4, partition 17, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:19] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 18.0 in stage 0.0 (TID 18, himrod-16, executor 2, partition 18, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:19] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 19.0 in stage 0.0 (TID 19, himrod-13, executor 5, partition 19, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:19] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 20.0 in stage 0.0 (TID 20, himrod-15, executor 6, partition 20, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:19] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 21.0 in stage 0.0 (TID 21, himrod-18, executor 8, partition 21, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:19] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 22.0 in stage 0.0 (TID 22, himrod-17, executor 9, partition 22, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:19] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 23.0 in stage 0.0 (TID 23, himrod-14, executor 3, partition 23, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:20] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 24.0 in stage 0.0 (TID 24, himrod-12, executor 7, partition 24, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:20] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 25.0 in stage 0.0 (TID 25, himrod-19, executor 1, partition 25, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:20] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 26.0 in stage 0.0 (TID 26, himrod-11, executor 4, partition 26, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:20] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 27.0 in stage 0.0 (TID 27, himrod-16, executor 2, partition 27, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:20] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 28.0 in stage 0.0 (TID 28, himrod-13, executor 5, partition 28, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:20] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 29.0 in stage 0.0 (TID 29, himrod-15, executor 6, partition 29, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:20] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 30.0 in stage 0.0 (TID 30, himrod-18, executor 8, partition 30, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:20] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 31.0 in stage 0.0 (TID 31, himrod-17, executor 9, partition 31, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:20] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 32.0 in stage 0.0 (TID 32, himrod-14, executor 3, partition 32, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:20] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 33.0 in stage 0.0 (TID 33, himrod-12, executor 7, partition 33, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:21] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 34.0 in stage 0.0 (TID 34, himrod-19, executor 1, partition 34, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:21] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 35.0 in stage 0.0 (TID 35, himrod-11, executor 4, partition 35, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:21] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 36.0 in stage 0.0 (TID 36, himrod-16, executor 2, partition 36, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:21] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 37.0 in stage 0.0 (TID 37, himrod-13, executor 5, partition 37, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:21] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 38.0 in stage 0.0 (TID 38, himrod-15, executor 6, partition 38, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:21] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 39.0 in stage 0.0 (TID 39, himrod-18, executor 8, partition 39, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:21] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 40.0 in stage 0.0 (TID 40, himrod-17, executor 9, partition 40, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:21] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 41.0 in stage 0.0 (TID 41, himrod-14, executor 3, partition 41, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:21] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 42.0 in stage 0.0 (TID 42, himrod-12, executor 7, partition 42, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:21] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 43.0 in stage 0.0 (TID 43, himrod-19, executor 1, partition 43, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:21] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 44.0 in stage 0.0 (TID 44, himrod-11, executor 4, partition 44, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:21] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 45.0 in stage 0.0 (TID 45, himrod-16, executor 2, partition 45, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:21] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 46.0 in stage 0.0 (TID 46, himrod-13, executor 5, partition 46, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:22] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 47.0 in stage 0.0 (TID 47, himrod-15, executor 6, partition 47, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:22] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 48.0 in stage 0.0 (TID 48, himrod-18, executor 8, partition 48, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:22] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 49.0 in stage 0.0 (TID 49, himrod-17, executor 9, partition 49, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:22] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 50.0 in stage 0.0 (TID 50, himrod-14, executor 3, partition 50, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:22] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 51.0 in stage 0.0 (TID 51, himrod-12, executor 7, partition 51, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:22] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 52.0 in stage 0.0 (TID 52, himrod-19, executor 1, partition 52, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:22] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 53.0 in stage 0.0 (TID 53, himrod-11, executor 4, partition 53, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:22] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 54.0 in stage 0.0 (TID 54, himrod-16, executor 2, partition 54, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:22] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 55.0 in stage 0.0 (TID 55, himrod-13, executor 5, partition 55, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:22] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 56.0 in stage 0.0 (TID 56, himrod-15, executor 6, partition 56, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:22] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 57.0 in stage 0.0 (TID 57, himrod-18, executor 8, partition 57, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:23] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 58.0 in stage 0.0 (TID 58, himrod-17, executor 9, partition 58, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:23] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 59.0 in stage 0.0 (TID 59, himrod-14, executor 3, partition 59, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:23] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 60.0 in stage 0.0 (TID 60, himrod-12, executor 7, partition 60, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:23] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 61.0 in stage 0.0 (TID 61, himrod-19, executor 1, partition 61, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:23] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 62.0 in stage 0.0 (TID 62, himrod-11, executor 4, partition 62, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:23] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 63.0 in stage 0.0 (TID 63, himrod-16, executor 2, partition 63, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:23] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 64.0 in stage 0.0 (TID 64, himrod-13, executor 5, partition 64, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:23] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 65.0 in stage 0.0 (TID 65, himrod-15, executor 6, partition 65, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:23] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 66.0 in stage 0.0 (TID 66, himrod-18, executor 8, partition 66, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:23] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 67.0 in stage 0.0 (TID 67, himrod-17, executor 9, partition 67, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:24] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 68.0 in stage 0.0 (TID 68, himrod-14, executor 3, partition 68, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:24] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 69.0 in stage 0.0 (TID 69, himrod-12, executor 7, partition 69, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:24] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 70.0 in stage 0.0 (TID 70, himrod-19, executor 1, partition 70, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:44] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 71.0 in stage 0.0 (TID 71, himrod-11, executor 4, partition 71, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:44] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 72.0 in stage 0.0 (TID 72, himrod-16, executor 2, partition 72, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:44] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 73.0 in stage 0.0 (TID 73, himrod-13, executor 5, partition 73, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:44] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 74.0 in stage 0.0 (TID 74, himrod-15, executor 6, partition 74, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:44] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 75.0 in stage 0.0 (TID 75, himrod-18, executor 8, partition 75, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:44] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 76.0 in stage 0.0 (TID 76, himrod-17, executor 9, partition 76, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:44] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 77.0 in stage 0.0 (TID 77, himrod-14, executor 3, partition 77, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:44] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 78.0 in stage 0.0 (TID 78, himrod-12, executor 7, partition 78, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:44] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 79.0 in stage 0.0 (TID 79, himrod-19, executor 1, partition 79, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:44] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 80.0 in stage 0.0 (TID 80, himrod-11, executor 4, partition 80, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:44] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 81.0 in stage 0.0 (TID 81, himrod-16, executor 2, partition 81, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 82.0 in stage 0.0 (TID 82, himrod-13, executor 5, partition 82, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 83.0 in stage 0.0 (TID 83, himrod-15, executor 6, partition 83, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 84.0 in stage 0.0 (TID 84, himrod-18, executor 8, partition 84, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 85.0 in stage 0.0 (TID 85, himrod-17, executor 9, partition 85, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 86.0 in stage 0.0 (TID 86, himrod-14, executor 3, partition 86, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 87.0 in stage 0.0 (TID 87, himrod-12, executor 7, partition 87, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 88.0 in stage 0.0 (TID 88, himrod-19, executor 1, partition 88, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 89.0 in stage 0.0 (TID 89, himrod-11, executor 4, partition 89, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 90.0 in stage 0.0 (TID 90, himrod-16, executor 2, partition 90, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 91.0 in stage 0.0 (TID 91, himrod-13, executor 5, partition 91, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 92.0 in stage 0.0 (TID 92, himrod-15, executor 6, partition 92, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 93.0 in stage 0.0 (TID 93, himrod-18, executor 8, partition 93, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 94.0 in stage 0.0 (TID 94, himrod-17, executor 9, partition 94, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 95.0 in stage 0.0 (TID 95, himrod-14, executor 3, partition 95, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 96.0 in stage 0.0 (TID 96, himrod-12, executor 7, partition 96, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 97.0 in stage 0.0 (TID 97, himrod-19, executor 1, partition 97, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 98.0 in stage 0.0 (TID 98, himrod-11, executor 4, partition 98, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 99.0 in stage 0.0 (TID 99, himrod-16, executor 2, partition 99, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 100.0 in stage 0.0 (TID 100, himrod-13, executor 5, partition 100, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 101.0 in stage 0.0 (TID 101, himrod-15, executor 6, partition 101, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 102.0 in stage 0.0 (TID 102, himrod-18, executor 8, partition 102, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 103.0 in stage 0.0 (TID 103, himrod-17, executor 9, partition 103, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:45] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 104.0 in stage 0.0 (TID 104, himrod-14, executor 3, partition 104, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 105.0 in stage 0.0 (TID 105, himrod-12, executor 7, partition 105, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 106.0 in stage 0.0 (TID 106, himrod-19, executor 1, partition 106, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 107.0 in stage 0.0 (TID 107, himrod-11, executor 4, partition 107, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 108.0 in stage 0.0 (TID 108, himrod-16, executor 2, partition 108, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 109.0 in stage 0.0 (TID 109, himrod-13, executor 5, partition 109, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 110.0 in stage 0.0 (TID 110, himrod-15, executor 6, partition 110, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 111.0 in stage 0.0 (TID 111, himrod-18, executor 8, partition 111, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 112.0 in stage 0.0 (TID 112, himrod-17, executor 9, partition 112, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 113.0 in stage 0.0 (TID 113, himrod-14, executor 3, partition 113, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 114.0 in stage 0.0 (TID 114, himrod-12, executor 7, partition 114, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 115.0 in stage 0.0 (TID 115, himrod-19, executor 1, partition 115, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 116.0 in stage 0.0 (TID 116, himrod-11, executor 4, partition 116, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 117.0 in stage 0.0 (TID 117, himrod-16, executor 2, partition 117, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 118.0 in stage 0.0 (TID 118, himrod-13, executor 5, partition 118, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 119.0 in stage 0.0 (TID 119, himrod-15, executor 6, partition 119, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 120.0 in stage 0.0 (TID 120, himrod-18, executor 8, partition 120, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:46] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 121.0 in stage 0.0 (TID 121, himrod-17, executor 9, partition 121, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:47] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 122.0 in stage 0.0 (TID 122, himrod-14, executor 3, partition 122, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:47] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 123.0 in stage 0.0 (TID 123, himrod-12, executor 7, partition 123, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:47] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 124.0 in stage 0.0 (TID 124, himrod-19, executor 1, partition 124, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:47] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 125.0 in stage 0.0 (TID 125, himrod-11, executor 4, partition 125, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:47] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 126.0 in stage 0.0 (TID 126, himrod-16, executor 2, partition 126, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:47] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 127.0 in stage 0.0 (TID 127, himrod-13, executor 5, partition 127, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:47] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 128.0 in stage 0.0 (TID 128, himrod-15, executor 6, partition 128, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:47] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 129.0 in stage 0.0 (TID 129, himrod-18, executor 8, partition 129, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:47] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 130.0 in stage 0.0 (TID 130, himrod-17, executor 9, partition 130, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:47] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 131.0 in stage 0.0 (TID 131, himrod-14, executor 3, partition 131, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:47] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 132.0 in stage 0.0 (TID 132, himrod-12, executor 7, partition 132, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:47] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 133.0 in stage 0.0 (TID 133, himrod-19, executor 1, partition 133, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:47] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 134.0 in stage 0.0 (TID 134, himrod-11, executor 4, partition 134, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:47] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 135.0 in stage 0.0 (TID 135, himrod-16, executor 2, partition 135, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:48] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 136.0 in stage 0.0 (TID 136, himrod-13, executor 5, partition 136, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:48] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 137.0 in stage 0.0 (TID 137, himrod-15, executor 6, partition 137, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:48] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 138.0 in stage 0.0 (TID 138, himrod-18, executor 8, partition 138, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:48] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 139.0 in stage 0.0 (TID 139, himrod-17, executor 9, partition 139, PROCESS_LOCAL, 2986519 bytes)
+[2019-01-27 22:15:48] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 140.0 in stage 0.0 (TID 140, himrod-14, executor 3, partition 140, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:48] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 141.0 in stage 0.0 (TID 141, himrod-12, executor 7, partition 141, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:48] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 142.0 in stage 0.0 (TID 142, himrod-19, executor 1, partition 142, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:15:48] [dispatcher-event-loop-31] INFO  TaskSetManager:54 - Starting task 143.0 in stage 0.0 (TID 143, himrod-11, executor 4, partition 143, PROCESS_LOCAL, 2986547 bytes)
+[2019-01-27 22:16:07] [dispatcher-event-loop-8] INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on himrod-15:43733 (size: 1506.0 B, free: 25.4 GB)
+[2019-01-27 22:16:07] [dispatcher-event-loop-19] INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on himrod-16:42095 (size: 1506.0 B, free: 25.4 GB)
+[2019-01-27 22:16:07] [dispatcher-event-loop-31] INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on himrod-19:36613 (size: 1506.0 B, free: 25.4 GB)
+[2019-01-27 22:16:08] [dispatcher-event-loop-5] INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on himrod-14:39771 (size: 1506.0 B, free: 25.4 GB)
+[2019-01-27 22:16:08] [dispatcher-event-loop-15] INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on himrod-18:48104 (size: 1506.0 B, free: 25.4 GB)
+[2019-01-27 22:16:08] [dispatcher-event-loop-20] INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on himrod-13:44657 (size: 1506.0 B, free: 25.4 GB)
+[2019-01-27 22:16:08] [dispatcher-event-loop-14] INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on himrod-11:55938 (size: 1506.0 B, free: 25.4 GB)
+[2019-01-27 22:16:09] [dispatcher-event-loop-21] INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on himrod-12:50871 (size: 1506.0 B, free: 25.4 GB)
+[2019-01-27 22:16:09] [dispatcher-event-loop-27] INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on himrod-17:50570 (size: 1506.0 B, free: 25.4 GB)
+[2019-01-27 22:38:37] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 0.0 in stage 0.0 (TID 0) in 1399824 ms on himrod-16 (executor 2) (1/144)
+[2019-01-27 22:38:38] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 2.0 in stage 0.0 (TID 2) in 1400792 ms on himrod-15 (executor 6) (2/144)
+[2019-01-27 22:39:15] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 1.0 in stage 0.0 (TID 1) in 1437170 ms on himrod-13 (executor 5) (3/144)
+[2019-01-27 22:39:49] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 3.0 in stage 0.0 (TID 3) in 1471756 ms on himrod-18 (executor 8) (4/144)
+[2019-01-27 22:40:09] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 31.0 in stage 0.0 (TID 31) in 1489228 ms on himrod-17 (executor 9) (5/144)
+[2019-01-27 22:40:15] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 25.0 in stage 0.0 (TID 25) in 1495830 ms on himrod-19 (executor 1) (6/144)
+[2019-01-27 22:40:34] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 91.0 in stage 0.0 (TID 91) in 1489252 ms on himrod-13 (executor 5) (7/144)
+[2019-01-27 22:40:42] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 16.0 in stage 0.0 (TID 16) in 1522951 ms on himrod-19 (executor 1) (8/144)
+[2019-01-27 22:40:47] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 4.0 in stage 0.0 (TID 4) in 1528958 ms on himrod-17 (executor 9) (9/144)
+[2019-01-27 22:40:54] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 14.0 in stage 0.0 (TID 14) in 1535025 ms on himrod-14 (executor 3) (10/144)
+[2019-01-27 22:41:01] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 30.0 in stage 0.0 (TID 30) in 1541348 ms on himrod-18 (executor 8) (11/144)
+[2019-01-27 22:41:03] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 5.0 in stage 0.0 (TID 5) in 1545164 ms on himrod-14 (executor 3) (12/144)
+[2019-01-27 22:41:04] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 29.0 in stage 0.0 (TID 29) in 1544406 ms on himrod-15 (executor 6) (13/144)
+[2019-01-27 22:41:05] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 43.0 in stage 0.0 (TID 43) in 1543555 ms on himrod-19 (executor 1) (14/144)
+[2019-01-27 22:41:10] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 112.0 in stage 0.0 (TID 112) in 1524267 ms on himrod-17 (executor 9) (15/144)
+[2019-01-27 22:41:10] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 107.0 in stage 0.0 (TID 107) in 1524591 ms on himrod-11 (executor 4) (16/144)
+[2019-01-27 22:41:12] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 36.0 in stage 0.0 (TID 36) in 1551327 ms on himrod-16 (executor 2) (17/144)
+[2019-01-27 22:41:20] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 9.0 in stage 0.0 (TID 9) in 1561886 ms on himrod-16 (executor 2) (18/144)
+[2019-01-27 22:41:22] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 34.0 in stage 0.0 (TID 34) in 1562012 ms on himrod-19 (executor 1) (19/144)
+[2019-01-27 22:41:23] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 77.0 in stage 0.0 (TID 77) in 1539217 ms on himrod-14 (executor 3) (20/144)
+[2019-01-27 22:41:24] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 104.0 in stage 0.0 (TID 104) in 1538166 ms on himrod-14 (executor 3) (21/144)
+[2019-01-27 22:41:26] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 99.0 in stage 0.0 (TID 99) in 1540730 ms on himrod-16 (executor 2) (22/144)
+[2019-01-27 22:41:27] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 37.0 in stage 0.0 (TID 37) in 1566735 ms on himrod-13 (executor 5) (23/144)
+[2019-01-27 22:41:39] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 42.0 in stage 0.0 (TID 42) in 1577543 ms on himrod-12 (executor 7) (24/144)
+[2019-01-27 22:41:39] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 38.0 in stage 0.0 (TID 38) in 1578104 ms on himrod-15 (executor 6) (25/144)
+[2019-01-27 22:41:46] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 6.0 in stage 0.0 (TID 6) in 1587732 ms on himrod-12 (executor 7) (26/144)
+[2019-01-27 22:41:47] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 111.0 in stage 0.0 (TID 111) in 1561390 ms on himrod-18 (executor 8) (27/144)
+[2019-01-27 22:41:48] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 27.0 in stage 0.0 (TID 27) in 1587917 ms on himrod-16 (executor 2) (28/144)
+[2019-01-27 22:41:51] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 19.0 in stage 0.0 (TID 19) in 1592007 ms on himrod-13 (executor 5) (29/144)
+[2019-01-27 22:41:52] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 13.0 in stage 0.0 (TID 13) in 1593499 ms on himrod-17 (executor 9) (30/144)
+[2019-01-27 22:41:52] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 22.0 in stage 0.0 (TID 22) in 1592725 ms on himrod-17 (executor 9) (31/144)
+[2019-01-27 22:41:54] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 7.0 in stage 0.0 (TID 7) in 1596002 ms on himrod-19 (executor 1) (32/144)
+[2019-01-27 22:42:03] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 52.0 in stage 0.0 (TID 52) in 1601450 ms on himrod-19 (executor 1) (33/144)
+[2019-01-27 22:42:04] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 28.0 in stage 0.0 (TID 28) in 1604523 ms on himrod-13 (executor 5) (34/144)
+[2019-01-27 22:42:06] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 97.0 in stage 0.0 (TID 97) in 1581195 ms on himrod-19 (executor 1) (35/144)
+[2019-01-27 22:42:08] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 20.0 in stage 0.0 (TID 20) in 1608551 ms on himrod-15 (executor 6) (36/144)
+[2019-01-27 22:42:08] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 35.0 in stage 0.0 (TID 35) in 1607311 ms on himrod-11 (executor 4) (37/144)
+[2019-01-27 22:42:08] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 8.0 in stage 0.0 (TID 8) in 1609804 ms on himrod-11 (executor 4) (38/144)
+[2019-01-27 22:42:09] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 11.0 in stage 0.0 (TID 11) in 1610964 ms on himrod-15 (executor 6) (39/144)
+[2019-01-27 22:42:10] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 115.0 in stage 0.0 (TID 115) in 1583773 ms on himrod-19 (executor 1) (40/144)
+[2019-01-27 22:42:11] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 108.0 in stage 0.0 (TID 108) in 1585181 ms on himrod-16 (executor 2) (41/144)
+[2019-01-27 22:42:11] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 90.0 in stage 0.0 (TID 90) in 1585827 ms on himrod-16 (executor 2) (42/144)
+[2019-01-27 22:42:14] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 53.0 in stage 0.0 (TID 53) in 1612145 ms on himrod-11 (executor 4) (43/144)
+[2019-01-27 22:42:15] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 88.0 in stage 0.0 (TID 88) in 1589970 ms on himrod-19 (executor 1) (44/144)
+[2019-01-27 22:42:15] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 48.0 in stage 0.0 (TID 48) in 1613718 ms on himrod-18 (executor 8) (45/144)
+[2019-01-27 22:42:17] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 87.0 in stage 0.0 (TID 87) in 1592162 ms on himrod-12 (executor 7) (46/144)
+[2019-01-27 22:42:17] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 24.0 in stage 0.0 (TID 24) in 1617814 ms on himrod-12 (executor 7) (47/144)
+[2019-01-27 22:42:20] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 94.0 in stage 0.0 (TID 94) in 1594522 ms on himrod-17 (executor 9) (48/144)
+[2019-01-27 22:42:20] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 10.0 in stage 0.0 (TID 10) in 1621649 ms on himrod-13 (executor 5) (49/144)
+[2019-01-27 22:42:22] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 54.0 in stage 0.0 (TID 54) in 1620181 ms on himrod-16 (executor 2) (50/144)
+[2019-01-27 22:42:26] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 40.0 in stage 0.0 (TID 40) in 1624619 ms on himrod-17 (executor 9) (51/144)
+[2019-01-27 22:42:28] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 12.0 in stage 0.0 (TID 12) in 1629298 ms on himrod-18 (executor 8) (52/144)
+[2019-01-27 22:42:32] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 73.0 in stage 0.0 (TID 73) in 1608666 ms on himrod-13 (executor 5) (53/144)
+[2019-01-27 22:42:33] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 58.0 in stage 0.0 (TID 58) in 1630330 ms on himrod-17 (executor 9) (54/144)
+[2019-01-27 22:42:34] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 49.0 in stage 0.0 (TID 49) in 1632360 ms on himrod-17 (executor 9) (55/144)
+[2019-01-27 22:42:35] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 81.0 in stage 0.0 (TID 81) in 1610537 ms on himrod-16 (executor 2) (56/144)
+[2019-01-27 22:42:38] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 114.0 in stage 0.0 (TID 114) in 1611950 ms on himrod-12 (executor 7) (57/144)
+[2019-01-27 22:42:39] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 15.0 in stage 0.0 (TID 15) in 1640032 ms on himrod-12 (executor 7) (58/144)
+[2019-01-27 22:42:39] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 61.0 in stage 0.0 (TID 61) in 1636211 ms on himrod-19 (executor 1) (59/144)
+[2019-01-27 22:42:40] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 23.0 in stage 0.0 (TID 23) in 1640769 ms on himrod-14 (executor 3) (60/144)
+[2019-01-27 22:42:43] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 120.0 in stage 0.0 (TID 120) in 1616794 ms on himrod-18 (executor 8) (61/144)
+[2019-01-27 22:42:44] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 33.0 in stage 0.0 (TID 33) in 1643783 ms on himrod-12 (executor 7) (62/144)
+[2019-01-27 22:42:46] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 117.0 in stage 0.0 (TID 117) in 1619846 ms on himrod-16 (executor 2) (63/144)
+[2019-01-27 22:42:46] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 56.0 in stage 0.0 (TID 56) in 1643987 ms on himrod-15 (executor 6) (64/144)
+[2019-01-27 22:42:46] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 47.0 in stage 0.0 (TID 47) in 1644824 ms on himrod-15 (executor 6) (65/144)
+[2019-01-27 22:42:49] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 46.0 in stage 0.0 (TID 46) in 1647298 ms on himrod-13 (executor 5) (66/144)
+[2019-01-27 22:42:50] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 67.0 in stage 0.0 (TID 67) in 1647147 ms on himrod-17 (executor 9) (67/144)
+[2019-01-27 22:42:51] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 41.0 in stage 0.0 (TID 41) in 1649582 ms on himrod-14 (executor 3) (68/144)
+[2019-01-27 22:42:51] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 98.0 in stage 0.0 (TID 98) in 1625744 ms on himrod-11 (executor 4) (69/144)
+[2019-01-27 22:42:53] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 18.0 in stage 0.0 (TID 18) in 1653662 ms on himrod-16 (executor 2) (70/144)
+[2019-01-27 22:42:53] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 103.0 in stage 0.0 (TID 103) in 1627578 ms on himrod-17 (executor 9) (71/144)
+[2019-01-27 22:42:54] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 102.0 in stage 0.0 (TID 102) in 1628672 ms on himrod-18 (executor 8) (72/144)
+[2019-01-27 22:42:54] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 21.0 in stage 0.0 (TID 21) in 1654760 ms on himrod-18 (executor 8) (73/144)
+[2019-01-27 22:42:56] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 17.0 in stage 0.0 (TID 17) in 1657457 ms on himrod-11 (executor 4) (74/144)
+[2019-01-27 22:42:58] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 55.0 in stage 0.0 (TID 55) in 1655541 ms on himrod-13 (executor 5) (75/144)
+[2019-01-27 22:43:04] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 85.0 in stage 0.0 (TID 85) in 1639270 ms on himrod-17 (executor 9) (76/144)
+[2019-01-27 22:43:04] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 125.0 in stage 0.0 (TID 125) in 1637380 ms on himrod-11 (executor 4) (77/144)
+[2019-01-27 22:43:29] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 45.0 in stage 0.0 (TID 45) in 1687677 ms on himrod-16 (executor 2) (78/144)
+[2019-01-27 22:43:29] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 70.0 in stage 0.0 (TID 70) in 1685306 ms on himrod-19 (executor 1) (79/144)
+[2019-01-27 22:43:29] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 118.0 in stage 0.0 (TID 118) in 1662735 ms on himrod-13 (executor 5) (80/144)
+[2019-01-27 22:43:29] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 74.0 in stage 0.0 (TID 74) in 1665169 ms on himrod-15 (executor 6) (81/144)
+[2019-01-27 22:43:29] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 62.0 in stage 0.0 (TID 62) in 1686076 ms on himrod-11 (executor 4) (82/144)
+[2019-01-27 22:43:29] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 66.0 in stage 0.0 (TID 66) in 1685674 ms on himrod-18 (executor 8) (83/144)
+[2019-01-27 22:43:29] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 68.0 in stage 0.0 (TID 68) in 1685491 ms on himrod-14 (executor 3) (84/144)
+[2019-01-27 22:43:29] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 44.0 in stage 0.0 (TID 44) in 1687779 ms on himrod-11 (executor 4) (85/144)
+[2019-01-27 22:43:29] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 69.0 in stage 0.0 (TID 69) in 1685405 ms on himrod-12 (executor 7) (86/144)
+[2019-01-27 22:43:29] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 84.0 in stage 0.0 (TID 84) in 1664317 ms on himrod-18 (executor 8) (87/144)
+[2019-01-27 22:43:29] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 51.0 in stage 0.0 (TID 51) in 1687114 ms on himrod-12 (executor 7) (88/144)
+[2019-01-27 22:43:29] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 127.0 in stage 0.0 (TID 127) in 1662098 ms on himrod-13 (executor 5) (89/144)
+[2019-01-27 22:43:29] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 26.0 in stage 0.0 (TID 26) in 1689251 ms on himrod-11 (executor 4) (90/144)
+[2019-01-27 22:43:29] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 64.0 in stage 0.0 (TID 64) in 1685882 ms on himrod-13 (executor 5) (91/144)
+[2019-01-27 22:43:29] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 60.0 in stage 0.0 (TID 60) in 1686265 ms on himrod-12 (executor 7) (92/144)
+[2019-01-27 22:43:29] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 123.0 in stage 0.0 (TID 123) in 1662388 ms on himrod-12 (executor 7) (93/144)
+[2019-01-27 22:43:29] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 76.0 in stage 0.0 (TID 76) in 1665631 ms on himrod-17 (executor 9) (94/144)
+[2019-01-27 22:43:30] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 78.0 in stage 0.0 (TID 78) in 1666039 ms on himrod-12 (executor 7) (95/144)
+[2019-01-27 22:43:33] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 32.0 in stage 0.0 (TID 32) in 1692865 ms on himrod-14 (executor 3) (96/144)
+[2019-01-27 22:43:40] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 59.0 in stage 0.0 (TID 59) in 1696984 ms on himrod-14 (executor 3) (97/144)
+[2019-01-27 22:43:41] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 71.0 in stage 0.0 (TID 71) in 1697150 ms on himrod-11 (executor 4) (98/144)
+[2019-01-27 22:43:42] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 93.0 in stage 0.0 (TID 93) in 1677149 ms on himrod-18 (executor 8) (99/144)
+[2019-01-27 22:43:43] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 80.0 in stage 0.0 (TID 80) in 1678278 ms on himrod-11 (executor 4) (100/144)
+[2019-01-27 22:43:44] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 39.0 in stage 0.0 (TID 39) in 1703399 ms on himrod-18 (executor 8) (101/144)
+[2019-01-27 22:43:45] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 128.0 in stage 0.0 (TID 128) in 1678164 ms on himrod-15 (executor 6) (102/144)
+[2019-01-27 22:43:48] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 105.0 in stage 0.0 (TID 105) in 1682717 ms on himrod-12 (executor 7) (103/144)
+[2019-01-27 22:43:49] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 57.0 in stage 0.0 (TID 57) in 1706356 ms on himrod-18 (executor 8) (104/144)
+[2019-01-27 22:43:49] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 63.0 in stage 0.0 (TID 63) in 1706076 ms on himrod-16 (executor 2) (105/144)
+[2019-01-27 22:43:49] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 131.0 in stage 0.0 (TID 131) in 1681915 ms on himrod-14 (executor 3) (106/144)
+[2019-01-27 22:43:54] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 65.0 in stage 0.0 (TID 65) in 1711360 ms on himrod-15 (executor 6) (107/144)
+[2019-01-27 22:43:56] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 83.0 in stage 0.0 (TID 83) in 1691380 ms on himrod-15 (executor 6) (108/144)
+[2019-01-27 22:43:58] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 96.0 in stage 0.0 (TID 96) in 1692554 ms on himrod-12 (executor 7) (109/144)
+[2019-01-27 22:44:02] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 130.0 in stage 0.0 (TID 130) in 1695049 ms on himrod-17 (executor 9) (110/144)
+[2019-01-27 22:44:03] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 129.0 in stage 0.0 (TID 129) in 1695665 ms on himrod-18 (executor 8) (111/144)
+[2019-01-27 22:44:03] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 92.0 in stage 0.0 (TID 92) in 1697571 ms on himrod-15 (executor 6) (112/144)
+[2019-01-27 22:44:03] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 122.0 in stage 0.0 (TID 122) in 1696698 ms on himrod-14 (executor 3) (113/144)
+[2019-01-27 22:44:05] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 100.0 in stage 0.0 (TID 100) in 1699715 ms on himrod-13 (executor 5) (114/144)
+[2019-01-27 22:44:06] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 101.0 in stage 0.0 (TID 101) in 1700390 ms on himrod-15 (executor 6) (115/144)
+[2019-01-27 22:44:06] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 110.0 in stage 0.0 (TID 110) in 1700259 ms on himrod-15 (executor 6) (116/144)
+[2019-01-27 22:44:11] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 136.0 in stage 0.0 (TID 136) in 1703634 ms on himrod-13 (executor 5) (117/144)
+[2019-01-27 22:44:14] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 86.0 in stage 0.0 (TID 86) in 1708735 ms on himrod-14 (executor 3) (118/144)
+[2019-01-27 22:44:15] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 133.0 in stage 0.0 (TID 133) in 1707989 ms on himrod-19 (executor 1) (119/144)
+[2019-01-27 22:44:17] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 79.0 in stage 0.0 (TID 79) in 1712529 ms on himrod-19 (executor 1) (120/144)
+[2019-01-27 22:44:17] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 82.0 in stage 0.0 (TID 82) in 1712925 ms on himrod-13 (executor 5) (121/144)
+[2019-01-27 22:44:19] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 121.0 in stage 0.0 (TID 121) in 1712277 ms on himrod-17 (executor 9) (122/144)
+[2019-01-27 22:44:22] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 72.0 in stage 0.0 (TID 72) in 1718408 ms on himrod-16 (executor 2) (123/144)
+[2019-01-27 22:44:24] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 50.0 in stage 0.0 (TID 50) in 1742418 ms on himrod-14 (executor 3) (124/144)
+[2019-01-27 22:44:26] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 95.0 in stage 0.0 (TID 95) in 1720822 ms on himrod-14 (executor 3) (125/144)
+[2019-01-27 22:44:26] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 135.0 in stage 0.0 (TID 135) in 1719037 ms on himrod-16 (executor 2) (126/144)
+[2019-01-27 22:44:26] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 119.0 in stage 0.0 (TID 119) in 1720204 ms on himrod-15 (executor 6) (127/144)
+[2019-01-27 22:44:30] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 132.0 in stage 0.0 (TID 132) in 1723217 ms on himrod-12 (executor 7) (128/144)
+[2019-01-27 22:44:31] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 134.0 in stage 0.0 (TID 134) in 1723769 ms on himrod-11 (executor 4) (129/144)
+[2019-01-27 22:44:35] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 75.0 in stage 0.0 (TID 75) in 1731488 ms on himrod-18 (executor 8) (130/144)
+[2019-01-27 22:44:39] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 116.0 in stage 0.0 (TID 116) in 1733148 ms on himrod-11 (executor 4) (131/144)
+[2019-01-27 22:44:39] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 109.0 in stage 0.0 (TID 109) in 1733545 ms on himrod-13 (executor 5) (132/144)
+[2019-01-27 22:44:46] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 89.0 in stage 0.0 (TID 89) in 1741203 ms on himrod-11 (executor 4) (133/144)
+[2019-01-27 22:44:51] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 113.0 in stage 0.0 (TID 113) in 1744685 ms on himrod-14 (executor 3) (134/144)
+[2019-01-27 22:44:52] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 106.0 in stage 0.0 (TID 106) in 1745990 ms on himrod-19 (executor 1) (135/144)
+[2019-01-27 22:44:52] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 137.0 in stage 0.0 (TID 137) in 1744171 ms on himrod-15 (executor 6) (136/144)
+[2019-01-27 22:44:55] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 124.0 in stage 0.0 (TID 124) in 1748892 ms on himrod-19 (executor 1) (137/144)
+[2019-01-27 22:45:04] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 126.0 in stage 0.0 (TID 126) in 1757082 ms on himrod-16 (executor 2) (138/144)
+[2019-01-27 22:45:22] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 138.0 in stage 0.0 (TID 138) in 1774797 ms on himrod-18 (executor 8) (139/144)
+[2019-01-27 22:45:25] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 140.0 in stage 0.0 (TID 140) in 1776917 ms on himrod-14 (executor 3) (140/144)
+[2019-01-27 22:45:32] [task-result-getter-1] INFO  TaskSetManager:54 - Finished task 142.0 in stage 0.0 (TID 142) in 1784273 ms on himrod-19 (executor 1) (141/144)
+[2019-01-27 22:45:38] [task-result-getter-3] INFO  TaskSetManager:54 - Finished task 141.0 in stage 0.0 (TID 141) in 1789727 ms on himrod-12 (executor 7) (142/144)
+[2019-01-27 22:45:44] [task-result-getter-2] INFO  TaskSetManager:54 - Finished task 139.0 in stage 0.0 (TID 139) in 1795902 ms on himrod-17 (executor 9) (143/144)
+[2019-01-27 22:46:44] [task-result-getter-0] INFO  TaskSetManager:54 - Finished task 143.0 in stage 0.0 (TID 143) in 1856169 ms on himrod-11 (executor 4) (144/144)
+[2019-01-27 22:46:44] [task-result-getter-0] INFO  YarnScheduler:54 - Removed TaskSet 0.0, whose tasks have all completed, from pool 
+[2019-01-27 22:46:44] [dag-scheduler-event-loop] INFO  DAGScheduler:54 - ResultStage 0 (reduce at ParallelDocIdSpark.scala:196) finished in 1887.024 s
+[2019-01-27 22:46:44] [main] INFO  DAGScheduler:54 - Job 0 finished: reduce at ParallelDocIdSpark.scala:196, took 1887.100296 s
+[2019-01-27 22:46:44] [main] INFO  ParallelDocIdSpark$:200 - 	Sum of Query Time : 183244531 ms
+[2019-01-27 22:46:44] [main] INFO  ParallelDocIdSpark$:201 - 	Sum of Process Time : 47991986 ms
+[2019-01-27 22:46:44] [main] INFO  ParallelDocIdSpark$:202 - 	Experiment Time : 2004506 ms
+[2019-01-27 22:46:44] [Thread-1] INFO  SparkContext:54 - Invoking stop() from shutdown hook
+[2019-01-27 22:46:44] [Thread-1] INFO  AbstractConnector:318 - Stopped Spark@6f815e7f{HTTP/1.1,[http/1.1]}{0.0.0.0:4040}
+[2019-01-27 22:46:44] [Thread-1] INFO  SparkUI:54 - Stopped Spark web UI at http://himrod-10:4040
+[2019-01-27 22:46:44] [YARN application state monitor] INFO  YarnClientSchedulerBackend:54 - Interrupting monitor thread
+[2019-01-27 22:46:44] [Thread-1] INFO  YarnClientSchedulerBackend:54 - Shutting down all executors
+[2019-01-27 22:46:44] [dispatcher-event-loop-14] INFO  YarnSchedulerBackend$YarnDriverEndpoint:54 - Asking each executor to shut down
+[2019-01-27 22:46:44] [Thread-1] INFO  SchedulerExtensionServices:54 - Stopping SchedulerExtensionServices
+(serviceOption=None,
+ services=List(),
+ started=false)
+[2019-01-27 22:46:44] [Thread-1] INFO  YarnClientSchedulerBackend:54 - Stopped
+[2019-01-27 22:46:44] [dispatcher-event-loop-14] INFO  MapOutputTrackerMasterEndpoint:54 - MapOutputTrackerMasterEndpoint stopped!
+[2019-01-27 22:46:44] [Thread-1] INFO  MemoryStore:54 - MemoryStore cleared
+[2019-01-27 22:46:44] [Thread-1] INFO  BlockManager:54 - BlockManager stopped
+[2019-01-27 22:46:44] [Thread-1] INFO  BlockManagerMaster:54 - BlockManagerMaster stopped
+[2019-01-27 22:46:44] [dispatcher-event-loop-7] INFO  OutputCommitCoordinator$OutputCommitCoordinatorEndpoint:54 - OutputCommitCoordinator stopped!
+[2019-01-27 22:46:44] [Thread-1] INFO  SparkContext:54 - Successfully stopped SparkContext
+[2019-01-27 22:46:44] [Thread-1] INFO  ShutdownHookManager:54 - Shutdown hook called
+[2019-01-27 22:46:44] [Thread-1] INFO  ShutdownHookManager:54 - Deleting directory /tmp/spark-93470595-31a0-4f5e-b64f-74db024b9205
+[2019-01-27 22:46:44] [Thread-1] INFO  ShutdownHookManager:54 - Deleting directory /tmp/spark-f154d643-8f5f-47d0-8c4d-afc95d227c4c

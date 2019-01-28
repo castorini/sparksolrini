@@ -9,7 +9,7 @@ export SPARK_HOME=/localdisk5/hadoop/spark
 export LD_LIBRARY_PATH=/localdisk5/hadoop/hadoop/lib/native:$LD_LIBRARY_PATH
 
 # Term list
-terms=("idea" "good" "intern" "event" "start" "end")
+terms=("idea") # "good" "intern" "event" "start" "end")
 
 # Sleep duration list
 duration=(3)
@@ -20,6 +20,7 @@ do
     do
         # Task 1
         spark-submit \
+        --deploy-mode client \
         --name "parallel-docid-spark-${t}-${d}"  \
         --class ca.uwaterloo.SIGIR.ParallelDocIdSpark \
         --conf spark.network.timeout=10000001s \
@@ -34,13 +35,15 @@ do
         --task $2 \
         --duration ${d} \
        &> "parallel-docid-spark-${t}-${d}.txt"
-
+      
+       # Task 2
        spark-submit \
+       --deploy-mode client \
        --name "hdfs-spark-${t}-${d}" \
        --class ca.uwaterloo.SIGIR.HdfsSpark \
        --conf spark.network.timeout=10000001s \
        --conf spark.executor.heartbeatInterval=10000000s \
-       --conf spark.rpc.message.maxSize=500 \       
+       --conf spark.rpc.message.maxSize=500 \
        --num-executors 9 --executor-cores 16 --executor-memory 48G --driver-memory 32G \
        target/cs848-project-1.0-SNAPSHOT.jar \
        --term ${t} \
@@ -48,8 +51,10 @@ do
        --task $2 \
        --duration ${d} \
        &> "hdfs-spark-${t}-${d}.txt"
-
+       
+       # Task 3
        spark-submit \
+       --deploy-mode client \
        --name "solr-rdd-spark-${t}-${d}" \
        --conf spark.network.timeout=10000001s \
        --conf spark.executor.heartbeatInterval=10000000s \
@@ -65,7 +70,7 @@ do
        --task $2 \
        --duration ${d} \
        &> "solr-rdd-spark-${t}-${d}.txt"
-     
+
        done
 done
 
