@@ -75,6 +75,8 @@ do
        --duration ${d} \
        &> "solr-rdd-spark-${t}-${d}.txt"
 
+       sleep 5m
+
        done
 done
 
