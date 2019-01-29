@@ -34,50 +34,53 @@ do
         --index $1 \
         --task $2 \
         --duration ${d} \
-        &> "parallel-docid-spark-${t}-${d}.txt"
+        &> "parallel-docid-spark-${t}-${d}.txt" &
 
+        wait
         sleep 5m
      
-       # Task 2
-       spark-submit \
-       --deploy-mode client \
-       --name "hdfs-spark-${t}-${d}" \
-       --class ca.uwaterloo.SIGIR.HdfsSpark \
-       --conf spark.network.timeout=10000001s \
-       --conf spark.executor.heartbeatInterval=10000000s \
-       --conf spark.rpc.message.maxSize=500 \
-       --num-executors 9 --executor-cores 16 --executor-memory 48G --driver-memory 32G \
-       target/cs848-project-1.0-SNAPSHOT.jar \
-       --term ${t} \
-       --path "/collections/$1" \
-       --task $2 \
-       --duration ${d} \
-       &> "hdfs-spark-${t}-${d}.txt"
+        # Task 2
+        spark-submit \
+        --deploy-mode client \
+        --name "hdfs-spark-${t}-${d}" \
+        --class ca.uwaterloo.SIGIR.HdfsSpark \
+        --conf spark.network.timeout=10000001s \
+        --conf spark.executor.heartbeatInterval=10000000s \
+        --conf spark.rpc.message.maxSize=500 \
+        --num-executors 9 --executor-cores 16 --executor-memory 48G --driver-memory 32G \
+        target/cs848-project-1.0-SNAPSHOT.jar \
+        --term ${t} \
+        --path "/collections/$1" \
+        --task $2 \
+        --duration ${d} \
+        &> "hdfs-spark-${t}-${d}.txt"
 
-       sleep 5m
+        wait
+        sleep 5m
 
-       # Task 3
-       spark-submit \
-       --deploy-mode client \
-       --name "solr-rdd-spark-${t}-${d}" \
-       --conf spark.network.timeout=10000001s \
-       --conf spark.executor.heartbeatInterval=10000000s \
-       --conf spark.rpc.message.maxSize=500 \
-       --class ca.uwaterloo.SIGIR.SolrRddSpark \
-       --num-executors 9 --executor-cores 16 --executor-memory 48G --driver-memory 32G \
-       target/cs848-project-1.0-SNAPSHOT.jar \
-       --field raw \
-       --term ${t} \
-       --rows 1000 \
-       --solr 192.168.1.111:9983 \
-       --index $1 \
-       --task $2 \
-       --duration ${d} \
-       &> "solr-rdd-spark-${t}-${d}.txt"
+        # Task 3
+        spark-submit \
+        --deploy-mode client \
+        --name "solr-rdd-spark-${t}-${d}" \
+        --conf spark.network.timeout=10000001s \
+        --conf spark.executor.heartbeatInterval=10000000s \
+        --conf spark.rpc.message.maxSize=500 \
+        --class ca.uwaterloo.SIGIR.SolrRddSpark \
+        --num-executors 9 --executor-cores 16 --executor-memory 48G --driver-memory 32G \
+        target/cs848-project-1.0-SNAPSHOT.jar \
+        --field raw \
+        --term ${t} \
+        --rows 1000 \
+        --solr 192.168.1.111:9983 \
+        --index $1 \
+        --task $2 \
+        --duration ${d} \
+        &> "solr-rdd-spark-${t}-${d}.txt"
 
-       sleep 5m
+        wait
+        sleep 5m
 
-       done
+    done
 done
 
 : '
