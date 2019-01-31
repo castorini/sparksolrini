@@ -75,7 +75,7 @@ object ParallelDocIdSpark {
 
     // Parallelize Doc ids
     val docs = response.getResults
-    solrClient.close
+    solrClient.close()
 
     if (docs.isEmpty) {
       log.error("\tSearch Result is Empty")
@@ -186,7 +186,7 @@ object ParallelDocIdSpark {
       }}
 
       // Clean-up
-      solrClient.close
+      solrClient.close()
 
       log.info(s"\tQuery Time : ${queryTime} ms")
       log.info(s"\tProcess Time : ${processTime} ms")

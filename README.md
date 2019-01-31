@@ -146,6 +146,10 @@ spark-submit \
     --deploy-mode client \
     --name ParallelDocIdSpark \
     --class ca.uwaterloo.SIGIR.ParallelDocIdSpark \
+    --conf spark.network.timeout=10000001s \
+    --conf spark.executor.heartbeatInterval=10000000s \
+    --conf spark.rpc.message.maxSize=500 \
+    --executor-memory 48G --driver-memory 32G \
     target/cs848-project-1.0-SNAPSHOT.jar \
     --term <term> \
     --field raw \
@@ -153,6 +157,26 @@ spark-submit \
     --index <collection> \
     --task <sleep|sd>
 ```
+
+- LocalFetch
+```
+spark-submit \
+    --deploy-mode client \
+    --name LocalFetch  \
+    --class ca.uwaterloo.SIGIR.LocalFetch \
+    --conf spark.network.timeout=10000001s \
+    --conf spark.executor.heartbeatInterval=10000000s \
+    --conf spark.rpc.message.maxSize=500 \
+    --num-executors 9 --executor-memory 48G --driver-memory 32G \
+    target/cs848-project-1.0-SNAPSHOT.jar \
+    --term <term> \
+    --field raw \
+    --solr 192.168.1.111:9983 \
+    --index <collection> \
+    --task <sleep|sd> \
+    --parallelism 9
+```
+
 
 - HdfsSpark
 ```
