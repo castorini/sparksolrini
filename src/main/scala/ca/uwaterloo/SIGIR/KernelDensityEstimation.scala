@@ -38,25 +38,27 @@ object KernelDensityEstimation {
         val parsedJson = Json.parse(doc.get(field).toString)
 
         var out:List[Tuple3[Int, Double, Int]] = List()
+
         try {
-          val time = (parsedJson \ "created_at").as[String]
-          val matches = timeRegex.findFirstMatchIn(time)
-          val hour = matches.get.group(1).toInt
-          val min = matches.get.group(2).toDouble
-          out = List((hour, min/60, 1))
+          val timeZone:String = (parsedJson \ "user" \ "time_zone").as[String]
+          if ((timeZone contains "Canada") || (timeZone contains "US")) {
+            val time = (parsedJson \ "created_at").as[String]
+            val matches = timeRegex.findFirstMatchIn(time)
+            val hour = updateTime(matches.get.group(1).toInt, timeZone)
+            val min = matches.get.group(2).toDouble
+            out = List((hour, min/60, 1))
+          }
         } catch {
           case e : Exception => {
-              System.out.println("field time_zone unavailable for the following tweet")
-              println(Json.prettyPrint(parsedJson))
+              System.out.println("unable to parse the tweet", e)
           }
         }
         out
       }).persist()
 
-
     val counts = rdd.map(item => (item._1, item._3)).reduceByKey(_+_).sortByKey().collect().toMap
 
-    val kdeData = rdd.map(item => shiftHours(item._1.toInt, 9).toDouble + item._2)
+    val kdeData = rdd.map(item => item._1.toInt.toDouble + item._2)
 
     val kd = new KernelDensity().setSample(kdeData).setBandwidth(2.0)
 
@@ -65,12 +67,23 @@ object KernelDensityEstimation {
 
     println(s"counts / density per hour for $term")
     domain.foreach(x => {
-      val hour = shiftHours(x, 9)
-      println(s"$hour ( ${counts(hour)} ) -- ${densities(x)}")
+      println(s"$x ( ${counts(x)} ) -- ${densities(x)}")
     })
 
     log.info(s"Took ${System.currentTimeMillis - start}ms")
     sc.stop()
+  }
+
+  def updateTime(hour:Int, timeZone:String):Int = {
+    var adjusted = hour
+    timeZone match {
+      case "Pacific Time (US & Canada)" => adjusted = shiftHours(hour, -8)
+      case "Eastern Time (US & Canada)" => adjusted = shiftHours(hour, -5)
+      case "Central Time (US & Canada)" => adjusted = shiftHours(hour, -5)
+      case "Mountain Time (US & Canada)" => adjusted = shiftHours(hour, -6)
+      case "Atlantic Time (Canada)" => adjusted = shiftHours(hour, -4)
+    }
+    adjusted
   }
 
   def shiftHours(hour:Int, shift:Int):Int = {
