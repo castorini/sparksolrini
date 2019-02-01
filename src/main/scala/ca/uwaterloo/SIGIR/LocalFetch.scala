@@ -3,12 +3,13 @@ package ca.uwaterloo.SIGIR
 import ca.uwaterloo.Constants.MILLIS_IN_DAY
 import ca.uwaterloo.conf.SolrConf
 import org.apache.solr.client.solrj.SolrQuery
-import org.apache.solr.client.solrj.impl.CloudSolrClient
+import org.apache.solr.client.solrj.impl.{CloudSolrClient, HttpSolrClient}
 import org.apache.log4j.{Logger, PropertyConfigurator}
-import org.apache.solr.common.params.CursorMarkParams
+import org.apache.solr.common.params.{CursorMarkParams, MapSolrParams}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.solr.client.solrj.SolrRequest.METHOD
 import org.apache.solr.client.solrj.SolrQuery.SortClause
+
 import scala.ca.uwaterloo.SIGIR.task.{SentenceDetectionTask, SleepTask, Task}
 import scala.collection.JavaConverters._
 
@@ -43,19 +44,16 @@ object LocalFetch {
     log.info("\t Number of Partition : " + workers.getNumPartitions)
 
     val querySize = 1000
-    val address:List[String] = List("localhost:8983")
 
     val latency = workers.mapPartitions(id => {
 
       log.info("\t Worker ID : " + {id.next()})
 
       // Build the SolrClient connecting local
-      val solrClient = new CloudSolrClient.Builder(address.asJava)
+
+      val solrClient = new HttpSolrClient.Builder("http://localhost:8983/solr")
         .withConnectionTimeout(MILLIS_IN_DAY)
         .build()
-
-      // Set the default collection
-      solrClient.setDefaultCollection(index)
 
       var queryTime:Long = 0
       var processTime:Long = 0
@@ -74,10 +72,9 @@ object LocalFetch {
 
       log.info(s"\n\tQuerying Solr for doc id group index ${index}")
 
-      // Create OR clause containing doc ids in the group
-
       val query = new SolrQuery(field + ":" + term).setSort(SortClause.asc("id"))
       query.setRows(querySize) // same as querySize
+      query.set("collection", index)
       query.setDistrib(false)
 
       while (!done) {
