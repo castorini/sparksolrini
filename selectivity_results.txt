@@ -1,0 +1,20 @@
+Sleep Duration: 3ms
+|        | ParallelDocIdSpark                                                                             | HdfsSpark | SolrRddSpark |
+|--------|------------------------------------------------------------------------------------------------|-----------|--------------|
+| idea   | Sum of Query Time : 59697476ms Sum of Process Time : 16339177ms Experiment Time : 702189 ms    | 831074ms  | 196275ms     |
+| good   | Sum of Query Time : 123745647ms Sum of Process Time : 32043239ms Experiment Time : 1398815 ms  | 960966ms  | 372313ms     |
+| intern | Sum of Query Time : 184107390ms Sum of Process Time : 48006451ms Experiment Time : 2003254 ms  | 1543620ms | 560508ms     |
+| event  | Sum of Query Time : 233890146ms Sum of Process Time : 61826740ms Experiment Time : 2757502 ms  | 1725975ms | 723368ms     |
+| start  | Sum of Query Time : 303740840ms Sum of Process Time : 78603515ms Experiment Time : 3503174 ms  | 1914545ms | 948036ms     |
+| end    | Sum of Query Time : 370747608 ms Sum of Process Time : 96784808ms Experiment Time : 4087973 ms | 2575220ms | 1127903ms    |
+
+Sleep Duration: 9ms
+
+|        | ParallelDocIdSpark                                                                              | HdfsSpark | SolrRddSpark |
+|--------|-------------------------------------------------------------------------------------------------|-----------|--------------|
+| idea   | Sum of Query Time : 51886728 ms Sum of Process Time : 47478224 ms Experiment Time : 827810 ms   | 1322949ms | 438794ms     |
+| good   | Sum of Query Time : 108420883ms Sum of Process Time : 93699318ms Experiment Time : 1630346 ms   | 1846926ms | 838786ms     |
+| intern | Sum of Query Time : 160192585 ms Sum of Process Time : 140544485ms Experiment Time : 2497171 ms | 2922363ms | 1153023ms    |
+| event  | Sum of Query Time : 190788915ms Sum of Process Time : 180869358ms Experiment Time : 3145455 ms  | 3081868ms | 1461250ms    |
+| start  | Sum of Query Time : 243817107ms Sum of Process Time : 229945665ms Experiment Time : 3990576 ms  | 3333038ms | 1852828ms    |
+| end    | Sum of Query Time : 298407032ms Sum of Process Time : 283441030ms Experiment Time : 4825798 ms  | 4475686ms | 2265968ms    |

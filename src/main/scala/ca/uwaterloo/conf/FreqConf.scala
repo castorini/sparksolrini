@@ -2,7 +2,7 @@ package ca.uwaterloo.conf
 
 import org.rogach.scallop.ScallopConf
 
-class CountConf(args: Seq[String]) extends ScallopConf(args) {
+class FreqConf(args: Seq[String]) extends ScallopConf(args) {
 
   mainOptions = Seq(input, output)
 
