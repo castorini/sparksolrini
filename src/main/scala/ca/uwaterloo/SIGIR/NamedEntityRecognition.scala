@@ -5,10 +5,9 @@ import java.util.Properties
 import ca.uwaterloo.conf.SolrConf
 import com.lucidworks.spark.rdd.SelectSolrRDD
 import edu.stanford.nlp.pipeline.{CoreDocument, StanfordCoreNLP}
+import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.spark.{SparkConf, SparkContext}
-
-import scala.collection.JavaConverters._
 
 object NamedEntityRecognition {
 
@@ -28,13 +27,16 @@ object NamedEntityRecognition {
 
     val (solr, index, rows, field, term, debug) = (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.debug())
 
+    val output = "entities"
+    FileSystem.get(sc.hadoopConfiguration).delete(new Path(output), true)
+
     val tokens = sc.longAccumulator("tokens")
     val time = sc.longAccumulator("time")
 
-    val rdd = new SelectSolrRDD(solr, index, sc)
+    val rdd = new SelectSolrRDD(solr, index, sc, maxRows = Some(10))
       .rows(rows)
       .query(field + ":" + term)
-      .foreachPartition(part => {
+      .mapPartitions(docs => {
 
         val props = new Properties()
         props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner")
@@ -43,35 +45,37 @@ object NamedEntityRecognition {
 
         val start = System.currentTimeMillis()
 
-        part.foreach(doc => {
+        val entities = docs.map(doc => {
 
           if (debug) {
             log.info(s"########\n# ${doc.get("id")}\n########\n")
           }
 
-          // The text
           val text = doc.get(field).toString
 
-          // Create a new CoreDocument and annotate it using our pipeline
+          // Create the doc and annotate it
           val coreDoc = new CoreDocument(text)
           pipeline.annotate(coreDoc)
 
-          // For each sentence,
-          coreDoc.sentences().asScala.foreach(sent => {
-            tokens.add(sent.tokens().size()) // Keep track of # of tokens
-            if (debug) {
-              log.info(sent.text())
-              log.info(sent.entityMentions().asScala.map(mention => (mention.text(), mention.entityType(), mention.charOffsets())).mkString("-> ", ",", "\n"))
-            }
-          })
+          // Keep track of # of tokens
+          tokens.add(coreDoc.tokens().size())
+
+          coreDoc.entityMentions()
 
         })
 
+        // Processing time for partition
         time.add(System.currentTimeMillis() - start)
 
-      })
+        entities
 
-    log.info(s"Took ${time.value}ms @ ${(tokens.value / (time.value / 1000))} token/s")
+      })
+      .saveAsTextFile(output)
+
+    val duration = time.value
+    val rate = tokens.value / (duration / 1000)
+
+    log.info(s"Took ${duration}ms @ ${rate} token/s")
 
     sc.stop()
 
