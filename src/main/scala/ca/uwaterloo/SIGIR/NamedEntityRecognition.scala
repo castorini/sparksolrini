@@ -9,6 +9,9 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.spark.{SparkConf, SparkContext}
 
+import collection.JavaConversions._
+import scala.ca.uwaterloo.conf.NerConf
+
 object NamedEntityRecognition {
 
   val log = Logger.getLogger(getClass.getName)
@@ -17,7 +20,7 @@ object NamedEntityRecognition {
   def main(argv: Array[String]) = {
 
     // Parse command line args
-    val args = new SolrConf(argv)
+    val args = new NerConf(argv)
     log.info(args.summary)
 
     // Setup Spark
@@ -25,21 +28,24 @@ object NamedEntityRecognition {
 
     val sc = new SparkContext(conf)
 
-    val (solr, index, rows, field, term, debug) = (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.debug())
+    val (solr, index, rows, field, term, entityType, parallelism, debug) = (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.entity(), args.parallelism(), args.debug())
 
-    val output = "entities"
+    val output = args.output()
     FileSystem.get(sc.hadoopConfiguration).delete(new Path(output), true)
 
     val tokens = sc.longAccumulator("tokens")
     val time = sc.longAccumulator("time")
 
-    val rdd = new SelectSolrRDD(solr, index, sc, maxRows = Some(10))
+    val rdd = new SelectSolrRDD(solr, index, sc)
       .rows(rows)
       .query(field + ":" + term)
+      .repartition(parallelism)
       .mapPartitions(docs => {
 
         val props = new Properties()
         props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner")
+        props.setProperty("ner.applyFineGrained", "false")
+        props.setProperty("ner.useSUTime", "false")
 
         val pipeline = new StanfordCoreNLP(props)
 
@@ -60,7 +66,12 @@ object NamedEntityRecognition {
           // Keep track of # of tokens
           tokens.add(coreDoc.tokens().size())
 
-          coreDoc.entityMentions()
+          var entities = coreDoc.entityMentions()
+
+          if (!entityType.equals("*"))
+            entities = entities.filter(cem => cem.entityType().equals(entityType))
+
+          entities
 
         })
 
@@ -72,10 +83,7 @@ object NamedEntityRecognition {
       })
       .saveAsTextFile(output)
 
-    val duration = time.value
-    val rate = tokens.value / (duration / 1000)
 
-    log.info(s"Took ${duration}ms @ ${rate} token/s")
 
     sc.stop()
 
