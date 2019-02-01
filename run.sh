@@ -12,14 +12,14 @@ export LD_LIBRARY_PATH=/localdisk5/hadoop/hadoop/lib/native:$LD_LIBRARY_PATH
 declare -a terms=("idea" "good" "intern" "event" "start" "end")
 
 # Sleep duration list
-duration=(3)
+duration=(3 9 27)
 
 for d in "${duration[@]}"
 do
     for t in "${terms[@]}"
     do
         # Task 1
-        sleep 5m && spark-submit \
+        spark-submit \
         --deploy-mode client \
         --name "parallel-docid-spark-${t}-${d}"  \
         --class ca.uwaterloo.SIGIR.ParallelDocIdSpark \
@@ -35,9 +35,15 @@ do
         --task $2 \
         --duration ${d} \
         &> "parallel-docid-spark-${t}-${d}.txt"
+    done
 
+    sleep 5m
+
+
+    for t in "${terms[@]}"
+    do
         # Task 2
-        sleep 5m && spark-submit \
+        spark-submit \
         --deploy-mode client \
         --name "hdfs-spark-${t}-${d}" \
         --class ca.uwaterloo.SIGIR.HdfsSpark \
@@ -51,9 +57,14 @@ do
         --task $2 \
         --duration ${d} \
         &> "hdfs-spark-${t}-${d}.txt"
+    done
 
+    sleep 5m
+
+    for t in "${terms[@]}"
+    do
         # Task 3
-        sleep 5m && spark-submit \
+        spark-submit \
         --deploy-mode client \
         --name "solr-rdd-spark-${t}-${d}" \
         --conf spark.network.timeout=10000001s \
@@ -70,8 +81,9 @@ do
         --task $2 \
         --duration ${d} \
         &> "solr-rdd-spark-${t}-${d}.txt"
-
     done
+
+    sleep 5m
 done
 
 : '
