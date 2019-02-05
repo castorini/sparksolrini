@@ -1,6 +1,8 @@
 package ca.uwaterloo.SIGIR
 
 import java.nio.charset.StandardCharsets
+import java.net.URL
+import org.jsoup.Jsoup
 
 import ca.uwaterloo.conf.HdfsConf
 import ca.uwaterloo.util.Stemmer
@@ -10,8 +12,6 @@ import org.apache.hadoop.io.LongWritable
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.jwat.warc.WarcRecord
-
-import scala.ca.uwaterloo.SIGIR.task.{SentenceDetectionTask, SleepTask, Task}
 
 object LinkAnalysis {
 
@@ -33,30 +33,21 @@ object LinkAnalysis {
     // Start timing the experiment
     val start = System.currentTimeMillis
 
-    val rdd = sc.newAPIHadoopFile(path, classOf[WarcInputFormat], classOf[LongWritable], classOf[WarcRecord])
+    val source_urls = sc.newAPIHadoopFile(path, classOf[WarcInputFormat], classOf[LongWritable], classOf[WarcRecord])
       .filter(pair => {
-        pair._2.header != null && pair._2.header.contentLengthStr != null && pair._2.header.contentTypeStr.equals("application/http;msgtype=response")
+        pair._2.header != null &&
+          pair._2.header.contentLengthStr != null &&
+          pair._2.header.contentTypeStr.equals("application/http;msgtype=response") &&
+        Stemmer.stem(IOUtils.toString(pair._2.getPayloadContent, StandardCharsets.UTF_8)).contains(Stemmer.stem(term))
       })
-      .map(pair => IOUtils.toString(pair._2.getPayloadContent, StandardCharsets.UTF_8)) // Get the HTML as a String
-      .filter(doc => Stemmer.stem(doc).contains(Stemmer.stem(term))) // Stemming to match Solr results
-      .foreachPartition(part => {
-
-      var task: Task = null
-      log.info(s"Creating task: ${taskType}")
-
-      taskType match {
-        case "sleep" => task = new SleepTask(duration)
-        case "sd" => task = new SentenceDetectionTask()
-      }
-
-      part.foreach(doc => {
-        task.process(doc)
-      })
-
+      .flatMap(pair => {
+        val content = Stemmer.stem(IOUtils.toString(pair._2.getPayloadContent, StandardCharsets.UTF_8))
+        val pair_list = List[(String, String)]()
+        val links = Jsoup.parse(content).select("a[href]").attr("href")
+          for (link <- links) {
+            pair_list :+ (new URL(pair._2.header.warcTargetUriStr).getHost, link)
+          }
+        pair_list
     })
-
-    log.info(s"Took ${System.currentTimeMillis - start}ms")
-
   }
-
 }
