@@ -1,15 +1,15 @@
-### Selectivity Experiment Results [Last Updated 02.04]
+### Selectivity Experiment Results [Last Updated 02.07]
 
 ### Sleep Duration: 0ms
 
 |          |  HdfsSpark   | SolrRdd
 |----------|-----------------|-----------|
-| idea |      14.20         | 1.58   |
-| good |      11.90           | 3.61  |
-| intern     |      11.86             | 6.98  |
-| event     |     13.06           | 9.30 |
-| start     |     11.90         | 11.42  |
-| end  |      12.99         | 14.91 |
+| idea |      14.10         | 1.58   |
+| good |      13.03           | 3.61  |
+| intern     |      12.90             | 6.98  |
+| event     |     12.82           | 9.30 |
+| start     |     13.09         | 11.42  |
+| end  |      12.58         | 14.91 |
 
 ### Sleep Duration: 3ms
 
@@ -39,7 +39,7 @@
 |----------|-----------------|-----------|
 | idea |      307.73         |    |
 | good | 424.54                |   |
-| intern     |                   |   |
-| event     |                |  |
+| intern     | 884.57                  |   |
+| event     | 989.61               |  |
 | start     |              |   |
 | end  |               |  |
