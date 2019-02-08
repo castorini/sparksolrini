@@ -194,19 +194,18 @@ spark-submit \
     --index mb11
 ```
 
-- TimeZone
+- KdeDay/KdeHour
 ``` 
 spark-submit \
     --deploy-mode client \
-    --name TimeZone \
-    --class ca.uwaterloo.SIGIR.TimeZone \
+    --name <KdeHour|KdeDay> \
+    --class ca.uwaterloo.SIGIR.<KdeHour|KdeDay> \
     target/cs848-project-1.0-SNAPSHOT.jar \
-    --term1 <term> \
-    --term2 <term> \
+    --term <term> \
     --num <num> \
     --field raw \
     --solr 192.168.1.111:9983 \
-    --index mb11
+    --index mb13
 ```
 
 - Tweet
@@ -220,7 +219,7 @@ spark-submit \
     --num <num> \
     --field raw \
     --solr 192.168.1.111:9983 \
-    --index mb11
+    --index mb13
 ```
 
 ## Sample Tweet

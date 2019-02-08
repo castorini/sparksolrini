@@ -8,7 +8,7 @@ class TweetConf(args: Seq[String]) extends ScallopConf(args) {
 
   val field = opt[String](descr = "search field", required = true)
   val term = opt[String](descr = "search term", required = true)
-  val num = opt[Int](descr = "number of timezones to compare", required = true)
+  val num = opt[Int](descr = "number of timezones to compare", default = Some(10))
   val solr = opt[String](descr = "Solr base URLs", required = true)
   val index = opt[String](descr = "Solr index name", default=Some("cw09b"), required = true)
   val parallelism = opt[Int](descr = "number of cores/executors/etc. to use", default = Some(12))
