@@ -9,7 +9,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 import play.api.libs.json._
 
 
-object KernelDensityEstimation {
+object KdeDay {
 
   val log = Logger.getLogger(getClass.getName)
   PropertyConfigurator.configure("/localdisk0/etc/log4j.properties")
@@ -44,14 +44,12 @@ object KernelDensityEstimation {
           if ((timeZone contains "Canada") || (timeZone contains "US")) {
             val time = (parsedJson \ "created_at").as[String]
             val matches = timeRegex.findFirstMatchIn(time)
+            val week = timeZoneToInt(time)
             val hour = updateTime(matches.get.group(1).toInt, timeZone)
-            val min = matches.get.group(2).toDouble
-            out = List((hour, min/60, 1))
+            out = List((week, hour/24, 1))
           }
         } catch {
-          case e : Exception => {
-              System.out.println("unable to parse the tweet", e)
-          }
+          case e : Exception => System.out.println("unable to parse the tweet", e)
         }
         out
       }).persist()
@@ -60,12 +58,12 @@ object KernelDensityEstimation {
 
     val kdeData = rdd.map(item => item._1.toInt.toDouble + item._2)
 
-    val kd = new KernelDensity().setSample(kdeData).setBandwidth(2.0)
+    val kd = new KernelDensity().setSample(kdeData).setBandwidth(1.0)
 
-    val domain = (0 to 23).toArray
+    val domain = (0 to 6).toArray
     val densities = kd.estimate(domain.map(_.toDouble))
 
-    println(s"counts / density per hour for $term")
+    println(s"counts / density per weekday for $term")
     domain.foreach(x => {
       println(s"$x ( ${counts(x)} ) -- ${densities(x)}")
     })
@@ -74,9 +72,9 @@ object KernelDensityEstimation {
     sc.stop()
   }
 
-  def updateTime(hour:Int, timeZone:String):Int = {
+  def updateTime(hour:Int, createdAt:String):Int = {
     var adjusted = hour
-    timeZone match {
+    createdAt match {
       case "Pacific Time (US & Canada)" => adjusted = shiftHours(hour, -8)
       case "Eastern Time (US & Canada)" => adjusted = shiftHours(hour, -5)
       case "Central Time (US & Canada)" => adjusted = shiftHours(hour, -5)
@@ -84,6 +82,25 @@ object KernelDensityEstimation {
       case "Atlantic Time (Canada)" => adjusted = shiftHours(hour, -4)
     }
     adjusted
+  }
+
+  def timeZoneToInt(timeZone:String):Int = {
+    var out = 6 // sunday
+
+    if (timeZone contains "Mon") {
+      out = 0
+    } else if (timeZone contains "Tue") {
+      out = 1
+    } else if (timeZone contains "Wed") {
+      out = 2
+    } else if (timeZone contains "Thu") {
+      out = 3
+    } else if (timeZone contains "Fri") {
+      out = 4
+    } else if (timeZone contains "Sat") {
+      out = 5
+    }
+    out
   }
 
   def shiftHours(hour:Int, shift:Int):Int = {
