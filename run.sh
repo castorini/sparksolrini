@@ -12,7 +12,7 @@ export LD_LIBRARY_PATH=/localdisk5/hadoop/hadoop/lib/native:$LD_LIBRARY_PATH
 declare -a terms=("idea" "good" "intern" "event" "start" "end")
 
 # Sleep duration list
-duration=(3 9 27)
+duration=(0 3 30)
 
 for d in "${duration[@]}"
 do
