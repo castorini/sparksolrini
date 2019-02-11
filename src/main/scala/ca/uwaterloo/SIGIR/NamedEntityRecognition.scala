@@ -33,9 +33,6 @@ object NamedEntityRecognition {
     val output = args.output()
     FileSystem.get(sc.hadoopConfiguration).delete(new Path(output), true)
 
-    val tokens = sc.longAccumulator("tokens")
-    val time = sc.longAccumulator("time")
-
     val rdd = new SelectSolrRDD(solr, index, sc)
       .rows(rows)
       .query(field + ":" + term)
@@ -48,9 +45,6 @@ object NamedEntityRecognition {
         props.setProperty("ner.useSUTime", "false")
 
         val pipeline = new StanfordCoreNLP(props)
-
-        val start = System.currentTimeMillis()
-
         val entities = docs.map(doc => {
 
           if (debug) {
@@ -59,31 +53,17 @@ object NamedEntityRecognition {
 
           val text = doc.get(field).toString
 
-          // Create the doc and annotate it
           val coreDoc = new CoreDocument(text)
           pipeline.annotate(coreDoc)
 
-          // Keep track of # of tokens
-          tokens.add(coreDoc.tokens().size())
-
           var entities = coreDoc.entityMentions()
-
           if (!entityType.equals("*"))
             entities = entities.filter(cem => cem.entityType().equals(entityType))
-
           entities
-
         })
-
-        // Processing time for partition
-        time.add(System.currentTimeMillis() - start)
-
         entities
-
       })
       .saveAsTextFile(output)
-
-
 
     sc.stop()
 
