@@ -2,15 +2,14 @@ package ca.uwaterloo.SIGIR
 
 import java.util.Properties
 
-import ca.uwaterloo.conf.SolrConf
 import com.lucidworks.spark.rdd.SelectSolrRDD
 import edu.stanford.nlp.pipeline.{CoreDocument, StanfordCoreNLP}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.spark.{SparkConf, SparkContext}
 
-import collection.JavaConversions._
 import scala.ca.uwaterloo.conf.NerConf
+import scala.collection.JavaConversions._
 
 object NamedEntityRecognition {
 
@@ -28,40 +27,35 @@ object NamedEntityRecognition {
 
     val sc = new SparkContext(conf)
 
-    val (solr, index, rows, field, term, entityType, parallelism, debug) = (args.solr(), args.index(), args.rows(), args.field(), args.term(), args.entity(), args.parallelism(), args.debug())
+    val (solr, index, rows, searchField, contentField, term, entityType, parallelism, debug) = (args.solr(), args.index(), args.rows(), args.searchField(), args.contentField(), args.term(), args.entity(), args.parallelism(), args.debug())
 
     val output = args.output()
     FileSystem.get(sc.hadoopConfiguration).delete(new Path(output), true)
 
-    val rdd = new SelectSolrRDD(solr, index, sc)
+    val props = sc.broadcast(new Properties() {{
+      setProperty("annotators", "tokenize,ssplit,pos,lemma,ner")
+      setProperty("ner.applyFineGrained", "false")
+      setProperty("ner.useSUTime", "false")
+    }})
+
+    new SelectSolrRDD(solr, index, sc)
       .rows(rows)
-      .query(field + ":" + term)
+      .query(searchField + ":" + term)
       .repartition(parallelism)
       .mapPartitions(docs => {
+        val pipeline = new StanfordCoreNLP(props.value)
+        docs.map(doc => {
 
-        val props = new Properties()
-        props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner")
-        props.setProperty("ner.applyFineGrained", "false")
-        props.setProperty("ner.useSUTime", "false")
+          log.debug(s"########\n# ${doc.get("id")}\n########\n")
 
-        val pipeline = new StanfordCoreNLP(props)
-        val entities = docs.map(doc => {
-
-          if (debug) {
-            log.info(s"########\n# ${doc.get("id")}\n########\n")
-          }
-
-          val text = doc.get(field).toString
-
-          val coreDoc = new CoreDocument(text)
+          val coreDoc = new CoreDocument(doc.get(contentField).toString)
           pipeline.annotate(coreDoc)
 
-          var entities = coreDoc.entityMentions()
-          if (!entityType.equals("*"))
-            entities = entities.filter(cem => cem.entityType().equals(entityType))
-          entities
+          entityType match {
+            case "*" => coreDoc.entityMentions()
+            case _ => coreDoc.entityMentions().filter(_.entityType().equals(entityType))
+          }
         })
-        entities
       })
       .saveAsTextFile(output)
 
