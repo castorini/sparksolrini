@@ -41,17 +41,28 @@ solr_ci[30] = [1, 1, 1, 1, 1, 1]
 
 ###
 
-for i in [0, 3, 30]:
-    X = np.arange(len(terms))
+X = np.arange(len(terms))
 
-    plt.bar(X - 0.1, hdfs_runtime[i], color='y', width=0.25, yerr=hdfs_ci[i], capsize=3)
+plt.bar(X - 0.27, hdfs_runtime[0], color='y', width=0.25, yerr=hdfs_ci[0], capsize=3)
+plt.bar(X, hdfs_runtime[3], color='g', width=0.25, yerr=hdfs_ci[3], capsize=3)
+plt.bar(X + 0.27, hdfs_runtime[30], color='b', width=0.25, yerr=hdfs_ci[30], capsize=3)
 
-    plt.bar(X + 0.1, solr_runtime[i], color='g', width=0.25, yerr=solr_ci[i], capsize=3)
+plt.xticks(X, terms)
+plt.xlabel('Search Term')
+plt.ylabel('Execution Time (m)')
+plt.legend(['0ms', '3ms', '30ms'], loc='upper left')
 
-    plt.xticks(X, terms)
-    plt.xlabel('Search Term')
-    plt.ylabel('Execution Time (m)')
-    plt.legend(['HdfsSpark', 'SolrRdd'], loc='upper left')
+plt.show()
+plt.savefig(os.path.join(graphs_dir, "runtime_selectivity_hdfs.png"))
 
-    plt.show()
-    plt.savefig(os.path.join(graphs_dir, "runtime_selectivity_" + str(i) + "ms.png"))
+plt.bar(X - 0.27, solr_runtime[0], color='y', width=0.25, yerr=solr_ci[0], capsize=3)
+plt.bar(X, solr_runtime[3], color='g', width=0.25, yerr=solr_ci[3], capsize=3)
+plt.bar(X + 0.27, solr_runtime[30], color='b', width=0.25, yerr=solr_ci[30], capsize=3)
+
+plt.xticks(X, terms)
+plt.xlabel('Search Term')
+plt.ylabel('Execution Time (m)')
+plt.legend(['0ms', '3ms', '30ms'], loc='upper left')
+
+plt.show()
+plt.savefig(os.path.join(graphs_dir, "runtime_selectivity_solr.png"))
