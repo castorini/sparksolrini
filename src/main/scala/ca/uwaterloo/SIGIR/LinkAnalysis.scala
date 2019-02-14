@@ -73,6 +73,4 @@ object LinkAnalysis {
       .repartition(1)
       .saveAsTextFile("hdfs://node-master:9000/links")
   }
-
-  sc.stop()
 }
