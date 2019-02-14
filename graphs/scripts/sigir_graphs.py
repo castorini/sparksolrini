@@ -11,27 +11,47 @@ graphs_dir = os.path.join(root_dir, "graphs")
 
 terms = ["idea", "good", "intern", "event", "start", "end"]
 
+###
+
+hdfs_runtime = dict()
+solr_runtime = dict()
+hdfs_ci = dict()
+solr_ci = dict()
+
+# 0ms
+hdfs_runtime[0] = [14.10, 13.03, 12.90, 12.82, 13.09, 12.58]
+solr_runtime[0] = [1.58, 3.61, 6.98, 9.30, 11.42, 14.91]
+
+hdfs_ci[0] = [1, 1, 1, 1, 1, 1]
+solr_ci[0] = [1, 1, 1, 1, 1, 1]
+
 # 3ms
-exp1_runtime = [11.7, 23.3, 33.4, 46.0, 58.4, 68.1]
-exp2_runtime = [3.3, 6.2, 9.3, 12.0, 15.8, 18.8]
-exp3_runtime = [13.9, 16.0, 25.7, 28.8, 31.9, 42.9]
+hdfs_runtime[3] = [13.85, 16.02, 25.73, 28.77, 31.91, 42.92]
+solr_runtime[3] = [3.23, 6.19, 9.65, 12.01, 15.46, 19.24]
 
-ci1 = [1, 1, 1, 1, 1, 1]
-ci2 = [1, 1, 1, 1, 1, 1]
-ci3 = [1, 1, 1, 1, 1, 1]
+hdfs_ci[3] = [1, 1, 1, 1, 1, 1]
+solr_ci[3] = [1, 1, 1, 1, 1, 1]
 
-X = np.arange(len(terms))
+# 30ms
+hdfs_runtime[30] = [47.06, 63.09, 108.88, 118.88, 129.67, 187.61]
+solr_runtime[30] = [21.36, 41.96, 57.83, 73.32, 93.86, 116.79]
 
-plt.bar(X - 0.27, exp1_runtime, color='y', width=0.25, yerr=ci1, capsize=3)
+hdfs_ci[30] = [1, 1, 1, 1, 1, 1]
+solr_ci[30] = [1, 1, 1, 1, 1, 1]
 
-plt.bar(X, exp2_runtime, color='g', width=0.25, yerr=ci2, capsize=3)
+###
 
-plt.bar(X + 0.27, exp3_runtime, color='b',width=0.25, yerr=ci2, capsize=3)
+for i in [0, 3, 30]:
+    X = np.arange(len(terms))
 
-plt.xticks(X, terms)
-plt.xlabel('Search Term')
-plt.ylabel('Execution Time (m)')
-plt.legend(['ParallelDocId', 'SolrRdd', 'Hdfs'], loc='upper left')
+    plt.bar(X - 0.1, hdfs_runtime[i], color='y', width=0.25, yerr=hdfs_ci[i], capsize=3)
 
-plt.show()
-plt.savefig(os.path.join(graphs_dir, "runtime_selectivity_9ms.png"))
+    plt.bar(X + 0.1, solr_runtime[i], color='g', width=0.25, yerr=solr_ci[i], capsize=3)
+
+    plt.xticks(X, terms)
+    plt.xlabel('Search Term')
+    plt.ylabel('Execution Time (m)')
+    plt.legend(['HdfsSpark', 'SolrRdd'], loc='upper left')
+
+    plt.show()
+    plt.savefig(os.path.join(graphs_dir, "runtime_selectivity_" + str(i) + "ms.png"))
