@@ -26,24 +26,20 @@ object LinkAnalysis {
     val args = new HdfsConf(argv)
     log.info(args.summary)
 
+    // Setup Spark
     val conf = new SparkConf().setAppName(getClass.getSimpleName)
 
     val sc = new SparkContext(conf)
     sc.hadoopConfiguration.set("mapreduce.input.fileinputformat.input.dir.recursive", "true")
 
-    val (path, term, taskType, duration) = (args.path(), args.term(), args.task(), args.duration())
-
-    // Start timing the experiment
-    val start = System.currentTimeMillis
+    val (path, term, _, _) = (args.path(), args.term(), args.task(), args.duration())
 
     val source_urls = sc.newAPIHadoopFile(path, classOf[WarcInputFormat], classOf[LongWritable], classOf[WarcRecord])
       .filter(pair => {
         pair._2.header != null && pair._2.header.contentLengthStr != null && pair._2.header.contentTypeStr.equals("application/http;msgtype=response")
       })
       .map(pair => {
-        try {
-          (InternetDomainName.from(new URL(pair._2.header.warcTargetUriStr).getHost.toString).topPrivateDomain().name(), IOUtils.toString(pair._2.getPayloadContent, StandardCharsets.UTF_8))
-        }
+        try { (InternetDomainName.from(new URL(pair._2.header.warcTargetUriStr).getHost).topPrivateDomain().name(), IOUtils.toString(pair._2.getPayloadContent, StandardCharsets.UTF_8)) }
         catch {
           case e: Exception => println(e)
             ("", "")
@@ -60,9 +56,7 @@ object LinkAnalysis {
           .map(link => link.attr("abs:href"))
           .filter(!_.isEmpty)
           .map(link => {
-            try {
-              InternetDomainName.from(new URL(link).getHost).topPrivateDomain().name()
-            }
+            try { InternetDomainName.from(new URL(link).getHost).topPrivateDomain().name() }
             catch {
               case e: Exception => println(e)
                 ""
@@ -70,7 +64,6 @@ object LinkAnalysis {
           })
           .distinct
           .take(3)
-
         val src_host = (1 to target_urls.size).map(_ => record._1)
         src_host zip target_urls
       })
@@ -80,4 +73,6 @@ object LinkAnalysis {
       .repartition(1)
       .saveAsTextFile("hdfs://node-master:9000/links")
   }
+
+  sc.stop()
 }
