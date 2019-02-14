@@ -52,7 +52,7 @@ plt.xlabel('Search Term')
 plt.ylabel('Execution Time (m)')
 plt.legend(['0ms', '3ms', '30ms'], loc='upper left')
 
-plt.show()
+# plt.show()
 plt.savefig(os.path.join(graphs_dir, "runtime_selectivity_hdfs.png"))
 
 plt.bar(X - 0.27, solr_runtime[0], color='y', width=0.25, yerr=solr_ci[0], capsize=3)
@@ -64,5 +64,5 @@ plt.xlabel('Search Term')
 plt.ylabel('Execution Time (m)')
 plt.legend(['0ms', '3ms', '30ms'], loc='upper left')
 
-plt.show()
+# plt.show()
 plt.savefig(os.path.join(graphs_dir, "runtime_selectivity_solr.png"))
