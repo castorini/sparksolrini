@@ -34,7 +34,7 @@ object WordEmbedding {
       .rows(rows)
       .query(field + ":" + term)
       .map(doc => {
-        val parsedJson = Json.parse(doc.get(field).toString)
+        val parsedJson = Json.parse(doc.get("raw").toString)
         val contents = Stemmer.stem(parsedJson("text").toString)
         contents.toString.split(" ").toSeq
       })

@@ -35,7 +35,7 @@ object KdeDay {
       .rows(MAX_ROW_PER_QUERY)
       .query(field + ":" + term)
       .flatMap(doc => {
-        val parsedJson = Json.parse(doc.get(field).toString)
+        val parsedJson = Json.parse(doc.get("raw").toString)
 
         var out:List[Tuple3[Int, Double, Int]] = List()
 
