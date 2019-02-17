@@ -10,6 +10,7 @@ root_dir = os.getcwd()
 graphs_dir = os.path.join(root_dir, "graphs")
 
 terms = ["idea", "good", "intern", "event", "start", "end"]
+doc_freq = ['10%', '20%', '30%', '40%', '50%', '60%']
 
 ###
 
@@ -41,14 +42,14 @@ solr_ci[30] = [1, 1, 1, 1, 1, 1]
 
 ###
 
-X = np.arange(len(terms))
+X = np.arange(len(doc_freq))
 
 # 0ms
 plt.bar(X - 0.13, hdfs_runtime[0], color='r', width=0.25, yerr=hdfs_ci[0], capsize=3)
 plt.bar(X + 0.13, solr_runtime[0], color='b', width=0.25, yerr=solr_ci[0], capsize=3)
 
-plt.xticks(X, terms)
-plt.xlabel('Search Term')
+plt.xticks(X, doc_freq)
+plt.xlabel('Document Frequency')
 plt.ylabel('Execution Time (min)')
 plt.legend(['HDFS', 'SolrRdd'], loc='upper left')
 
@@ -60,8 +61,8 @@ plt.clf()
 plt.bar(X - 0.13, hdfs_runtime[3], color='r', width=0.25, yerr=hdfs_ci[3], capsize=3)
 plt.bar(X + 0.13, solr_runtime[3], color='b', width=0.25, yerr=solr_ci[3], capsize=3)
 
-plt.xticks(X, terms)
-plt.xlabel('Search Term')
+plt.xticks(X, doc_freq)
+plt.xlabel('Document Frequency')
 plt.ylabel('Execution Time (min)')
 plt.legend(['HDFS', 'SolrRdd'], loc='upper left')
 
@@ -73,8 +74,8 @@ plt.clf()
 plt.bar(X - 0.13, hdfs_runtime[30], color='r', width=0.25, yerr=hdfs_ci[30], capsize=3)
 plt.bar(X + 0.13, solr_runtime[30], color='b', width=0.25, yerr=solr_ci[30], capsize=3)
 
-plt.xticks(X, terms)
-plt.xlabel('Search Term')
+plt.xticks(X, doc_freq)
+plt.xlabel('Document Frequency')
 plt.ylabel('Execution Time (min)')
 plt.legend(['HDFS', 'SolrRdd'], loc='upper left')
 
