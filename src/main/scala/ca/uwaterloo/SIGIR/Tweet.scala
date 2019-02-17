@@ -32,7 +32,7 @@ object Tweet {
       .rows(MAX_ROW_PER_QUERY)
       .query(field + ":" + term)
       .flatMap(doc => {
-        val parsedJson = Json.parse(doc.get(field).toString)
+        val parsedJson = Json.parse(doc.get("raw").toString)
         var timeZone:List[Tuple2[String, Int]] = List()
         try {
           val pair:Tuple2[String, Int] = ((parsedJson \ "user" \ "time_zone").as[String], 1)

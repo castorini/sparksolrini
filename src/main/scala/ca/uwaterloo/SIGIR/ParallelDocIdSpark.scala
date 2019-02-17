@@ -169,7 +169,7 @@ object ParallelDocIdSpark {
           // Do sentence detection in a new Thread
           if (!docs.isEmpty) {
             docs.asScala.foreach(doc => {
-              task.process(doc.get(field).toString)
+              task.process(doc.get("raw").toString)
             })
           }
 

@@ -28,15 +28,21 @@ object HdfsSpark {
     val sc = new SparkContext(conf)
     sc.hadoopConfiguration.set("mapreduce.input.fileinputformat.input.dir.recursive", "true")
 
-    val (path, term, taskType, duration) = (args.path(), args.term(), args.task(), args.duration())
+    val (path, term, taskType, duration, filter) = (args.path(), args.term(), args.task(), args.duration(), args.filter())
 
     // Start timing the experiment
     val start = System.currentTimeMillis
 
-    val rdd = sc.newAPIHadoopFile(path, classOf[WarcInputFormat], classOf[LongWritable], classOf[WarcRecord])
-      .filter(pair => {
+    var rdd = sc.newAPIHadoopFile(path, classOf[WarcInputFormat], classOf[LongWritable], classOf[WarcRecord])
+
+    // Do we filter?
+    if (filter) {
+      rdd = rdd.filter(pair => {
         pair._2.header != null && pair._2.header.contentLengthStr != null && pair._2.header.contentTypeStr.equals("application/http;msgtype=response")
       })
+    }
+
+    rdd
       .map(pair => IOUtils.toString(pair._2.getPayloadContent, StandardCharsets.UTF_8)) // Get the HTML as a String
       .filter(doc => Stemmer.stem(doc).contains(Stemmer.stem(term))) // Stemming to match Solr results
       .foreachPartition(part => {
