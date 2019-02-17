@@ -43,26 +43,67 @@ solr_ci[30] = [1, 1, 1, 1, 1, 1]
 
 X = np.arange(len(terms))
 
-plt.bar(X - 0.27, hdfs_runtime[0], color='y', width=0.25, yerr=hdfs_ci[0], capsize=3)
-plt.bar(X, hdfs_runtime[3], color='g', width=0.25, yerr=hdfs_ci[3], capsize=3)
-plt.bar(X + 0.27, hdfs_runtime[30], color='b', width=0.25, yerr=hdfs_ci[30], capsize=3)
+# 0ms
+plt.bar(X - 0.13, hdfs_runtime[0], color='r', width=0.25, yerr=hdfs_ci[0], capsize=3)
+plt.bar(X + 0.13, solr_runtime[0], color='b', width=0.25, yerr=solr_ci[0], capsize=3)
 
 plt.xticks(X, terms)
 plt.xlabel('Search Term')
-plt.ylabel('Execution Time (m)')
-plt.legend(['0ms', '3ms', '30ms'], loc='upper left')
+plt.ylabel('Execution Time (min)')
+plt.legend(['HDFS', 'SolrRdd'], loc='upper left')
 
 # plt.show()
-plt.savefig(os.path.join(graphs_dir, "runtime_selectivity_hdfs.png"))
+plt.savefig(os.path.join(graphs_dir, "runtime_selectivity_0ms.png"))
+plt.clf()
 
-plt.bar(X - 0.27, solr_runtime[0], color='y', width=0.25, yerr=solr_ci[0], capsize=3)
-plt.bar(X, solr_runtime[3], color='g', width=0.25, yerr=solr_ci[3], capsize=3)
-plt.bar(X + 0.27, solr_runtime[30], color='b', width=0.25, yerr=solr_ci[30], capsize=3)
+# 3ms
+plt.bar(X - 0.13, hdfs_runtime[3], color='r', width=0.25, yerr=hdfs_ci[3], capsize=3)
+plt.bar(X + 0.13, solr_runtime[3], color='b', width=0.25, yerr=solr_ci[3], capsize=3)
 
 plt.xticks(X, terms)
 plt.xlabel('Search Term')
-plt.ylabel('Execution Time (m)')
-plt.legend(['0ms', '3ms', '30ms'], loc='upper left')
+plt.ylabel('Execution Time (min)')
+plt.legend(['HDFS', 'SolrRdd'], loc='upper left')
 
 # plt.show()
-plt.savefig(os.path.join(graphs_dir, "runtime_selectivity_solr.png"))
+plt.savefig(os.path.join(graphs_dir, "runtime_selectivity_3ms.png"))
+plt.clf()
+
+# 30ms
+plt.bar(X - 0.13, hdfs_runtime[30], color='r', width=0.25, yerr=hdfs_ci[30], capsize=3)
+plt.bar(X + 0.13, solr_runtime[30], color='b', width=0.25, yerr=solr_ci[30], capsize=3)
+
+plt.xticks(X, terms)
+plt.xlabel('Search Term')
+plt.ylabel('Execution Time (min)')
+plt.legend(['HDFS', 'SolrRdd'], loc='upper left')
+
+# plt.show()
+plt.savefig(os.path.join(graphs_dir, "runtime_selectivity_30ms.png"))
+plt.clf()
+
+###
+
+# plt.bar(X - 0.27, hdfs_runtime[0], color='y', width=0.25, yerr=hdfs_ci[0], capsize=3)
+# plt.bar(X, hdfs_runtime[3], color='g', width=0.25, yerr=hdfs_ci[3], capsize=3)
+# plt.bar(X + 0.27, hdfs_runtime[30], color='b', width=0.25, yerr=hdfs_ci[30], capsize=3)
+#
+# plt.xticks(X, terms)
+# plt.xlabel('Search Term')
+# plt.ylabel('Execution Time (m)')
+# plt.legend(['0ms', '3ms', '30ms'], loc='upper left')
+#
+# # plt.show()
+# plt.savefig(os.path.join(graphs_dir, "runtime_selectivity_hdfs.png"))
+#
+# plt.bar(X - 0.27, solr_runtime[0], color='y', width=0.25, yerr=solr_ci[0], capsize=3)
+# plt.bar(X, solr_runtime[3], color='g', width=0.25, yerr=solr_ci[3], capsize=3)
+# plt.bar(X + 0.27, solr_runtime[30], color='b', width=0.25, yerr=solr_ci[30], capsize=3)
+#
+# plt.xticks(X, terms)
+# plt.xlabel('Search Term')
+# plt.ylabel('Execution Time (m)')
+# plt.legend(['0ms', '3ms', '30ms'], loc='upper left')
+#
+# # plt.show()
+# plt.savefig(os.path.join(graphs_dir, "runtime_selectivity_solr.png"))
