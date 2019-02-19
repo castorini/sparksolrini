@@ -41,7 +41,7 @@ object SolrRddSpark {
         }
 
         partition.foreach(doc => {
-          task.process(doc.get("raw").toString)
+          task.process(doc.get(field).toString)
         })
       })
 
