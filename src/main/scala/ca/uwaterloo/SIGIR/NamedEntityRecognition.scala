@@ -51,7 +51,7 @@ object NamedEntityRecognition {
             log.info(s"########\n# ${doc.get("id")}\n########\n")
           }
 
-          val text = doc.get("raw").toString
+          val text = doc.get(field).toString
 
           val coreDoc = new CoreDocument(text)
           pipeline.annotate(coreDoc)
