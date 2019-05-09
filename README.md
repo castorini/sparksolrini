@@ -2,117 +2,20 @@
 
 This repo contains the source code and demonstration notebooks for the SIGIR 2019 Demo "Information Retrieval Meets Scalable Text Analytics: Solr Integration with Spark".
 
----
-
 ## Setup - Maven
 
 `HdfsSpark` requires [warcutils](https://github.com/norvigaward/warcutils) to work, but unfortunately it's not available in Maven Central (and their repo appears to be down). We need to build it ourself and install it to our local Maven repo.
 
 ```bash
-git clone https://github.com/norvigaward/warcutils.git
-cd warcutils
+git clone https://github.com/norvigaward/warcutils.git && cd warcutils
 mvn clean package
 mvn install:install-file -Dfile=target/warcutils-1.2.jar -DpomFile=pom.xml
 ```
 
-## Spark
-
-### Submitting Spark Job (Cluster Mode)
-
-1) Download spark from http://apache.forsale.plus/spark/spark-2.4.0/spark-2.4.0-bin-hadoop2.7.tgz and unzip
-
-2) Build jar by running `mvn clean package` under `CS848-project`
-
-3) Add your jar to `spark-2.4.0-bin-hadoop2.7/examples/jars`
-
-4) Build docker image of spark using `./bin/docker-image-tool.sh -r <docker_hub_id> -t <tag_name> build`
-
-5) Push docker image of spark using `./bin/docker-image-tool.sh -r <docker_hub_id> -t <tag_name> push`
-
-6) `ssh` into tem127
-
-7) Download spark from http://apache.forsale.plus/spark/spark-2.4.0/spark-2.4.0-bin-hadoop2.7.tgz and unzip on tembo
-
-8) Run job with following command format
-&nbsp;&nbsp;&nbsp;&nbsp; from tem127 (cluster mode)
-```
-bin/spark-submit \
-    --master k8s://http://192.168.152.201:8080 \
-    --deploy-mode cluster \
-    --name <job_name> \
-    --class <class_name> \
-    --conf spark.driver.memory=5g \
-    --conf spark.executor.instances=5 \
-    --conf spark.kubernetes.container.image=<image_name>:<image_tag> \
-    --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
-    local:///opt/spark/examples/jars/<jar_name>.jar <input>
-```
-
-&nbsp;&nbsp;&nbsp;&nbsp; Note that class_name, image_name, image_tag, jar_name must be correctly provided. `/opt/spark/examples/jars/<jar_name>.jar` is location of target jar in the docker image
-
-&nbsp;&nbsp;&nbsp;&nbsp; `192.168.152.202` can also be used as the master
-
-8) Once driver status has changed to Completed, `kubectl logs <spark_driver_pod_id>` to see logs
-
-
-Refer following links for detail
-- https://spark.apache.org/docs/latest/running-on-kubernetes.html
-- https://weidongzhou.wordpress.com/2018/04/29/running-spark-on-kubernetes/
-
----
-### Submitting Spark Job (Client Mode)
-
-To use client mode, jar must be distributed by driver using `setJars` with location of jars inside docker image as following
-
-```
-val conf = new SparkConf()
-  .setAppName(<app_name>)
-  .setJars(Array("/opt/spark/examples/jars/<jar_name>.jar"))
-```
-
-command is same except the job must be submitted through kubernete api server (http://192.168.152.201:8080)
-```
-bin/spark-submit \
-    --master k8s://http://192.168.152.201:8080 \
-    --deploy-mode client \
-    --name <job_name> \
-    --class <class_name> \
-    --conf spark.driver.memory=5g \
-    --conf spark.executor.instances=5 \
-    --conf spark.kubernetes.container.image=<image_name>:<image_tag> \
-    --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
-    <path_to_the_jar>/<jar_name>.jar <input>
-```
----
-
 ### Accessing files in HDFS through Spark
 
-Must contact namenode which runs on tem103 (192.168.152.203).
-Therefore, url is `hdfs://192.168.152.203/<path_to_file>` as in `sc.textFile("hdfs://192.168.152.203/test/20/0005447.xml")`
-
-Noe that providing machine name like `node3` does not work.
-
----
-## Running metric collector
-
-To collect CPU and RAM usage on Kubernetes run following command on tem101.
-```
-python3 collect_metrics.py <seq/solr/spark> <search term> <sleep time in sec>
-```
-the script will create two .txt files under `metrics` directory, one for nodes, one for pods.
-each file will have start timestamp as part of its name.
-
-Similarly, to collect resource usage of driver running on tem127,
-```
-python3 collect_driver_metrics.py <seq/solr/spark> <search term> <sleep time in sec>
-```
-
-## Useful links
-
-- Installing Kubernetes via Kubespray: https://github.com/kubernetes-sigs/kubespray
-- HDFS on Kubernetes: https://github.com/apache-spark-on-k8s/kubernetes-HDFS
-
---
+Must contact namenode which runs on himrod110 (192.168.1.110).
+Therefore, the URI is `hdfs://192.168.1.110/<path_to_file>` as in `sc.textFile("hdfs://192.168.1.110/test/20/0005447.xml")`
 
 ## Running on Himrod
 
