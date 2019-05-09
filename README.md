@@ -1,12 +1,6 @@
-# Solr Performance Evaluation on Terms of Differing Selectivity
+# Information Retrieval Meets Scalable Text Analytics: Solr Integration with Spark
 
-This repo is for the course project for University of Waterloo CS 848 - Data Infrastructure.
-
-We evaluate the performance of performing filter with Spark and search through Solr over terms of differing selectivity with a large scale document collection.
-
-Details about our experiment can be found in [the report](https://github.com/ljj7975/solr-evaluation/blob/master/report/cs848_final_report.pdf)
-
-This repo contains the Kubernetes, Kubespray, and Helm charts used to deloy Kubernetes and setup the required services. It also contains the source code for our Scala programs, the results (including logs, tables), and the required Python files to generate our graphs.
+This repo contains the source code and demonstration notebooks for the SIGIR 2019 Demo "Information Retrieval Meets Scalable Text Analytics: Solr Integration with Spark".
 
 ---
 
