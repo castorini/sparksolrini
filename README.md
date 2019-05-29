@@ -119,6 +119,20 @@ spark-submit \
     --index mb13
 ```
 
+- Web Graph
+``` 
+spark-submit \
+    --deploy-mode client \
+    --name LinkAnalysis \
+    --class ca.uwaterloo.SIGIR.LinkAnalysis \
+    target/cs848-project-1.0-SNAPSHOT.jar \
+    --term <term> \
+    --field contents \
+    --solr 192.168.1.111:9983 \
+    --index cw09b-url \
+    --output <output-path>
+```
+
 ## Sample Tweet
 ```
 {
