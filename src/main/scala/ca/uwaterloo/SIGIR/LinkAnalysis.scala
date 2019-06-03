@@ -1,51 +1,48 @@
 package ca.uwaterloo.SIGIR
 
 import scala.collection.JavaConverters._
-
-import java.nio.charset.StandardCharsets
 import java.net.URL
-import org.jsoup.Jsoup
 
-import ca.uwaterloo.conf.HdfsConf
-import ca.uwaterloo.util.Stemmer
 import com.google.common.net.InternetDomainName
-import nl.surfsara.warcutils.WarcInputFormat
-import org.apache.commons.io.IOUtils
-import org.apache.hadoop.io.LongWritable
+import com.lucidworks.spark.rdd.SelectSolrRDD
 import org.apache.log4j.{Logger, PropertyConfigurator}
 import org.apache.spark.{SparkConf, SparkContext}
-import org.jwat.warc.WarcRecord
+import org.apache.hadoop.fs.{FileSystem, Path}
+import org.jsoup.Jsoup
+
+import scala.ca.uwaterloo.conf.WebConf
+
 
 object LinkAnalysis {
-
   val log = Logger.getLogger(getClass.getName)
   PropertyConfigurator.configure("/localdisk0/etc/log4j.properties")
 
   def main(argv: Array[String]) = {
 
-    val args = new HdfsConf(argv)
+    // Parse command line args
+    val args = new WebConf(argv)
     log.info(args.summary)
 
     // Setup Spark
     val conf = new SparkConf().setAppName(getClass.getSimpleName)
 
     val sc = new SparkContext(conf)
-    sc.hadoopConfiguration.set("mapreduce.input.fileinputformat.input.dir.recursive", "true")
 
-    val (path, term, _, _) = (args.path(), args.term(), args.task(), args.duration())
+    val (solr, index, field, term, rows, parallelism, output) = (args.solr(), args.index(), args.field(), args.term(), args.rows(), args.parallelism(), args.output())
 
-    val source_urls = sc.newAPIHadoopFile(path, classOf[WarcInputFormat], classOf[LongWritable], classOf[WarcRecord])
-      .filter(pair => {
-        pair._2.header != null && pair._2.header.contentLengthStr != null && pair._2.header.contentTypeStr.equals("application/http;msgtype=response")
+    FileSystem.get(sc.hadoopConfiguration).delete(new Path(output), true)
+
+    val source_urls = new SelectSolrRDD(solr, index, sc)
+      .rows(rows)
+      .query(field + ":" + term)
+      .repartition(parallelism)
+      .mapPartitions(docs => {
+        docs.map(doc => {
+          val url = doc.get("url") + ""
+          (InternetDomainName.from(new URL(url.substring(1, url.length - 1)).getHost).topPrivateDomain().name(), doc.get("raw") + "")
+        })
       })
-      .map(pair => {
-        try { (InternetDomainName.from(new URL(pair._2.header.warcTargetUriStr).getHost).topPrivateDomain().name(), IOUtils.toString(pair._2.getPayloadContent, StandardCharsets.UTF_8)) }
-        catch {
-          case e: Exception => println(e)
-            ("", "")
-        }
-      })
-      .filter(doc => !doc._1.isEmpty && Stemmer.stem(doc._2).contains(Stemmer.stem(term)))
+
 
     val zipped_urls = source_urls
       .sample(false, 0.01, 42)
@@ -71,6 +68,9 @@ object LinkAnalysis {
       .filter(x => x._1 != x._2)
       .map(pair => pair._1 + ";" + pair._2)
       .repartition(1)
-      .saveAsTextFile("hdfs://node-master:9000/links")
+      .saveAsTextFile(output)
+
+    sc.stop()
+
   }
 }
