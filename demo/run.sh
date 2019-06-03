@@ -5,10 +5,10 @@
 ###
 
 # The number of Spark executors
-SPARK_NUM_EXECUTORS=8
+SPARK_NUM_EXECUTORS=9
 
 # The number of cores per Spark executor
-SPARK_EXECUTOR_CORES=1
+SPARK_EXECUTOR_CORES=16
 
 # The amount of memory per Spark executor
 SPARK_EXECUTOR_MEMORY=8G

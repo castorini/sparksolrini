@@ -2,3 +2,5 @@
 **/venv
 cs848-project.iml
 target
+**/.ipynb*
+*.jar
