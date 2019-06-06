@@ -67,7 +67,7 @@ object LinkAnalysis {
       .distinct
       .filter(x => x._1 != x._2)
       .map(pair => pair._1 + ";" + pair._2)
-      .repartition(1)
+      .coalesce(1)
       .saveAsTextFile(output)
 
     sc.stop()
