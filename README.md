@@ -100,7 +100,7 @@ spark-submit \
     target/cs848-project-1.0-SNAPSHOT.jar \
     --term <term> \
     --num <num> \
-    --field raw \
+    --field contents \
     --solr 192.168.1.111:9983 \
     --index mb13
 ```
@@ -114,7 +114,7 @@ spark-submit \
     target/cs848-project-1.0-SNAPSHOT.jar \
     --term <term> \
     --num <num> \
-    --field raw \
+    --field contents \
     --solr 192.168.1.111:9983 \
     --index mb13
 ```
