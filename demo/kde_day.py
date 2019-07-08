@@ -11,14 +11,15 @@ fig = plt.figure()
 with open('/tmp/kde/part-00000', 'r') as in_file:
     densities = []
     for line in in_file:
-        density = line[1:-2]
-        densities.append(density)
+        density = line
+        densities.append(float(density))
 
 days = np.arange(0, 7)
 plt.plot(days, densities, '-.', label=term)
 plt.xlabel('Day')
 plt.ylabel('Density')
 plt.xticks(days, ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'])
+plt.title('Term: {}'.format(term))
 plt.grid()
 plt.legend(prop={'size': 8})
 
