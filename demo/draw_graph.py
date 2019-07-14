@@ -5,7 +5,7 @@ g = nx.read_edgelist('/tmp/link_analysis/part-00000', delimiter=';', create_usin
 
 print(nx.info(g))
 
-nx.draw(g)
+nx.draw_networkx(g, arrows=True, node_size=20, with_labels=False)
 
 plt.show()
-plt.savefig('/tmp/link_analysis/network_graph.png')
+plt.savefig('network_graph.png')

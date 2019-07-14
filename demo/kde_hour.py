@@ -24,4 +24,4 @@ plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.22),
 plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.22),
            fancybox=True, shadow=True, ncol=4, prop={'size': 10})
 
-fig.savefig("/tmp/kde/kde.png")
+fig.savefig("kde.png")
