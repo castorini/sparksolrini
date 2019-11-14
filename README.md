@@ -1,6 +1,8 @@
 # Information Retrieval Meets Scalable Text Analytics: Solr Integration with Spark
 
-This repo contains the source code and demonstration notebooks for the SIGIR 2019 Demo "Information Retrieval Meets Scalable Text Analytics: Solr Integration with Spark".
+This repo contains the source code and demonstration notebooks for
+
+* Ryan Clancy, Jaejun Lee, Zeynep Akkalyoncu Yilmaz, Jimmy Lin. [Information Retrieval Meets Scalable Text Analytics: Solr Integration with Spark.](https://dl.acm.org/citation.cfm?id=3331395) _Proceedings of the 42nd International ACM SIGIR Conference on Research and Development in Information Retrieval_, pages 1313-1316.
 
 ## Setup - Maven
 
